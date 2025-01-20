@@ -14,7 +14,7 @@ function Header() {
         <>
             <header >
                 <nav >
-                    <div className="mobile-menu relative overflow-hidden xl:hidden 2xl:hidden block bg-[#f7bf46]">
+                    <div className="mobile-menu relative overflow-hidden xl:hidden 2xl:hidden block bg-[#fff]">
                         <div className="mobilebar flex items-center justify-between p-4">
                             <Link to={'/'} className='w-[120px] '>
                                 <img src={logo2} className='w-[100%] h-[60px]  object-cover' />
@@ -22,7 +22,7 @@ function Header() {
                             <div className="bars mx-4">
                                 <a href="#" className="text-xl bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-regular fa-user  text-md"></i></a>
                                 <a href="#" className="text-xl bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-solid fa-cart-shopping  text-md"></i></a>
-                                <i onClick={openbars} className="fa-solid fa-bars text-white text-2xl "></i>
+                                <i onClick={openbars} className="fa-solid fa-bars text-blackheader text-2xl "></i>
                             </div>
 
                         </div>
