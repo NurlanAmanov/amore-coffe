@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import logo from '../../assets/logos.png'
 import logo2 from '../../assets/logo.png'
+import { Link, Links } from 'react-router-dom'
 function Header() {
     const [bars, setBars] = useState()
     function openbars() {
@@ -13,24 +14,24 @@ function Header() {
         <>
             <header >
                 <nav >
-                    <div className="mobile-menu relative overflow-hidden xl:hidden 2xl:hidden block">
+                    <div className="mobile-menu relative overflow-hidden xl:hidden 2xl:hidden block bg-[#f7bf46]">
                         <div className="mobilebar flex items-center justify-between p-4">
-                            <a href="#" className='w-[120px] '>
+                            <Link to={'/'} className='w-[120px] '>
                                 <img src={logo2} className='w-[100%] h-[60px]  object-cover' />
-                            </a>
+                            </Link>
                             <div className="bars mx-4">
                                 <a href="#" className="text-xl bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-regular fa-user  text-md"></i></a>
                                 <a href="#" className="text-xl bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-solid fa-cart-shopping  text-md"></i></a>
-                                <i onClick={openbars} className="fa-solid fa-bars text-black text-2xl "></i>
+                                <i onClick={openbars} className="fa-solid fa-bars text-white text-2xl "></i>
                             </div>
 
                         </div>
-                        <div className={`${bars ? 'top-0 ' : 'top-[-100%]'} flex p-5 items-start justify-between flex-row-reverse z-10 duration-300 w-full h-[100vh]  fixed bg-black bg-opacity-90`}>
+                        <div className={`${bars ? 'top-0 ' : 'top-[-100%]'} flex p-5 items-start justify-between flex-row-reverse z-30 duration-300 w-full h-[100vh]  fixed bg-black bg-opacity-90`}>
                             <i onClick={closbar} className="fa-solid fa-x p-2 text-xl font-semibold text-white"></i>
                             <div className="burger-menu-list">
                                 <ul className=' flex items-start justify-center flex-col text-white'>
                                     <li className='text-2xl font-semibold'><a href="#">Ana səhifə</a></li>
-                                    <li className='text-2xl font-semibold'><a href="#">Haqqımızda</a></li>
+                                    <li className='text-2xl font-semibold'><Link to={"haqqimizda"}>Haqqımızda</Link></li>
                                     <li className='text-2xl font-semibold'> <a href="#">Bizə sorğu göndər</a></li>
                                     <li className='text-2xl font-semibold'><a href="#">lorem</a></li>
                                     <li className='text-2xl font-semibold'><a href="#">lorem</a></li>
@@ -44,7 +45,7 @@ function Header() {
 
                 <div class="bg-[#ffb71c] border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800 xl:block 2xl:block hidden ">
                     <div class="flex flex-wrap mt-6 justify-between items-center mx-auto max-w-[90%] bg-black text-white p-2 rounded-md">
-                        <a href="https://flowbite.com" class="flex items-center">
+                        <a href="/" class="flex items-center">
                             <img src={logo} className="w-48 h-16 object-cover" alt="Flowbite Logo" />
 
                         </a>
@@ -62,10 +63,10 @@ function Header() {
                         <div className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
                             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                                 <li>
-                                    <a href="#" className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl  hover:text-white duration-500 " aria-current="page">Ana səhifə</a>
+                                    <Link to={'/'} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl  hover:text-white duration-500 " aria-current="page">Ana səhifə</Link>
                                 </li>
                                 <li>
-                                    <a href="#" className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Haqqımızda</a>
+                                    <Link to={"haqqimizda"} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Haqqımızda</Link>
                                 </li>
                                 <li>
                                     <a href="#" className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Əlaqə</a>

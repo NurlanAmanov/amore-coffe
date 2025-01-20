@@ -1,14 +1,20 @@
 import React from 'react'
-import Header from './component/Header/Header'
+import { Route, Routes } from 'react-router-dom'
+import Layout from './layout/Layout'
+
+import Haqqimizda from './component/Main/Haqqimizda'
 import Main from './component/Main/Main'
-import Footer from './component/Fotoer/Footer'
 
 function App() {
   return (
     <>
-    <Header/>
-    <Main/>
-    <Footer/>
+<Routes>
+  <Route path="/" element={<Layout />}>
+  <Route index element={<Main />} />
+    <Route path="haqqimizda" element={<Haqqimizda />} />
+  </Route>
+</Routes>
+
     </>
   )
 }

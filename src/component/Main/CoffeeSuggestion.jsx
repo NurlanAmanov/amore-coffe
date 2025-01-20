@@ -67,15 +67,16 @@ const CoffeeSuggestion = () => {
   };
 
   return (
-    <section className="py-6 px-6 bg-gradient-to-r from-pink-500 to-yellow-500 text-center rounded-xl shadow-2xl">
-    <h2 className="font-extrabold text-4xl sm:text-5xl text-white mb-6 drop-shadow-lg">
+    <section className="py-6 px-6 bg-gradient-to-r from-pink-500 to-yellow-500 text-center shadow-2xl">
+    <h2 className="font-extrabold xl:text-4xl 2xl:text-4xl text-xl text-white mb-6 drop-shadow-lg">
       🌟 Burcunu Seç və Kofeni Tap! 🌟
     </h2>
     <p className="text-white text-lg sm:text-xl mb-8 font-light drop-shadow-md">
       Burcuna və zövqünə uyğun kofe təklifini kəşf et! 🎉
     </p>
   
-    <div className="mb-8">
+   <div className="selecet-list flex items-center justify-center gap-4 xl:flex-row 2xl:flex-row flex-col lg:flex-row md:flex-row">
+   <div className="mb-8">
       <label
         htmlFor="zodiac"
         className="block text-lg font-medium text-white mb-3"
@@ -115,6 +116,7 @@ const CoffeeSuggestion = () => {
         <option value="male">Kişi</option>
       </select>
     </div>
+   </div>
   
     <button
       onClick={handleSuggestion}
