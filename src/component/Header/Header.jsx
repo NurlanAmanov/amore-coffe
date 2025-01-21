@@ -2,14 +2,25 @@ import React, { useState } from 'react'
 import logo from '../../assets/logos.png'
 import logo2 from '../../assets/logo.png'
 import { Link, Links } from 'react-router-dom'
+import Cart from '../Main/Cart'
+
 function Header() {
     const [bars, setBars] = useState()
+    const [sebet, setSebet] = useState(false);
+
+    const opensebet = () => {
+      setSebet(true);
+    };
+  
+   
     function openbars() {
         setBars(!bars)
     }
     function closbar() {
         setBars(!bars)
     }
+
+
     return (
         <>
             <header >
@@ -21,8 +32,8 @@ function Header() {
                             </Link>
                             <div className="bars mx-4">
                                 <a href="#" className="text-xl bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-regular fa-user  text-md"></i></a>
-                                <a href="#" className="text-xl bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-solid fa-cart-shopping  text-md"></i></a>
-                                <i onClick={openbars} className="fa-solid fa-bars text-blackheader text-2xl "></i>
+                                <a onClick={opensebet} href="#" className="text-xl bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-solid fa-cart-shopping  text-md"></i></a>
+                                <a  onClick={openbars} className="fa-solid fa-bars text-blackheader text-2xl "></a>
                             </div>
 
                         </div>
@@ -33,7 +44,7 @@ function Header() {
                                     <li className='text-2xl font-semibold'><a href="#">Ana səhifə</a></li>
                                     <li className='text-2xl font-semibold'><Link to={"haqqimizda"}>Haqqımızda</Link></li>
                                     <li className='text-2xl font-semibold'> <a href="#">Bizə sorğu göndər</a></li>
-                                    <li className='text-2xl font-semibold'><a href="#">lorem</a></li>
+                                    <li className='text-2xl font-semibold'><Link to={"Elaqe"}  href="#">Əlaqə</Link></li>
                                     <li className='text-2xl font-semibold'><a href="#">lorem</a></li>
 
                                 </ul>
@@ -51,7 +62,7 @@ function Header() {
                         </a>
                         <div class="flex items-center lg:order-2">
                             <a href="#" className="text-md bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-regular fa-user  text-md"></i></a>
-                            <a href="#" className="text-md bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-solid fa-cart-shopping  text-md"></i></a>
+                            <a onClick={opensebet}  className="text-md bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-solid fa-cart-shopping  text-md"></i></a>
 
 
                             <button data-collapse-toggle="mobile-menu-2" type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
@@ -69,7 +80,7 @@ function Header() {
                                     <Link to={"haqqimizda"} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Haqqımızda</Link>
                                 </li>
                                 <li>
-                                    <a href="#" className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Əlaqə</a>
+                                    <Link to={"Elaqe"} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Əlaqə</Link>
                                 </li>
                                 <li>
                                     <a href="#" className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Bizə təklif göndər</a>
@@ -81,6 +92,8 @@ function Header() {
                 </div>
 
             </header>
+            <Cart sebet={sebet} setSebet={setSebet} />
+
         </>
     )
 }
