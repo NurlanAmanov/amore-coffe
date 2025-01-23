@@ -4,6 +4,7 @@ import Layout from './layout/Layout'
 import Haqqimizda from './component/Main/Haqqimizda'
 import Main from './component/Main/Main'
 import Contact from './component/Main/Contact'
+import Teklif from './component/Main/Teklif'
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
   <Route index element={<Main />} />
     <Route path="haqqimizda" element={<Haqqimizda />} />
     <Route path="Elaqe" element={<Contact />} />
+    <Route path="teklif" element={<Teklif />} />
   </Route>
 </Routes>
 

@@ -83,7 +83,7 @@ function Header() {
                                     <Link to={"Elaqe"} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Əlaqə</Link>
                                 </li>
                                 <li>
-                                    <a href="#" className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Bizə təklif göndər</a>
+                                    <Link to={'/teklif'} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Bizə təklif göndər</Link>
                                 </li>
 
                             </ul>
