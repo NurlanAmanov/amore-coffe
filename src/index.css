@@ -4,3 +4,9 @@
 header{
     overflow: hidden;
 }
+
+.herofon{
+    background: url("assets/bgfon2.png");
+    background-position: center;
+    background-size: cover;
+}

@@ -9,10 +9,10 @@ function Header() {
     const [sebet, setSebet] = useState(false);
 
     const opensebet = () => {
-      setSebet(true);
+        setSebet(true);
     };
-  
-   
+
+
     function openbars() {
         setBars(!bars)
     }
@@ -23,17 +23,17 @@ function Header() {
 
     return (
         <>
-            <header >
+            <header className="relative" >
                 <nav >
-                    <div className="mobile-menu relative overflow-hidden xl:hidden 2xl:hidden block bg-[#fff]">
+                    <div className="mobile-menu relative overflow-hidden xl:hidden 2xl:hidden block bg-[#7a461f]">
                         <div className="mobilebar flex items-center justify-between p-4">
-                            <Link to={'/'} className='w-[120px] '>
-                                <img src={logo2} className='w-[100%] h-[60px]  object-cover' />
+                            <Link to={'/'} className='w-[130px] '>
+                                <img src={logo} className='w-[100%] h-[60px]  object-cover' />
                             </Link>
                             <div className="bars mx-4">
                                 <a href="#" className="text-xl bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-regular fa-user  text-md"></i></a>
                                 <a onClick={opensebet} href="#" className="text-xl bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-solid fa-cart-shopping  text-md"></i></a>
-                                <a  onClick={openbars} className="fa-solid fa-bars text-blackheader text-2xl "></a>
+                                <a onClick={openbars} className="fa-solid fa-bars  text-white text-2xl "></a>
                             </div>
 
                         </div>
@@ -44,9 +44,9 @@ function Header() {
                                     <li className='text-2xl font-semibold'><a href="#">Ana səhifə</a></li>
                                     <li className='text-2xl font-semibold'><Link to={"haqqimizda"}>Haqqımızda</Link></li>
                                     <li className='text-2xl font-semibold'> <a href="#">Bizə sorğu göndər</a></li>
-                                    <li className='text-2xl font-semibold'><Link to={"Elaqe"}  href="#">Əlaqə</Link></li>
+                                    <li className='text-2xl font-semibold'><Link to={"Elaqe"} href="#">Əlaqə</Link></li>
                                     <li className='text-2xl font-semibold'><a href="#">lorem</a></li>
-
+                                    <Link to={'/teklif'} className="text-2xl font-semibold' ">Bizə təklif göndər</Link>
                                 </ul>
                             </div>
                         </div>
@@ -54,40 +54,35 @@ function Header() {
 
                 </nav>
 
-                <div class="bg-[#ffb71c] border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800 xl:block 2xl:block hidden ">
-                    <div class="flex flex-wrap mt-6 justify-between items-center mx-auto max-w-[90%] bg-black text-white p-2 rounded-md">
+                <div class="bg-[#7a461f] fixed w-full z-20 border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800 xl:block 2xl:block hidden ">
+                    <div className="menu flex items-center justify-between max-w-[95%] mx-auto">
+                        <ul className="flex flex-col items-center justify-center mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+                            <li>
+                                <Link to={'/'} className="block py-2 pr-4 pl-3 text-[white] rounded  lg:p-0  text-xl  hover:text-white duration-500 " aria-current="page">Ana səhifə</Link>
+                            </li>
+                            <li>
+                                <Link to={"haqqimizda"} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Haqqımızda</Link>
+                            </li>
+                            <li>
+                                <Link to={"Elaqe"} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Əlaqə</Link>
+                            </li>
+
+
+                        </ul>
+
                         <a href="/" class="flex items-center">
                             <img src={logo} className="w-48 h-16 object-cover" alt="Flowbite Logo" />
 
                         </a>
-                        <div class="flex items-center lg:order-2">
+                        <ul className="flex flex-col items-center justify-center mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+                            <li>
+                                <Link to={'/teklif'} className="block bg-black py-2 px-2  text-white  rounded   text-xl hover:text-white duration-500 ">Bizə təklif göndər</Link>
+                            </li>
                             <a href="#" className="text-md bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-regular fa-user  text-md"></i></a>
-                            <a onClick={opensebet}  className="text-md bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-solid fa-cart-shopping  text-md"></i></a>
+                            <a onClick={opensebet} className="text-md bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-solid fa-cart-shopping  text-md"></i></a>
 
+                        </ul>
 
-                            <button data-collapse-toggle="mobile-menu-2" type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
-                                <span className="sr-only">Amore Coffe</span>
-                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-                                <svg className="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            </button>
-                        </div>
-                        <div className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
-                            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-                                <li>
-                                    <Link to={'/'} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl  hover:text-white duration-500 " aria-current="page">Ana səhifə</Link>
-                                </li>
-                                <li>
-                                    <Link to={"haqqimizda"} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Haqqımızda</Link>
-                                </li>
-                                <li>
-                                    <Link to={"Elaqe"} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Əlaqə</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/teklif'} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Bizə təklif göndər</Link>
-                                </li>
-
-                            </ul>
-                        </div>
                     </div>
                 </div>
 

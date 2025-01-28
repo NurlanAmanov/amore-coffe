@@ -4,7 +4,7 @@ function Contact() {
   return (
 <>
 
-<section className='p-5'>
+<section className='py-12'>
 <div class="container my-12 mx-auto px-2 md:px-4">
 
 <section class="mb-32">
