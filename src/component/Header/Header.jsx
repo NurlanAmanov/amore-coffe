@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../../assets/logos.png'
-import logo2 from '../../assets/logo.png'
-import { Link, Links } from 'react-router-dom'
+import music from '../../assets/music.png'
 import Cart from '../Main/Cart'
+import { Link } from 'react-router-dom'
+import { GiShoppingCart } from 'react-icons/gi'
 
 function Header() {
     const [bars, setBars] = useState()
     const [sebet, setSebet] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
 
+ 
     const opensebet = () => {
         setSebet(true);
     };
@@ -19,74 +22,109 @@ function Header() {
     function closbar() {
         setBars(!bars)
     }
-
+    useEffect(() => {
+        const handleScroll = () => {
+          if (window.scrollY > 10) {
+            setIsScrolled(true);
+          } else {
+            setIsScrolled(false);
+          }
+        };
+    
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+          window.removeEventListener("scroll", handleScroll);
+        };
+      }, []);
 
     return (
         <>
-            <header className="relative" >
-                <nav >
-                    <div className="mobile-menu relative overflow-hidden xl:hidden 2xl:hidden block bg-[#7a461f]">
-                        <div className="mobilebar flex items-center justify-between p-4">
-                            <Link to={'/'} className='w-[130px] '>
-                                <img src={logo} className='w-[100%] h-[60px]  object-cover' />
-                            </Link>
-                            <div className="bars mx-4">
-                                <a href="#" className="text-xl bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-regular fa-user  text-md"></i></a>
-                                <a onClick={opensebet} href="#" className="text-xl bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-solid fa-cart-shopping  text-md"></i></a>
-                                <a onClick={openbars} className="fa-solid fa-bars  text-white text-2xl "></a>
-                            </div>
+        <div className="banner bg-[#EADDD5] w-full p-2 flex flex-col md:flex-row items-center justify-center md:justify-between gap-2 md:gap-4">
+  
+  {/* Sol tərəfdəki musiqi ikon və adı */}
+  <span className="flex items-center justify-center gap-2 md:gap-4 w-full md:w-[10%]">
+    <img src={music} alt="Music" className="w-[30px] h-[30px] md:w-[40px] md:h-[40px] object-cover" />
+    <p className="text-sm md:text-base">Music name</p>
+  </span>
 
-                        </div>
-                        <div className={`${bars ? 'top-0 ' : 'top-[-100%]'} flex p-5 items-start justify-between flex-row-reverse z-30 duration-300 w-full h-[100vh]  fixed bg-black bg-opacity-90`}>
-                            <i onClick={closbar} className="fa-solid fa-x p-2 text-xl font-semibold text-white"></i>
-                            <div className="burger-menu-list">
-                                <ul className=' flex items-start justify-center flex-col text-white'>
-                                    <li className='text-2xl font-semibold'><a href="#">Ana səhifə</a></li>
-                                    <li className='text-2xl font-semibold'><Link to={"haqqimizda"}>Haqqımızda</Link></li>
-                                    <li className='text-2xl font-semibold'> <a href="#">Bizə sorğu göndər</a></li>
-                                    <li className='text-2xl font-semibold'><Link to={"Elaqe"} href="#">Əlaqə</Link></li>
-                                    <li className='text-2xl font-semibold'><a href="#">lorem</a></li>
-                                    <Link to={'/teklif'} className="text-2xl font-semibold' ">Bizə təklif göndər</Link>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+  {/* Endirim və mesaj hissəsi */}
+  <span className="catdirma w-full md:w-[50%] text-center md:text-left">
+    <p className="text-sm md:text-xl font-normal">
+      Bu aya özəl İlk sifarişi verənlərə <b>40% endirim</b> ⇒ <b>Pulsuz Çatdırılma</b>
+    </p>
+  </span>
 
-                </nav>
+</div>
 
-                <div class="bg-[#7a461f] fixed w-full z-20 border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800 xl:block 2xl:block hidden ">
-                    <div className="menu flex items-center justify-between max-w-[95%] mx-auto">
-                        <ul className="flex flex-col items-center justify-center mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-                            <li>
-                                <Link to={'/'} className="block py-2 pr-4 pl-3 text-[white] rounded  lg:p-0  text-xl  hover:text-white duration-500 " aria-current="page">Ana səhifə</Link>
-                            </li>
-                            <li>
-                                <Link to={"haqqimizda"} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Haqqımızda</Link>
-                            </li>
-                            <li>
-                                <Link to={"Elaqe"} className="block py-2 pr-4 pl-3 text-white rounded  lg:p-0  text-xl hover:text-white duration-500  ">Əlaqə</Link>
-                            </li>
+<header className={`relative ${isScrolled ? "fixed top-0 left-0 w-full shadow-lg bg-[#7a461f] z-50 transition-all duration-300" : ""}`}>
+      <nav>
+        <div className="mobile-menu relative overflow-hidden xl:hidden 2xl:hidden block bg-[#7a461f]">
+          <div className="mobilebar flex items-center justify-between p-4">
+            <Link to={"/"} className="w-[130px]">
+              <img src={logo} className="w-full h-[60px] object-cover" alt="Logo" />
+            </Link>
+            <div className="bars gap-4 flex items-center justify-center">
+            <i className="fa-regular fa-user text-white text-xl"></i>
+              
+              <GiShoppingCart className="text-4xl font-[500] text-white" />
+            </div>
+          </div>
+        </div>
+      </nav>
 
+      {/* Desktop Menü */}
+      <div className="bg-[#7a461f] border-gray-200 px-4 lg:px-6 py-2.5 xl:block 2xl:block hidden">
+        
+        <div className="head-content p-3 flex items-center justify-between">
+          <div className="menu">
+            <ul className="flex items-center justify-around gap-5">
+              <li>
+                <Link to={"/s"} className="text-[#F7F7F7] text-[18px] font-[500]">
+                  Lokasiyalar
+                </Link>
+              </li>
+              <li>
+                <Link to={"/Haqqimizda"} className="text-[#F7F7F7] text-[15px] font-[500]">
+                  Haqqımızda
+                </Link>
+              </li>
+              <li>
+                <Link to={"/teklif"} className="text-[#F7F7F7] text-[15px] font-[500]">
+                  Bizə təklif göndər
+                </Link>
+              </li>
+              <li>
+                <Link to={"/Elaqe"} className="text-[#F7F7F7] text-[15px] font-[500]">
+                  Əlaqə
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-                        </ul>
+          <div className="logo-des">
+            <p className="text-3xl text-white">Amore</p>
+          </div>
 
-                        <a href="/" class="flex items-center">
-                            <img src={logo} className="w-48 h-16 object-cover" alt="Flowbite Logo" />
-
-                        </a>
-                        <ul className="flex flex-col items-center justify-center mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-                            <li>
-                                <Link to={'/teklif'} className="block bg-black py-2 px-2  text-white  rounded   text-xl hover:text-white duration-500 ">Bizə təklif göndər</Link>
-                            </li>
-                            <a href="#" className="text-md bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-regular fa-user  text-md"></i></a>
-                            <a onClick={opensebet} className="text-md bg-white rounded-md text-black px-4 lg:px-5 py-2 lg:py-2.5 mr-2"><i className="fa-solid fa-cart-shopping  text-md"></i></a>
-
-                        </ul>
-
-                    </div>
-                </div>
-
-            </header>
+          <div className="sebet-acount flex items-center justify-around gap-5">
+            <span>
+              <Link to={"/sa"} className="bg-[#5A3D2B] p-3 text-[15px] font-[500] text-white rounded-md">
+                Sifariş et
+              </Link>
+            </span>
+            <span className="kabinet flex items-center justify-center gap-3">
+              <i className="fa-regular fa-user text-white text-xl"></i>
+              <Link to={"/cabinet"} className="text-white text-[15px] font-[500]">
+                Daxil ol
+              </Link>
+            </span>
+            <span className="cart flex items-center justify-center gap-4">
+              <GiShoppingCart className="text-4xl font-[500] text-white" />
+              <p className="text-[15px] font-[500] text-white">Səbətim</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </header>
             <Cart sebet={sebet} setSebet={setSebet} />
 
         </>
