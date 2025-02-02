@@ -3,8 +3,8 @@ import React from 'react'
 function Cart({ sebet, setSebet }) {
   return (
  <section className='relative'>
-     <div className={`${sebet ? "block" : "hidden"} sebet-container fixed `}>
-      <div className="fixed inset-0 w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] font-sans">
+     <div className={`${sebet ? "block" : "hidden"} sebet-container fixed z-50 `}>
+      <div className="fixed inset-0 w-full h-full  before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] font-sans">
         <div className="w-full max-w-lg bg-white shadow-lg relative ml-auto h-screen">
           <div className="overflow-auto p-6 h-[calc(100vh-124px)]">
             {/* Başlıq */}

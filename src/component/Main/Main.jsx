@@ -9,8 +9,8 @@ function Main() {
 <>
 <div className='bg-[#EFE6DD] '>
 <section className="hero overflow-hidden  w-full mx-auto px-3 py-4 rounded-2xl">
-<div className="silder-content ">
-<Silder />
+<div className="silder-content relative ">
+<Silder className='absolute z-10' />
 </div>
 </section>
 
