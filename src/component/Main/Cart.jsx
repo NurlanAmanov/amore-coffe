@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 function Cart({ sebet, setSebet }) {
   return (
@@ -63,12 +64,15 @@ function Cart({ sebet, setSebet }) {
                 Toplam <span className="ml-auto">$125.00</span>
               </li>
             </ul>
-            <button
+            <Link to={'/Check'} >
+
+            <button 
               type="button"
               className="mt-6 text-sm font-semibold px-4 py-2.5 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md tracking-wide"
             >
 Ödəniş səhifəsinə keç
             </button>
+            </Link>
           </div>
         </div>
       </div>

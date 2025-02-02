@@ -1,175 +1,77 @@
-import React from 'react'
-import { MdArrowForward } from 'react-icons/md'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { MdArrowForward } from "react-icons/md";
+import { Link } from "react-router-dom";
 
-function Category() {
+const categories = [
+  {
+    name: "Irish Cream Dream",
+    brand: "Amore Coffee",
+    image: "https://readymadeui.com/images/coffee2.webp",
+  },
+  {
+    name: "Espresso Delight",
+    brand: "Amore Coffee",
+    image: "https://readymadeui.com/images/coffee2.webp",
+  },
+  {
+    name: "Caramel Latte Bliss",
+    brand: "Amore Coffee",
+    image: "https://readymadeui.com/images/coffee2.webp",
+  },
+  {
+    name: "Mocha Magic",
+    brand: "Amore Coffee",
+    image: "https://readymadeui.com/images/coffee2.webp",
+  },
+];
+
+const CategoryCard = ({ category }) => {
   return (
-    <>
-    
-    <div class="font-sans py-4 mx-auto max-w-[95%] ">
-      <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 text-center mb-10">Top Categories</h2>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-6 gap-4">
-
-
-
-        <div class="bg-gray-100 p-3 rounded-lg group overflow-hidden cursor-pointer relative z-20 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all">
-          <div class="w-full h-[200px] sm:h-[300px] overflow-hidden mx-auto">
-            <img src="https://readymadeui.com/images/coffee2.webp" alt="product4"
-              class="h-full w-full object-contain" />
-          </div>
-
-          <div class="absolute mx-auto left-0 right-0 bottom-2 lg:-bottom-80 lg:group-hover:bottom-2 bg-black/60 lg:bg-white w-11/12 p-2 lg:p-3 rounded-lg transition-all duration-300">
-            <Link to={"/Product"} class="text-center">
-              <h3 class="text-sm lg:text-base font-bold text-white lg:text-gray-800">Irish Cream Dream(buna tikla)</h3>
-              <h4 class="text-sm lg:text-base text-white xl:text-black 2xl:text-balance lg:text-black md:text-black font-bold mt-2">Amore coffe</h4>
-            </Link>
-
-            <div class="flex justify-center space-x-1 mt-4 max-sm:hidden">
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#CED5D8]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div class="bg-gray-100 p-3 rounded-lg group overflow-hidden cursor-pointer relative z-20 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all">
-          <div class="w-full h-[200px] sm:h-[300px] overflow-hidden mx-auto">
-            <img src="https://readymadeui.com/images/coffee2.webp" alt="product4"
-              class="h-full w-full object-contain" />
-          </div>
-          
-          <div class="absolute mx-auto left-0 right-0 bottom-2 lg:-bottom-80 lg:group-hover:bottom-2 bg-black/60 lg:bg-white w-11/12 p-2 lg:p-3 rounded-lg transition-all duration-300">
-          <div class="text-center">
-              <h3 class="text-sm lg:text-base font-bold text-white lg:text-gray-800">Irish Cream Dream</h3>
-              <h4 class="text-sm lg:text-base text-white xl:text-black 2xl:text-balance lg:text-black md:text-black font-bold mt-2">Amore coffe</h4>
-            </div>
-
-            <div class="flex justify-center space-x-1 mt-4 max-sm:hidden">
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#CED5D8]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-gray-100 p-3 rounded-lg group overflow-hidden cursor-pointer relative z-20 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all">
-          <div class="w-full h-[200px] sm:h-[300px] overflow-hidden mx-auto">
-            <img src="https://readymadeui.com/images/coffee2.webp" alt="product4"
-              class="h-full w-full object-contain" />
-          </div>
-        
-          <div class="absolute mx-auto left-0 right-0 bottom-2 lg:-bottom-80 lg:group-hover:bottom-2 bg-black/60 lg:bg-white w-11/12 p-2 lg:p-3 rounded-lg transition-all duration-300">
-          <div class="text-center">
-              <h3 class="text-sm lg:text-base font-bold text-white lg:text-gray-800">Irish Cream Dream</h3>
-              <h4 class="text-sm lg:text-base text-white xl:text-black 2xl:text-balance lg:text-black md:text-black font-bold mt-2">Amore coffe</h4>
-            </div>
-
-            <div class="flex justify-center space-x-1 mt-4 max-sm:hidden">
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#CED5D8]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="bg-gray-100 p-3 rounded-lg group overflow-hidden cursor-pointer relative z-20 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all">
-          <div class="w-full h-[200px] sm:h-[300px] overflow-hidden mx-auto">
-            <img src="https://readymadeui.com/images/coffee2.webp" alt="product4"
-              class="h-full w-full object-contain" />
-          </div>
-
-          <div class="absolute mx-auto left-0 right-0 bottom-2 lg:-bottom-80 lg:group-hover:bottom-2 bg-black/60 lg:bg-white w-11/12 p-2 lg:p-3 rounded-lg transition-all duration-300">
-          <div class="text-center">
-              <h3 class="text-sm lg:text-base font-bold text-white lg:text-gray-800">Irish Cream Dream</h3>
-              <h4 class="text-sm lg:text-base text-white xl:text-black 2xl:text-balance lg:text-black md:text-black font-bold mt-2">Amore coffe</h4>
-            </div>
-
-            <div class="flex justify-center space-x-1 mt-4 max-sm:hidden">
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-[14px] h-[14px] fill-[#CED5D8]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      
-
+    <Link to={'/Product'} className="relative bg-gradient-to-br from-[#FAFAFA] to-[#EDEDED] p-4 rounded-xl group overflow-hidden cursor-pointer transition-all duration-500 hover:shadow-xl hover:-translate-y-2 border border-gray-300">
+      {/* 📌 Məhsul şəkli */}
+      <div className="w-full h-[200px] sm:h-[250px] md:h-[280px] lg:h-[300px] overflow-hidden rounded-lg">
+        <img
+          src={category.image}
+          alt={category.name}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
       </div>
 
-     <Link to={'/allcategory'} className='flex items-center justify-center gap-5 mt-6 cursor-pointer'>
-     <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 text-center ">Bütün məhsullar bax</h2>
-     <MdArrowForward className='text-3xl' />
-     </Link>
-    </div>
-    </>
-  )
-}
+      {/* 📌 Hover effekti üçün şüşə fon */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-lg opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center p-4 rounded-xl">
+        <h3 className="text-lg font-semibold text-white">{category.name}</h3>
+        <h4 className="text-sm text-gray-300">{category.brand}</h4>
+      </div>
+    </Link>
+  );
+};
 
-export default Category
+const Category = () => {
+  return (
+    <div className="font-sans py-10 mx-auto max-w-[95%]">
+      <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 text-center mb-8">
+        ☕ Premium Coffee Selections
+      </h2>
+
+      {/* 📌 Kategoriya Grid (Mobil və Desktop uyğun) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-screen-xl mx-auto">
+        {categories.map((category) => (
+          <CategoryCard key={category.name} category={category} />
+        ))}
+      </div>
+
+      {/* 📌 Bütün Kateqoriyalar Linki */}
+      <Link
+        to={"/allcategory"}
+        className="flex items-center justify-center gap-4 mt-10 cursor-pointer hover:text-gray-700 transition-all duration-300"
+      >
+        <h2 className="text-lg sm:text-xl font-bold text-gray-800 text-center">
+          Bütün Məhsullara Bax
+        </h2>
+        <MdArrowForward className="text-2xl sm:text-3xl" />
+      </Link>
+    </div>
+  );
+};
+
+export default Category;

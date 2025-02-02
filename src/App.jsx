@@ -7,6 +7,7 @@ import Contact from './component/Main/Contact'
 import Teklif from './component/Main/Teklif'
 import Product from './component/product/Product'
 import Allcategory from './component/Main/Allcategory'
+import Checkout from './component/checkout/Checkout'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
     <Route path="teklif" element={<Teklif />} />
     <Route path="Product" element={<Product />} />
     <Route path="Allcategory" element={<Allcategory />} />
+    <Route path="Check" element={<Checkout />} />
   </Route>
 </Routes>
 

@@ -44,10 +44,7 @@ header{
   
   /* 🖥 Böyük ekranlar (desktop) */
   @media (min-width: 1024px) {
-    .swiper {
-    
-      height: 65vh;
-    }
+
   }
   .clip-polygon {
     clip-path: polygon(50% 100%, 100% 75%, 100% 0%, 0% 0%, 0% 75%);
