@@ -6,5 +6,10 @@ async function GetDAta() {
     
 }
 
+async function GetDAta2() {
+    const res=await axios.get("http://finalprojectt-001-site1.jtempurl.com/api/Product")
+    return res.data;
+    
+}
 
-export {GetDAta}
+export {GetDAta,GetDAta2}

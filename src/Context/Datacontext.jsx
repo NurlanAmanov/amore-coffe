@@ -1,15 +1,17 @@
 import React, { createContext, useEffect, useState } from 'react'
-import { GetDAta } from '../service/api'
+import { GetDAta, GetDAta2 } from '../service/api'
 
 export const DATA = createContext([])
 function Datacontext({ children }) {
     const [data, setData] = useState([])
+    const [mehsul, setMehsul] = useState([])
     useEffect(() => {
         GetDAta().then(res =>setData(res))
+        GetDAta2().then(res =>setMehsul(res))
     },[])
 
     return (
-        <DATA.Provider value={{ data }}>
+        <DATA.Provider value={{ data,mehsul }}>
             {children}
         </DATA.Provider>
     )
