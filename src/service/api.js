@@ -11,5 +11,10 @@ async function GetDAta2() {
     return res.data;
     
 }
+async function Getbanner() {
+    const res=await axios.get("http://finalprojectt-001-site1.jtempurl.com/api/Location")
+    return res.data;
+    
+}
 
-export {GetDAta,GetDAta2}
+export {GetDAta,GetDAta2,Getbanner}

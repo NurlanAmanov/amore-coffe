@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import { DATA } from '../../Context/Datacontext'
 import { data } from 'react-router-dom';
+import { BASKET } from '../../Context/BasketContext';
 
 function Product() {
 
   const {mehsul}=useContext(DATA)
-
+const {bassketadd}=useContext(BASKET)
   
   return (
     <>
@@ -34,7 +35,7 @@ function Product() {
                       data-original="#000000"></path>
                   </svg>
                 </div>
-                <button type="button" className="text-sm px-2 h-9 font-semibold w-full bg-[#7a461f] hover:bg-[#eaddd5] hover:text-black text-white tracking-wide ml-auto outline-none border-none rounded">Səbətə at</button>
+                <button onClick={()=>bassketadd(item.title,item.desciption,item.about,item.imgUrl,item.price)} type="button" className="text-sm px-2 h-9 font-semibold w-full bg-[#7a461f] hover:bg-[#eaddd5] hover:text-black text-white tracking-wide ml-auto outline-none border-none rounded">Səbətə at</button>
               </div>
             </div>
           </div>

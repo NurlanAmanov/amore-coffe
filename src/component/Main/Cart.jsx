@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
+import { BASKET } from '../../Context/BasketContext';
 
-function Cart({ sebet, setSebet }) {
+function Cart({ opensebet, setOpensebet }) {
+  const {sebet}=useContext(BASKET)
   return (
  <section className='relative'>
-     <div className={`${sebet ? "block" : "hidden"} sebet-container fixed z-50 `}>
+     <div className={`${opensebet ? "block" : "hidden"} sebet-container fixed z-50 `}>
       <div className="fixed inset-0 w-full h-full  before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] font-sans">
         <div className="w-full max-w-lg bg-white shadow-lg relative ml-auto h-screen">
           <div className="overflow-auto p-6 h-[calc(100vh-124px)]">
@@ -14,7 +16,7 @@ function Cart({ sebet, setSebet }) {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-3.5 ml-2 cursor-pointer shrink-0 fill-black hover:fill-red-500"
-                onClick={() => setSebet(false)} // Səbəti bağlamaq üçün çağırılır
+                onClick={() => setOpensebet(false)} // Səbəti bağlamaq üçün çağırılır
                 viewBox="0 0 320.591 320.591"
               >
                 <path
@@ -29,32 +31,37 @@ function Cart({ sebet, setSebet }) {
             </div>
 
             {/* Məhsul */}
-            <div className="space-y-4 mt-12">
-              <div className="grid grid-cols-3 items-start gap-4">
-                <div className="col-span-2 flex items-start gap-4">
-                  <div className="w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0 bg-gray-100 p-2 rounded-md">
-                    <img
-                      src="https://readymadeui.com/images/product14.webp"
-                      className="w-full h-full object-contain"
-                      alt="Product"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <h3 className="text-base max-sm:text-sm font-bold text-gray-800">
-                      Velvet Sneaker
-                    </h3>
-                    <p className="text-xs font-semibold text-gray-500 mt-0.5">
-                      Size: MD
-                    </p>
-                  </div>
-                </div>
-                <div className="ml-auto">
-                  <h4 className="text-base max-sm:text-sm font-bold text-gray-800">
-                    $20.00
-                  </h4>
-                </div>
+           {sebet.map((item,i)=>{
+        return(
+          <div key={i} className="space-y-4 mt-12">
+          <div className="grid grid-cols-3 items-start gap-4">
+            <div className="col-span-2 flex items-start gap-4">
+              <div className="w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0 bg-gray-100 p-2 rounded-md">
+                <img
+                  src={item.imgUrl}
+                  className="w-full h-full object-contain"
+                  alt="Product"
+                />
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-base max-sm:text-sm font-bold text-gray-800">
+                 {item.title}
+                </h3>
+                <p className="text-xs font-semibold text-gray-500 mt-0.5">
+                {item.about}
+                </p>
               </div>
             </div>
+            <div className="ml-auto">
+              <h4 className="text-base max-sm:text-sm font-bold text-gray-800">
+              {item.price}
+              </h4>
+            </div>
+          </div>
+        </div>
+        )
+            
+           })}
           </div>
 
           {/* Alt Panel */}

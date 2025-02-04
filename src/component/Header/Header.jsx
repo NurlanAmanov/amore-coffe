@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import logo from '../../assets/Amore.png';
 import music from '../../assets/music.png';
 import Cart from '../Main/Cart';
@@ -6,10 +6,12 @@ import { Link } from 'react-router-dom';
 import { GiShoppingCart } from 'react-icons/gi';
 import { IoMenu, IoClose } from 'react-icons/io5';
 import { FaUser } from "react-icons/fa";
+import { DATA } from '../../Context/Datacontext';
 
 function Header() {
+      const {banner}=useContext(DATA)
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [sebet, setSebet] = useState(false);
+    const [opensebet, setOpensebet] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -46,16 +48,7 @@ function Header() {
     return (
         <>
             {/* 📌 Banner */}
-            <div className={`fixed top-0 left-0 w-full bg-[#EADDD5] text-black px-4 py-3 flex flex-row md:flex-row items-center justify-center text-center rounded font-[sans-serif] gap-2 md:gap-4 z-50`}>
-                <img src={music} alt="Music" className="w-[25px] h-[25px] md:w-[40px] md:h-[40px] object-cover" />
-                <p className="text-xs md:text-sm lg:text-base">Music name</p>
-                <div className="mt-2 md:mt-0">
-                    <button type="button" className="bg-white text-black py-2 px-4 md:py-2.5 md:px-5 rounded text-xs md:text-sm hover:underline">
-                        Bu aya özəl İlk sifarişi verənlərə 40% endirim ⇒ Pulsuz Çatdırılma
-                    </button>
-                </div>
-            </div>
-
+         
             {/* 📌 Fixed Header */}
             <header className={`fixed top-[60px] h-auto left-0 w-full bg-[#7a461f] shadow-lg z-[40] transition-all duration-300`}>
                 <div className="container mx-auto max-w-screen-xl px-6">
@@ -108,7 +101,7 @@ function Header() {
 
                             {/* ✅ Səbət */}
                             <div className="relative">
-                                <GiShoppingCart className="text-2xl text-white cursor-pointer hover:text-gray-300" onClick={() => setSebet(true)} />
+                                <GiShoppingCart className="text-2xl text-white cursor-pointer hover:text-gray-300" onClick={() => setOpensebet(true)} />
                                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">2</span>
                             </div>
 
@@ -125,7 +118,7 @@ function Header() {
             </header>
 
             {/* 📌 Səbət */}
-            <Cart sebet={sebet} setSebet={setSebet} />
+            <Cart opensebet={opensebet} setOpensebet={setOpensebet} />
         </>
     );
 }
