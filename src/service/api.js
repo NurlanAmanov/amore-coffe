@@ -1,20 +1,23 @@
 import axios from "axios";
 
-async function GetDAta() {
-    const res=await axios.get("http://finalprojectt-001-site1.jtempurl.com/api/Category")
+const BASE_URL = window.location.protocol === "https:"
+    ? "https://finalprojectt-001-site1.jtempurl.com/api"
+    : "http://finalprojectt-001-site1.jtempurl.com/api";
+
+async function GetData() {
+    const res = await axios.get(`${BASE_URL}/Category`);
     return res.data;
-    
 }
 
-async function GetDAta2() {
-    const res=await axios.get("http://finalprojectt-001-site1.jtempurl.com/api/Product")
+async function GetData2() {
+    const res = await axios.get(`${BASE_URL}/Product`);
     return res.data;
-    
 }
+
 async function Getbanner() {
     const res=await axios.get("http://finalprojectt-001-site1.jtempurl.com/api/Location")
     return res.data;
     
 }
 
-export {GetDAta,GetDAta2,Getbanner}
+export {GetData,GetData2,Getbanner}
