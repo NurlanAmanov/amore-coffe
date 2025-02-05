@@ -4,7 +4,7 @@ import amorecoffe from '../../assets/coffe.png'
 import CoffeeSuggestion from './CoffeeSuggestion'
 import Silder from './Silder'
 import Category from './Category'
-function Main() {
+function Homepage() {
   return (
 <>
 <div className='bg-[#EFE6DD] '>
@@ -64,4 +64,4 @@ function Main() {
   )
 }
 
-export default Main
+export default Homepage

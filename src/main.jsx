@@ -7,11 +7,10 @@ import Datacontext from './Context/Datacontext.jsx'
 import BasketContext from './Context/BasketContext.jsx'
 
 createRoot(document.getElementById('root')).render(
-<Datacontext>
-<BrowserRouter>
-<BasketContext>
-<App />
-</BasketContext>
- </BrowserRouter>
-</Datacontext>
+    <Datacontext>
+      <BasketContext>
+        <App />
+      </BasketContext>
+    </Datacontext>
+
 )
