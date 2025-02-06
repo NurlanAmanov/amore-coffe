@@ -9,7 +9,7 @@ function Homepage() {
 <>
 <div className='bg-[#EFE6DD] '>
 <section className="hero overflow-hidden  w-full mx-auto px-3 py-4 rounded-2xl">
-<div className="silder-content rounded-lg  pb-5 pt-[140px] ">
+<div className="silder-content rounded-lg z-40  pb-5 pt-[140px] ">
 <Silder className="" />
 </div>
 </section>

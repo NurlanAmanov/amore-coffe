@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function Footer() {
   return (
@@ -9,19 +10,18 @@ function Footer() {
       <div className="max-w-screen-xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="sm:col-span-2 max-w-sm">
-            <h4 className="text-base font-semibold mb-6 text-white">About Us</h4>
-            <p className="text-text-md font-semibold text-black text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida, mi eu
-              pulvinar cursus, sem elit interdum mauris.</p>
+            <h4 className="text-base font-semibold mb-6 text-white">Amore Coffee</h4>
+            <p className="text-text-md font-semibold text-black text-sm">Amore Coffee-də biz inanırıq ki, əla kofe yalnız bir içki deyil, həm də bir təcrübədir. Davamlılıq prinsiplərinə əsaslanaraq əldə etdiyimiz dənələrdən innovativ dəmləmə üsullarına qədər keyfiyyətə və ətraf mühitə qarşı məsuliyyətliyik. Öz mükəmməl kofe anınızı bizimlə kəşf edin.</p>
           </div>
 
           <div>
-            <h4 className="text-base font-semibold mb-6 text-white">Services</h4>
+            <h4 className="text-base font-semibold mb-6 text-white">Faydalı linklər</h4>
             <ul className="space-y-3">
-              <li><a href="javascript:void(0)" className="text-text-md font-semibold text-black hover:text-white text-sm">Web Development</a></li>
-              <li><a href="javascript:void(0)" className="text-text-md font-semibold text-black hover:text-white text-sm">Mobile App Development</a>
+              <li><Link to={"/"} className="text-text-md font-semibold text-black hover:text-white text-sm">Ana səhifə</Link></li>
+              <li><Link to={"/about"} className="text-text-md font-semibold text-black hover:text-white text-sm">Haqqımızda</Link>
               </li>
-              <li><a href="javascript:void(0)" className="text-text-md font-semibold text-black hover:text-white text-sm">UI/UX Design</a></li>
-              <li><a href="javascript:void(0)" className="text-text-md font-semibold text-black hover:text-white text-sm">Digital Marketing</a></li>
+              <li><Link to={"/contact"} className="text-text-md font-semibold text-black hover:text-white text-sm">Əlaqə</Link></li>
+              <li><Link to={'/teklif'} className="text-text-md font-semibold text-black hover:text-white text-sm">Təklif göndər</Link></li>
             </ul>
           </div>
 
