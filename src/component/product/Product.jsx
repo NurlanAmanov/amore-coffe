@@ -65,12 +65,12 @@ function Product() {
             <span className="text-lg font-bold text-gray-900">{item.price} ₼</span>
           )}
         </div>
-
+        <span className="font-semibold mt-2 flex items-center gap-4 text-gray-700 text-sm">{item.about}</span>
         {/* 📌 Xüsusiyyətlər */}
         <ul className="mt-2 flex items-center gap-4 text-gray-700 text-sm">
           <li>Ölçü: <span className="font-semibold">{item.size}</span></li>
           <li>Şəkər: <span className="font-semibold">{item.sugar}</span></li>
-          <li>Şəkər: <span className="font-semibold">{item.sugar}</span></li>
+          <li>Şəkər: </li>
         </ul>
 
         {/* 📌 Səbətə at düyməsi */}
@@ -80,6 +80,7 @@ function Product() {
               bassketadd(
                 item.title,
                 item.desciption,
+                item.id,
                 item.about,
                 item.imgUrl,
                 item.discount > 0 ? item.finalPrice : item.price // Əgər endirim varsa finalPrice, yoxdursa price göndərilir

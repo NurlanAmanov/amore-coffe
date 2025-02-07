@@ -1,25 +1,42 @@
-import React, { createContext, useState } from 'react'
-import { Cookies } from 'react-cookie'
+import React, { createContext, useState, useEffect } from "react";
+import { Cookies } from "react-cookie";
 
-export const BASKET=createContext(null)
+export const BASKET = createContext(null);
+
 function BasketContext({ children }) {
-    const cook =new Cookies()
+  const cook = new Cookies();
 
-    const [sebet,setSebet]=useState(cook.get('Sebet') || [])
-    function bassketadd(title,about,imgUrl,desciption,price){
-        const newSebet = [
-            ...sebet,
-            { title,about,imgUrl,desciption,price },
-      ];setSebet(newSebet);
-        cook.set("sebet",newSebet)
+  // **Cookie-dən səbəti götür, əgər boşdursa `[]` qoy**
+  const [sebet, setSebet] = useState(() => {
+    const storedSebet = cook.get("sebet");
+    return storedSebet ? storedSebet : [];
+  });
+
+  // **Məhsul səbətə əlavə edildikdə cookiedə saxla**
+  function bassketadd(title, about, id, imgUrl, desciption, price,discount,finalPrice) {
+    const newSebet = [...sebet, { title, about, id, imgUrl, desciption, price, }];
+
+    setSebet(newSebet);
+    
+
+    cook.set("sebet", newSebet, {
+      path: "/",
+      expires: new Date(Date.now() + 86400 * 1000), 
+    });
+
+
+  }
+
   
-        
-    }
+  useEffect(() => {
+    console.log("Cookie-dən yüklənmiş səbət:", sebet);
+  }, []);
+
   return (
     <BASKET.Provider value={{ sebet, bassketadd }}>
-    {children}
-  </BASKET.Provider>
-  )
+      {children}
+    </BASKET.Provider>
+  );
 }
 
-export default BasketContext
+export default BasketContext;
