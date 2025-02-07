@@ -1,5 +1,5 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Layout from './layout/Layout'
 import Haqqimizda from './component/Main/Haqqimizda'
 import Homepage from './component/Main/Homepage'
@@ -12,6 +12,10 @@ import Registr from './login/Registr'
 
 
 function App() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
   return (
     <>
 <Routes>
