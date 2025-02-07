@@ -6,8 +6,6 @@ import { GiShoppingCart } from 'react-icons/gi';
 import { IoMenu, IoClose } from 'react-icons/io5';
 import { FaUser } from "react-icons/fa";
 import { DATA } from '../../Context/Datacontext';
-
-
 import Loginpage from '../../login/Loginpage';
 import { BASKET } from '../../Context/BasketContext';
 

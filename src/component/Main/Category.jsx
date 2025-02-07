@@ -21,7 +21,7 @@ function r() {
         {/* 📌 Məhsul şəkli */}
         <div className="w-full h-[200px] sm:h-[250px] md:h-[280px] lg:h-[300px] overflow-hidden rounded-lg">
           <img
-            src={item.imgUrl}
+            src={`http://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
             alt={item.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />

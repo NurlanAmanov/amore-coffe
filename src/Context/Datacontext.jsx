@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
-import { Getbanner, GetData, GetData2 } from '../service/api'
+import { Getbanner, GetData, GetProduct } from '../service/api'
 
 export const DATA = createContext([])
 function Datacontext({ children }) {
@@ -8,7 +8,7 @@ function Datacontext({ children }) {
     const [banner, setbanner] = useState([])
     useEffect(() => {
         GetData().then(res =>setData(res))
-        GetData2().then(res =>setMehsul(res))
+        GetProduct().then(res =>setMehsul(res))
         Getbanner().then(res =>console.log(res)
         )
     },[])
