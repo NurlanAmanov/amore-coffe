@@ -21,4 +21,6 @@ async function Getbanner() {
     
 }
 
+
+
 export {GetData,GetProduct,Getbanner,getLocation}

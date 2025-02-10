@@ -29,7 +29,7 @@ function Category() {
 
             {/* 📌 Hover effekti üçün şüşə fon */}
             <div className="absolute inset-0 bg-black/40 backdrop-blur-lg opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center p-4 rounded-xl">
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3> {/* ✅ `title` istifadəçiyə göstərilir */}
+              <h3 className="text-lg font-semibold text-white">{item.name}</h3> {/* ✅ `title` istifadəçiyə göstərilir */}
             </div>
           </Link>
         ))}

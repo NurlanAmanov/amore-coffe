@@ -3,9 +3,22 @@ import { MdClose } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 function LoginPage({ toggleProfile }) {
+  const handleBackdropClick = (e) => {
+    // Əgər klik edilən yer modalın özüdürsə, bağlama.
+    if (e.target.id === "modal-backdrop") {
+      toggleProfile();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[100]">
-      <div className="bg-white shadow-lg p-6 rounded w-[90%] mx-auto xl:w-[450px] transition-opacity duration-300 relative">
+    <div
+      id="modal-backdrop"
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[100]"
+      onClick={handleBackdropClick} // Yalnız backdrop klik olunanda işləyəcək
+    >
+      <div className="bg-white shadow-lg p-6 rounded w-[90%] mx-auto xl:w-[450px] transition-opacity duration-300 relative"
+        onClick={(e) => e.stopPropagation()} // Modalın içində klik edildikdə bağlanmasın
+      >
         <span className="flex items-center justify-between w-full mb-4">
           <h3 className="text-gray-800 text-3xl font-bold">Daxil olun</h3>
           <MdClose onClick={toggleProfile} className="text-[30px] cursor-pointer font-[500]" />
