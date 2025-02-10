@@ -7,6 +7,7 @@ function RegisterPage() {
   const [formData, setFormData] = useState({
     name: "",
     lname: "",
+    userName: "", // Yeni sahə əlavə olundu
     email: "",
     dob: "",
     gender: "",
@@ -23,36 +24,45 @@ function RegisterPage() {
   const handleRegister = async (e) => {
     e.preventDefault(); // Formun avtomatik göndərilməsinin qarşısını alır
 
-    // Əgər şifrələr uyğun gəlmirsə, səhv mesajı göstər
     if (formData.password !== formData.cpassword) {
-      alert("Şifrələr uyğun gəlmir!");
-      return;
+        alert("Şifrələr uyğun gəlmir!");
+        return;
     }
+
+    // Tarixi string formatında göndəririk
+    const formattedDate = formData.dob ? formData.dob.toString() : "";
 
     try {
-      const response = await axios.post(
-        "https://finalprojectt-001-site1.jtempurl.com/api/Auth/Register",
-        {
-          name: formData.name,
-          surname: formData.lname,
-          email: formData.email,
-          dateOfBirth: formData.dob,
-          gender: formData.gender,
-          password: formData.password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+        const response = await axios.post(
+            "https://finalprojectt-001-site1.jtempurl.com/api/Auth/Register",
+            {
+                Name: formData.name,
+                Surname: formData.lname,
+                UserName: formData.userName,
+                Email: formData.email,
+                DateOfBirth: formattedDate, // Tarixi `YYYY-MM-DD` formatında göndəririk
+                Gender: formData.gender,
+                Password: formData.password,
+                ConfirmPassword: formData.cpassword,
+            },
+            {
+                headers: { "Content-Type": "application/json" },
+            }
+        );
 
-      console.log("Qeydiyyat uğurlu oldu:", response.data);
-      alert("Qeydiyyat uğurla tamamlandı!");
-      navigate("/login"); // Uğurlu qeydiyyatdan sonra login səhifəsinə yönləndir
+        console.log("Qeydiyyat uğurlu oldu:", response.data);
+        alert("Qeydiyyat uğurla tamamlandı!");
+        navigate("/login"); // Uğurlu qeydiyyatdan sonra login səhifəsinə yönləndir
     } catch (error) {
-      console.error("Qeydiyyat zamanı xəta:", error.response?.data || error.message);
-      alert("Qeydiyyat zamanı xəta baş verdi!");
+        console.error("Qeydiyyat zamanı xəta:", error.response?.data || error.message);
+        alert("Qeydiyyat zamanı xəta baş verdi!");
+
+        if (error.response?.data?.errors) {
+            console.log("Backend Validation Errors:", error.response.data.errors);
+        }
     }
-  };
+};
+
 
   return (
     <section className="py-[90px] bg-[#efe6dd]">
@@ -84,6 +94,18 @@ function RegisterPage() {
                 onChange={handleChange}
                 className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
                 placeholder="Soyadınızı daxil edin"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-gray-600 text-sm mb-2 block">İstifadəçi adı (Username)</label>
+              <input
+                name="userName"
+                type="text"
+                value={formData.userName}
+                onChange={handleChange}
+                className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+                placeholder="İstifadəçi adınızı daxil edin"
                 required
               />
             </div>

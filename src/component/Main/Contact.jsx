@@ -1,62 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+import ContactForm from "./Contactfomr";
 
 function Contact() {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        message: "",
-    });
-
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [successMessage, setSuccessMessage] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setIsSubmitting(true);
-      setSuccessMessage("");
-      setErrorMessage("");
-  
-      // Boş inputları yoxlayırıq
-      if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-          setErrorMessage("Zəhmət olmasa bütün sahələri doldurun.");
-          setIsSubmitting(false);
-          return;
-      }
-  
-      // Multipart formatında formData obyektini yaradırıq
-      const formDataToSend = new FormData();
-      formDataToSend.append("Name", formData.name);
-      formDataToSend.append("Email", formData.email);
-      formDataToSend.append("Comment", formData.message);
-  
-      try {
-          const response = await axios.post(
-              "https://finalprojectt-001-site1.jtempurl.com/api/Contact",
-              formDataToSend,
-              {
-                  headers: {
-                      "Content-Type": "multipart/form-data", // Backend multipart gözlədiyi üçün
-                  },
-              }
-          );
-  
-          console.log("Serverdən cavab:", response.data);
-          setSuccessMessage("Mesajınız uğurla göndərildi!");
-          setFormData({ name: "", email: "", message: "" }); // Formanı sıfırlayırıq
-      } catch (error) {
-          console.error("Xəta baş verdi:", error.response ? error.response.data : error.message);
-          setErrorMessage("Mesaj göndərilərkən xəta baş verdi.");
-      } finally {
-          setIsSubmitting(false);
-      }
-  };
-  
   
 
     return (
@@ -72,66 +17,7 @@ function Contact() {
 
                         <div className="flex flex-wrap">
                             {/* Əlaqə Formu */}
-                            <form onSubmit={handleSubmit} className="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6">
-                                <div className="mb-3 w-full">
-                                    <label className="block font-medium mb-[2px] text-teal-700" htmlFor="name">
-                                        Ad:
-                                    </label>
-                                    <input
-    type="text"
-    name="name"
-    className="px-2 py-2 border w-full outline-none rounded-md"
-    id="name"
-    placeholder="Ad"
-    value={formData.name}
-    onChange={handleChange}
-    required
-/>
-                                </div>
-
-                                <div className="mb-3 w-full">
-                                    <label className="block font-medium mb-[2px] text-teal-700" htmlFor="email">
-                                        Email:
-                                    </label>
-                                    <input
-    type="email"
-    name="email"
-    className="px-2 py-2 border w-full outline-none rounded-md"
-    id="email"
-    placeholder="E-poçt ünvanınız"
-    value={formData.email}
-    onChange={handleChange}
-    required
-/>
-
-                                </div>
-
-                                <div className="mb-3 w-full">
-                                    <label className="block font-medium mb-[2px] text-teal-700" htmlFor="message">
-                                        Mesaj:
-                                    </label>
-                                    <textarea
-    name="message"
-    className="px-2 py-2 border rounded-[5px] w-full outline-none"
-    id="message"
-    placeholder="Mesajınızı yazın..."
-    value={formData.message}
-    onChange={handleChange}
-    required
-></textarea>
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    className="mb-6 inline-block w-full rounded bg-teal-400 px-6 py-2.5 font-medium uppercase leading-normal text-white hover:shadow-md hover:bg-teal-500"
-                                    disabled={isSubmitting}
-                                >
-                                    {isSubmitting ? "Göndərilir..." : "Göndər"}
-                                </button>
-
-                                {successMessage && <p className="text-green-600">{successMessage}</p>}
-                                {errorMessage && <p className="text-red-600">{errorMessage}</p>}
-                            </form>
+                           <ContactForm/>
 
                             {/* Əlaqə Məlumatları */}
                             <div className="w-full shrink-0 grow-0 basis-auto lg:w-7/12">

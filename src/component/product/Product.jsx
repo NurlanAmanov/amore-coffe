@@ -78,7 +78,7 @@ function ProductCard({ item, bassketadd }) {
           <button
             onClick={() => {
               for (let i = 0; i < count; i++) {
-                bassketadd(item.title, item.about, item.id, `http://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`, item.desciption, item.price, item.discount, item.finalPrice);
+                bassketadd(item.title, item.about, item.id, `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`, item.desciption, item.price, item.discount, item.finalPrice);
               }
             }}
             className="flex-1 bg-blue-500 text-white py-2 px-4 rounded-full font-semibold hover:bg-blue-600 transition-colors duration-200"
