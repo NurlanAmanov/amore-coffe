@@ -1,10 +1,11 @@
 import React from 'react'
+import ContactForm from './Contactfomr'
 
 function Teklif() {
     return (
         <>
       <section className="py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto  sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="lg:mb-0 mb-10">
             <div className="group w-full h-[350px]">
@@ -92,23 +93,7 @@ function Teklif() {
             <h2 className="text-indigo-600 font-manrope text-4xl font-semibold leading-10 mb-11">
               Təkliflərinizi Bizimlə Paylaşın
             </h2>
-            <input
-              type="text"
-              className="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-              placeholder="Adınız"
-            />
-            <input
-              type="text"
-              className="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-              placeholder="E-poçtunuz"
-            />
-            <textarea
-              className="w-full h-32 text-gray-600 placeholder-gray-400 bg-transparent text-lg shadow-sm font-normal leading-7 rounded-lg border border-gray-200 focus:outline-none pl-4 mb-10"
-              placeholder="Təklifinizi yazın"
-            ></textarea>
-            <button className="w-full h-12 text-white text-base font-semibold leading-6 rounded-full transition-all duration-700 hover:bg-indigo-800 bg-indigo-600 shadow-sm">
-              Təklif Göndər
-            </button>
+            <ContactForm/>
           </div>
         </div>
       </div>

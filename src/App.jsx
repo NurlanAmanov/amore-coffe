@@ -9,6 +9,7 @@ import Product from './component/product/Product'
 import Allcategory from './component/All-category/Allcategory'
 import Checkout from './component/checkout/Checkout'
 import Registr from './login/Registr'
+import Cabinet from './component/Usecabiner/Cabinet'
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
     <Route path="about" element={<Haqqimizda />} />
     <Route path="Contact" element={<Contact />} />
     <Route path="qeydiyyat" element={<Registr />} />
+    <Route path="Cabinet" element={<Cabinet />} />
 
     <Route path="Check" element={<Checkout />} />
   </Route>

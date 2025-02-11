@@ -19,15 +19,23 @@ function LoginPage({ toggleProfile }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      console.log("📤 Göndərilən məlumatlar:", formData);
-      
-      // 🔥 DÜZGÜN FUNKSİYA
-      await login(formData); // Artıq tam formData obyektini ötürürük!
+        console.log("📤 Göndərilən məlumatlar:", formData);
+        
+        const response = await login(formData);
 
+        console.log("✅ Backend cavabı:", response); // Backend-in qaytardığı JSON-u yoxla
+
+        if (response && response.token) {
+            console.log("🔑 Token alındı:", response.token);
+        } else {
+            console.error("❌ Token qaytarılmadı!");
+            setError("Giriş zamanı xəta baş verdi! Yanlış e-mail və ya şifrə.");
+        }
     } catch (err) {
-      setError("Giriş zamanı xəta baş verdi! Yanlış e-mail və ya şifrə.");
+        console.error("❌ Giriş xətası:", err);
+        setError("Giriş zamanı xəta baş verdi! Yanlış e-mail və ya şifrə.");
     }
-  };
+};
 
   return (
     <div
