@@ -50,7 +50,7 @@ function Header() {
 
                         {/* ✅ Desktop Menü */}
                         <nav className="hidden xl:flex items-center gap-6">
-                            <Link to="/s" className="text-white text-base font-medium hover:text-gray-300 transition">Lokasiyalar</Link>
+                            <Link to="/cabinet" className="text-white text-base font-medium hover:text-gray-300 transition">Lokasiyalar</Link>
                             <Link to="/about" className="text-white text-base font-medium hover:text-gray-300 transition">Haqqımızda</Link>
                             <Link to="/teklif" className="text-white text-base font-medium hover:text-gray-300 transition">Bizə təklif göndər</Link>
                             <Link to="/contact" className="text-white text-base font-medium hover:text-gray-300 transition">Əlaqə</Link>
