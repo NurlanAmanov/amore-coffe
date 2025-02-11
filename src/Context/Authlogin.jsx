@@ -21,9 +21,10 @@ export const CustomAuthProvider = ({ children }) => {  // ✅ Yeni ad: CustomAut
 
     const login = async (formData) => {
         try {
-            console.log("📤 Göndərilən məlumatlar:", formData);
+            console.log("📤 Göndərilən formData:", formData);
+            
             const data = await loginUser(formData);
-
+    
             if (data.token) {
                 localStorage.setItem("token", data.token);
                 setUser({ token: data.token });
@@ -37,7 +38,7 @@ export const CustomAuthProvider = ({ children }) => {  // ✅ Yeni ad: CustomAut
             alert("Giriş zamanı xəta baş verdi!");
         }
     };
-
+    
     const logout = () => {
         logoutUser();
         localStorage.removeItem("token");
@@ -55,5 +56,5 @@ export const CustomAuthProvider = ({ children }) => {  // ✅ Yeni ad: CustomAut
 
 // 🔥 `useAuth()` Hook-u
 export const useAuth = () => {
-    return useContext(AuthContext);
+    return useContext(AuthContextLogin);
 };

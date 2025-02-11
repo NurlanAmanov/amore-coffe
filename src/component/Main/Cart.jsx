@@ -82,11 +82,12 @@ function Cart({ opensebet, setOpensebet }) {
                   Toplam: <span className="ml-auto">{totalPrice.toFixed(2)} ₼</span>
                 </li>
               </ul>
-              <Link to={"/Check"}>
-                <button className="mt-6 text-sm font-semibold px-4 py-2.5 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md tracking-wide">
-                  Ödəniş səhifəsinə keç
-                </button>
-              </Link>
+              <Link to={"/Check"} onClick={() => setOpensebet(false)}>
+  <button className="mt-6 text-sm font-semibold px-4 py-2.5 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md tracking-wide">
+    Ödəniş səhifəsinə keç
+  </button>
+</Link>
+
             </div>
           </div>
         </div>

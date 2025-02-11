@@ -3,7 +3,6 @@ import { MdClose } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Context/Authlogin";
 
-
 function LoginPage({ toggleProfile }) {
   const { login } = useAuth(); // 🔥 Context-dən login funksiyasını götürürük
   const [formData, setFormData] = useState({
@@ -21,7 +20,10 @@ function LoginPage({ toggleProfile }) {
     e.preventDefault();
     try {
       console.log("📤 Göndərilən məlumatlar:", formData);
-      await login(formData.UserNameOrEmail, formData.Password); // 🔥 Context-dən login çağırılır
+      
+      // 🔥 DÜZGÜN FUNKSİYA
+      await login(formData); // Artıq tam formData obyektini ötürürük!
+
     } catch (err) {
       setError("Giriş zamanı xəta baş verdi! Yanlış e-mail və ya şifrə.");
     }
