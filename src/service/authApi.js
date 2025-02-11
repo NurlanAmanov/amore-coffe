@@ -7,20 +7,22 @@ export const registerUser = async (formData) => {
         const response = await axios.post(
             `${BASE_URL}/Register`,
             {
-                name: formData.name,
-                surname: formData.lname,
-                email: formData.email,
-                dateOfBirth: formData.dob,
-                gender: formData.gender,
-                password: formData.password,
+                Name: formData.name,
+                Surname: formData.lname,
+                UserName: formData.userName,
+                Email: formData.email,
+                DateOfBirth: formData.dob,
+                Gender: formData.gender,
+                Password: formData.password,
+                ConfirmPassword: formData.cpassword,
             },
             {
                 headers: { "Content-Type": "application/json" },
             }
         );
 
-        return response.data;
+        return { success: true, data: response.data };
     } catch (error) {
-        throw error.response ? error.response.data : new Error("API ilə əlaqə qurulmadı.");
+        return { success: false, error: error.response?.data || "Xəta baş verdi!" };
     }
 };
