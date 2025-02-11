@@ -7,8 +7,7 @@ function RegisterPage() {
   const [formData, setFormData] = useState({
     name: "",
     lname: "",
-    userName: "", // Yeni sahə əlavə olundu
-    email: "",
+
     dob: "",
     gender: "",
     password: "",
