@@ -53,7 +53,7 @@ function Header() {
                             <Link to="/cabinet" className="text-white text-base font-medium hover:text-gray-300 transition">Lokasiyalar</Link>
                             <Link to="/about" className="text-white text-base font-medium hover:text-gray-300 transition">Haqqımızda</Link>
                             <Link to="/teklif" className="text-white text-base font-medium hover:text-gray-300 transition">Bizə təklif göndər</Link>
-                            <Link to="/contact" className="text-white text-base font-medium hover:text-gray-300 transition">Əlaqə</Link>
+                        
                         </nav>
 
                         {/* ✅ Sağ Tərəf */}
@@ -87,7 +87,7 @@ function Header() {
                     <Link to="/s" className="text-lg font-medium" onClick={toggleMenu}>Lokasiyalar</Link>
                     <Link to="/about" className="text-lg font-medium" onClick={toggleMenu}>Haqqımızda</Link>
                     <Link to="/teklif" className="text-lg font-medium" onClick={toggleMenu}>Bizə təklif göndər</Link>
-                    <Link to="/contact" className="text-lg font-medium" onClick={toggleMenu}>Əlaqə</Link>
+
                 </div>
             </div>
 

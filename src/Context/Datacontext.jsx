@@ -9,8 +9,7 @@ function Datacontext({ children }) {
     useEffect(() => {
         GetData().then(res =>setData(res))
         GetProduct().then(res =>setMehsul(res))
-        Getbanner().then(res =>console.log(res)
-        )
+ 
     },[])
 
     return (

@@ -29,7 +29,7 @@ function BasketContext({ children }) {
 
   
   useEffect(() => {
-    console.log("Cookie-dən yüklənmiş səbət:", sebet);
+ 
   }, []);
 
   return (

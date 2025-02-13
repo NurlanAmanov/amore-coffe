@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { CABINETDATA } from '../../Context/CabinetContext';
+import Sifaris from './Sifaris';
 
 function Cabinet() {
   const [activeTab, setActiveTab] = useState('orders');
+
+
 
   return (
     <div className="p-6 py-[100px] w-full mx-auto bg-white rounded-xl shadow-lg">
@@ -20,7 +24,7 @@ function Cabinet() {
         {activeTab === 'orders' && (
           <div className="bg-blue-500 text-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold">📦 Sifarişlərim</h3>
-            <p className="mt-2 text-white/80">Sifariş tarixçənizi burada görə bilərsiniz.</p>
+          <Sifaris/>
           </div>
         )}
 

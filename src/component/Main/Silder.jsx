@@ -17,16 +17,16 @@ function Silder() {
       autoplay={{ delay: 4000, disableOnInteraction: false }} // ✅ Avtomatik keçid (4 saniyə)
       loop={true} // ✅ Sonsuz dövr (loop)
       modules={[Pagination, Autoplay]}
-      className="mySwiper rounded-lg w-full max-w-screen-xl mx-auto"
+      className="mySwiper w-full mx-auto"
     >
       {/* ✅ 1-ci Banner Slayd */}
-      <SwiperSlide className="w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[600px] rounded-lg overflow-hidden">
-        <img src={silder} alt="Banner 1" className="w-full h-full object-cover rounded-lg" />
+      <SwiperSlide className="w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[600px]  overflow-hidden">
+        <img src={silder} alt="Banner 1" className="w-full h-full object-cover " />
       </SwiperSlide>
 
       {/* ✅ 2-ci Banner Slayd */}
-      <SwiperSlide className="w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[600px] rounded-lg overflow-hidden">
-        <img src={silder} alt="Banner 2" className="w-full h-full object-cover rounded-lg" />
+      <SwiperSlide className="w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[600px]  overflow-hidden">
+        <img src={silder} alt="Banner 2" className="w-full h-full object-cover " />
       </SwiperSlide>
     </Swiper>
   );

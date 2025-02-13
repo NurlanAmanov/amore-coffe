@@ -7,15 +7,7 @@ import BasketContext from './Context/BasketContext.jsx'
 import { ContactProvider } from './Context/ContactContext.jsx'
 import { UserAuthProvider } from './Context/AuthRegstr.jsx'
 import { CustomAuthProvider } from './Context/Authlogin.jsx'
-
-
-
-
-
-
-
-
-
+import CabinetDatam from './Context/CabinetContext.jsx'
 
 createRoot(document.getElementById('root')).render(
     <Datacontext>
@@ -24,8 +16,9 @@ createRoot(document.getElementById('root')).render(
                 <ContactProvider>
                     <UserAuthProvider>
                         <CustomAuthProvider>
-
-                        <App />
+                            <CabinetDatam>
+                                <App />
+                            </CabinetDatam>
                         </CustomAuthProvider>
                     </UserAuthProvider>
                 </ContactProvider>

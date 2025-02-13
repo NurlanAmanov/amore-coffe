@@ -8,8 +8,8 @@ function Homepage() {
   return (
 <>
 <div className='bg-[#EFE6DD] '>
-<section className="hero overflow-hidden  w-full mx-auto px-3 py-4 rounded-2xl">
-<div className="silder-content rounded-lg z-40  pb-5 pt-[140px] ">
+<section className="hero overflow-hidden  w-full mx-auto  py-4 ">
+<div className="silder-content rounded-lg z-40  pb-5 pt-[60px] ">
 <Silder className="" />
 </div>
 </section>

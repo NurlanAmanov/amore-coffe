@@ -38,15 +38,7 @@ header{
   /* 📱 Orta ölçülü cihazlar (tablet) */
   @media (min-width: 768px) {
     .swiper {
-      height: 500px;
+      height: 100%;
     }
-  }
-  
-  /* 🖥 Böyük ekranlar (desktop) */
-  @media (min-width: 1024px) {
-
-  }
-  .clip-polygon {
-    clip-path: polygon(50% 100%, 100% 75%, 100% 0%, 0% 0%, 0% 75%);
   }
   

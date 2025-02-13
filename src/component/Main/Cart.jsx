@@ -57,7 +57,7 @@ function Cart({ opensebet, setOpensebet }) {
                         </div>
                         <div className="flex flex-col">
                           <h3 className="text-base font-bold text-gray-800">{item.title}</h3>
-                          <p className="text-xs font-semibold text-gray-500">{item.about}</p>
+                        
                           <p className="text-xs font-semibold text-gray-500">Miqdar: {item.quantity}</p>
                         </div>
                       </div>
