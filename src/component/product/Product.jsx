@@ -39,13 +39,13 @@ function ProductCard({ item, bassketadd, navigate }) {
   const finalPrice = (item.discount > 0 ? item.finalPrice : item.price) * count;
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-sm w-full">
-      <div className="relative">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden w-full xl:w-[280px] p-4">
+      {/* Məhsul şəkli */}
+      <div className="relative cursor-pointer" onClick={() => navigate(`/product/${item.id}`)}>
         <img
           src={`http://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
           alt={item.title}
-          className="w-full h-64 object-cover hover:scale-[1.1] duration-300 ease cursor-pointer"
-          onClick={() => navigate(`/product/${item.id}`)} // ✅ Klik ediləndə yönləndir
+          className="w-full h-52 object-cover hover:scale-105 duration-300 ease rounded-lg"
         />
         {item.discount > 0 && (
           <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
@@ -53,72 +53,78 @@ function ProductCard({ item, bassketadd, navigate }) {
           </span>
         )}
       </div>
-      <div className="p-4">
-        <h2 className="text-xl font-semibold text-gray-800 mb-1">{item.title}</h2>
+
+      {/* Məhsul məlumatları */}
+      <div className="mt-4">
+        <h2 className="text-lg font-semibold text-gray-900">{item.title}</h2>
         <p className="text-sm text-gray-600">{item.categoryName}</p>
-        <div className="flex items-center py-2">
+
+        <div className="flex items-center gap-2 mt-2">
           {item.discount > 0 ? (
             <>
-              <span className="text-lg font-bold text-sm text-gray-500 line-through">
-                {item.price} ₼
-              </span>
-              <span className="text-lg font-bold text-green-600 ml-2">
-                {finalPrice} ₼
-              </span>
+              <span className="text-gray-500 text-sm line-through">{item.price} ₼</span>
+              <span className="text-green-600 text-lg font-bold">{finalPrice} ₼</span>
             </>
           ) : (
             <span className="text-lg font-bold text-gray-900">{finalPrice} ₼</span>
           )}
         </div>
-        <div className="flex space-x-2">
-        <button
-            onClick={() => {
-              for (let i = 0; i < count; i++) {
-                bassketadd(
-                  item.title,
-                  item.about,
-                  item.id,
-                  `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`, // ✅ Düzgün URL göndərildi
-                  item.desciption,
-                  item.price,
-                  item.discount,
-                  item.finalPrice
-                );
-              }
-            }}
-            className="flex-1 bg-blue-500 text-white py-2 px-4 rounded-full font-semibold hover:bg-blue-600 transition-colors duration-200"
+
+        {/* Say seçimi */}
+        <div className="flex items-center justify-between bg-gray-100 px-3 py-2 rounded-lg mt-4">
+          <button
+            className="text-gray-700 text-lg font-bold"
+            onClick={() => setCount(count > 1 ? count - 1 : 1)}
           >
-            Səbətə at
+            -
           </button>
-
-          {/* <button
-           onClick={() => {
-            console.log("Göndərilən ID:", item.id); // ✅ Konsolda yoxla
-            navigate(`/product/${item.id}`);
-          }}// ✅ "Baxış" düyməsinə klik ediləndə yönləndir
-            className="bg-gray-200 text-gray-800 py-2 px-4 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200"
+          <span className="text-lg font-semibold">{count}</span>
+          <button
+            className="text-gray-700 text-lg font-bold"
+            onClick={() => setCount(count + 1)}
           >
-            Baxış
-          </button> */}
+            +
+          </button>
+        </div>
 
-<button
+        {/* Düymələr */}
+        <div className="flex flex-col gap-3 mt-4">
+        <button
+  onClick={() => {
+    bassketadd(
+      item.title,
+      item.about,
+      item.id,
+      `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`,
+      item.description,
+      item.price,
+      item.discount,
+      item.finalPrice,
+      count // ✅ Burada seçilmiş say göndərilir
+    );
+  }}
+  className="bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition duration-200"
+>
+  {count} ədəd Səbətə at
+</button>
+
+
+          <button
             onClick={() => {
-              for (let i = 0; i < count; i++) {
-                bassketadd(
-                  item.title,
-                  item.about,
-                  item.id,
-                  `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`, // ✅ Düzgün URL göndərildi
-                  item.desciption,
-                  item.price,
-                  item.discount,
-                  item.finalPrice
-                );
-              }
+              bassketadd(
+                item.title,
+                item.about,
+                item.id,
+                `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`,
+                item.description,
+                item.price,
+                item.discount,
+                item.finalPrice
+              );
             }}
-            className="flex-1 bg-blue-500 text-white py-2 px-4 rounded-full font-semibold hover:bg-blue-600 transition-colors duration-200"
+            className="bg-gray-200 text-gray-800 py-2 rounded-lg font-semibold hover:bg-gray-300 transition duration-200"
           >
-            Sevimlilərə at
+            Sevimlilərə əlavə et
           </button>
         </div>
       </div>

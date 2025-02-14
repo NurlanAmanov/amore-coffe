@@ -12,25 +12,32 @@ function BasketContext({ children }) {
     return storedSebet ? storedSebet : [];
   });
 
-  // **Məhsul səbətə əlavə edildikdə cookiedə saxla**
-  function bassketadd(title, about, id, imgUrl, desciption, price,discount,finalPrice) {
-    const newSebet = [...sebet, { title, about, id, imgUrl, desciption, price, }];
+  // **Məhsul səbətə əlavə ediləndə cookiedə saxla**
+  function bassketadd(title, about, id, imgUrl, description, price, discount, finalPrice, count) {
+    setSebet((prevSebet) => {
+      let newSebet = [...prevSebet];
 
-    setSebet(newSebet);
-    
+      // Məhsul varsa, sayını artır
+      const existingProductIndex = newSebet.findIndex((item) => item.id === id);
+      if (existingProductIndex !== -1) {
+        newSebet[existingProductIndex] = {
+          ...newSebet[existingProductIndex],
+          count: newSebet[existingProductIndex].count + count, // ✅ Say artır
+        };
+      } else {
+        // Yeni məhsulu əlavə et
+        newSebet.push({ title, about, id, imgUrl, description, price, discount, finalPrice, count });
+      }
 
-    cook.set("sebet", newSebet, {
-      path: "/",
-      expires: new Date(Date.now() + 86400 * 1000), 
+      // **Yenilənmiş səbəti cookiedə saxla**
+      cook.set("sebet", newSebet, {
+        path: "/",
+        expires: new Date(Date.now() + 86400 * 1000),
+      });
+
+      return newSebet;
     });
-
-
   }
-
-  
-  useEffect(() => {
- 
-  }, []);
 
   return (
     <BASKET.Provider value={{ sebet, bassketadd }}>

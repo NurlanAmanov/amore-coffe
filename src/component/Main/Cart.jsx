@@ -9,16 +9,16 @@ function Cart({ opensebet, setOpensebet }) {
   const groupedBasket = sebet.reduce((acc, item) => {
     const existingItem = acc.find((i) => i.id === item.id);
     if (existingItem) {
-      existingItem.quantity += 1;
+      existingItem.count += item.count; // ✅ Say artır
     } else {
-      acc.push({ ...item, quantity: 1 });
+      acc.push({ ...item });
     }
     return acc;
   }, []);
 
   // ✅ Toplam məbləği hesablayırıq
   const totalPrice = groupedBasket.reduce(
-    (total, item) => total + item.quantity * (item.discount > 0 ? item.finalPrice : item.price),
+    (total, item) => total + item.count * (item.discount > 0 ? item.finalPrice : item.price),
     0
   );
 
@@ -57,15 +57,14 @@ function Cart({ opensebet, setOpensebet }) {
                         </div>
                         <div className="flex flex-col">
                           <h3 className="text-base font-bold text-gray-800">{item.title}</h3>
-                        
-                          <p className="text-xs font-semibold text-gray-500">Miqdar: {item.quantity}</p>
+                          <p className="text-xs font-semibold text-gray-500">Miqdar: {item.count}</p>
                         </div>
                       </div>
                       <div className="ml-auto flex flex-col items-end">
                         <h4 className="text-base font-bold text-gray-800">
                           {item.discount > 0 ? item.finalPrice : item.price} ₼
                         </h4>
-                        <p className="text-xs text-gray-500">({item.quantity} ədəd)</p>
+                        <p className="text-xs text-gray-500">({item.count} ədəd)</p>
                       </div>
                     </div>
                   </div>
@@ -83,11 +82,10 @@ function Cart({ opensebet, setOpensebet }) {
                 </li>
               </ul>
               <Link to={"/Check"} onClick={() => setOpensebet(false)}>
-  <button className="mt-6 text-sm font-semibold px-4 py-2.5 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md tracking-wide">
-    Ödəniş səhifəsinə keç
-  </button>
-</Link>
-
+                <button className="mt-6 text-sm font-semibold px-4 py-2.5 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md tracking-wide">
+                  Ödəniş səhifəsinə keç
+                </button>
+              </Link>
             </div>
           </div>
         </div>

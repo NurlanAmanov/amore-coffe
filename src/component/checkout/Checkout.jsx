@@ -22,18 +22,20 @@ function Checkout() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // **Düzgün səbət qruplaşdırma (count əsasən)**
   const groupedBasket = sebet.reduce((acc, item) => {
     const existingItem = acc.find((i) => i.id === item.id);
     if (existingItem) {
-      existingItem.quantity += 1;
+      existingItem.count += item.count; // ✅ Say artır
     } else {
-      acc.push({ ...item, quantity: 1 });
+      acc.push({ ...item });
     }
     return acc;
   }, []);
 
+  // **Toplam məbləği hesablayırıq**
   const totalPrice = groupedBasket.reduce(
-    (total, item) => total + item.quantity * (item.discount > 0 ? item.finalPrice : item.price),
+    (total, item) => total + item.count * (item.discount > 0 ? item.finalPrice : item.price),
     0
   );
 
@@ -42,30 +44,31 @@ function Checkout() {
     e.preventDefault();
 
     try {
-      // **1️⃣ Göndərmə məlumatlarını backend-ə göndəririk**
+      const token = "sənin-tokenin"; // 🚨 Burada token əlavə et
+
+      // **Göndərmə məlumatlarını backend-ə göndəririk**
       const shippingResponse = await fetch("https://finalprojectt-001-site1.jtempurl.com/api/ShippingInfo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`  // Token əlavə olunur
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
           Name: formData.name,
           Surname: formData.surname,
           Email: formData.email,
           City: formData.city,
-          StreetAdress: formData.streetAddress,
+          StreetAddress: formData.streetAddress,
           Apartment: formData.apartment,
         }),
       });
-      
 
-      const shippingResult = await shippingResponse.json();
       if (!shippingResponse.ok) throw new Error("Göndərmə məlumatları uğursuz oldu");
 
+      const shippingResult = await shippingResponse.json();
       console.log("📦 Göndərmə məlumatları uğurla göndərildi:", shippingResult);
 
-      // **2️⃣ Ödəniş məlumatlarını backend-ə göndəririk**
+      // **Ödəniş məlumatlarını backend-ə göndəririk**
       const paymentResponse = await fetch("https://finalprojectt-001-site1.jtempurl.com/api/Checkout/process-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,13 +80,12 @@ function Checkout() {
           CardNumber: formData.cardNumber,
           EXP: formData.exp,
           CVV: formData.cvv,
-          PaymentToken: "random-token", // Əgər lazımdırsa
         }),
       });
 
-      const paymentResult = await paymentResponse.json();
       if (!paymentResponse.ok) throw new Error("Ödəniş uğursuz oldu");
 
+      const paymentResult = await paymentResponse.json();
       console.log("💳 Ödəniş uğurla icra olundu:", paymentResult);
       alert("Sifariş uğurla tamamlandı!");
 
@@ -101,19 +103,20 @@ function Checkout() {
             <form onSubmit={handleSubmit} className="lg:mt-16">
               <h2 className="text-xl font-bold text-gray-800">Göndərmə məlumatı</h2>
               <div className="grid sm:grid-cols-2 gap-8 mt-8">
-                <input type="text" name="name" placeholder="Name" onChange={handleChange} className="input" />
-                <input type="email" name="email" placeholder="Email address" onChange={handleChange} className="input" />
-                <input type="text" name="streetAddress" placeholder="Street address" onChange={handleChange} className="input" />
-                <input type="text" name="city" placeholder="City" onChange={handleChange} className="input" />
-                <input type="text" name="apartment" placeholder="Apartment" onChange={handleChange} className="input" />
+                <input type="text" name="name" placeholder="Ad" onChange={handleChange} className="input" />
+                <input type="text" name="surname" placeholder="Soyad" onChange={handleChange} className="input" />
+                <input type="email" name="email" placeholder="Email ünvanı" onChange={handleChange} className="input" />
+                <input type="text" name="streetAddress" placeholder="Ünvan" onChange={handleChange} className="input" />
+                <input type="text" name="city" placeholder="Şəhər" onChange={handleChange} className="input" />
+                <input type="text" name="apartment" placeholder="Mənzil" onChange={handleChange} className="input" />
               </div>
 
               <h2 className="text-xl font-bold text-gray-800 mt-10">Ödəniş məlumatı</h2>
               <div className="grid gap-8 mt-8">
-                <input type="text" name="cardholderName" placeholder="Cardholder's Name" onChange={handleChange} className="input" />
-                <input type="number" name="cardNumber" placeholder="Card Number" onChange={handleChange} className="input" />
+                <input type="text" name="cardholderName" placeholder="Kart sahibinin adı" onChange={handleChange} className="input" />
+                <input type="number" name="cardNumber" placeholder="Kart nömrəsi" onChange={handleChange} className="input" />
                 <div className="grid grid-cols-2 gap-6">
-                  <input type="text" name="exp" placeholder="EXP." onChange={handleChange} className="input" />
+                  <input type="text" name="exp" placeholder="Bitmə tarixi (MM/YY)" onChange={handleChange} className="input" />
                   <input type="text" name="cvv" placeholder="CVV" onChange={handleChange} className="input" />
                 </div>
               </div>
@@ -139,11 +142,9 @@ function Checkout() {
                       </div>
                       <div className="w-full">
                         <h3 className="text-sm text-gray-800 font-bold">{item.title}</h3>
-                        <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                          <li className="flex flex-wrap gap-4">Miqdar <span className="ml-auto">{item.quantity}</span></li>
-                          <li className="flex flex-wrap gap-4">Qiymət <span className="ml-auto">{item.price} ₼</span></li>
-                          <li className="flex flex-wrap gap-4">Toplam <span className="ml-auto">{(item.quantity * item.price).toFixed(2)} ₼</span></li>
-                        </ul>
+                        <p className="text-xs text-gray-500">Miqdar: {item.count}</p>
+                        <p className="text-xs text-gray-500">Qiymət: {item.price} ₼</p>
+                        <p className="text-xs text-gray-500">Toplam: {(item.count * item.price).toFixed(2)} ₼</p>
                       </div>
                     </div>
                   ))
