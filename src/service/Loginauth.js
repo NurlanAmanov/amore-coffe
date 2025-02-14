@@ -22,7 +22,7 @@ apiClient.interceptors.request.use((config) => {
 // Login funksiyası
 export const loginUser = async (formData) => {
     try {
-        console.log("📤 Göndərilən məlumatlar:", formData);
+      
 
         // FormData obyekti yaradılır
         const formDataToSend = new FormData();
@@ -38,15 +38,13 @@ export const loginUser = async (formData) => {
             },
         });
         
-        console.log("✅ Login cavabı:", response.data);
+     
         return response.data;
     } catch (error) {
-        // Xətanı düzgün loglayaq
-        console.error("❌ Login xətası:");
-        console.error("Status kodu:", error.response?.status);
-        console.error("Error mesaji:", error.response?.data);
+       
+   
         
-        // Əgər xətanı əldə edə bilmədiksə, daha geniş bir səhv mesajı yazdıraq
+      
         throw error.response?.data || "Giriş zamanı xəta baş verdi!";
     }
 };
@@ -54,7 +52,7 @@ export const loginUser = async (formData) => {
 // Çıxış funksiyası
 export const logoutUser = () => {
     localStorage.removeItem("token");
-    console.log("🚪 Çıxış edildi, token silindi.");
+ 
     window.location.reload(); // Çıxışdan sonra səhifəni yeniləyirik
 };
 

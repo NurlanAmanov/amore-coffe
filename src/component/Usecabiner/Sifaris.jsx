@@ -10,7 +10,7 @@ function Sifaris() {
           <tr>
             <th className="pl-4 w-8">
               <input id="checkbox" type="checkbox" className="hidden peer" />
-              <label htmlFor="checkbox"
+              <label htmlhtmlFor="checkbox"
                 className="relative flex items-center justify-center p-0.5 peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-4 h-4 cursor-pointer bg-blue-500 border border-gray-400 rounded overflow-hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-full fill-white" viewBox="0 0 520 520">
                   <path
@@ -19,19 +19,19 @@ function Sifaris() {
                 </svg>
               </label>
             </th>
-            <th className="p-4 text-left text-sm font-semibold text-white">
+            <th className="p-4 text-left text-sm font-semibold text-black">
               Məhsullar
             </th>
-            <th className="p-4 text-left text-sm font-semibold text-white">
+            <th className="p-4 text-left text-sm font-semibold text-black">
               Qiymət
             </th>
-            <th className="p-4 text-left text-sm font-semibold text-white">
+            <th className="p-4 text-left text-sm font-semibold text-black">
             Miqdar
             </th>
-            <th className="p-4 text-left text-sm font-semibold text-white">
+            <th className="p-4 text-left text-sm font-semibold text-black">
             
             </th>
-            <th className="p-4 text-left text-sm font-semibold text-white">
+            <th className="p-4 text-left text-sm font-semibold text-black">
               Rating
             </th>
            
@@ -44,7 +44,7 @@ function Sifaris() {
         <tr key={i}>
         <td  className="pl-4 w-8">
           <input id="checkbox1" type="checkbox" className="hidden peer" />
-          <label htmlFor="checkbox1"
+          <label htmlhtmlFor="checkbox1"
             className="relative flex items-center justify-center p-0.5 peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-4 h-4 cursor-pointer bg-blue-500 border border-gray-400 rounded overflow-hidden">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-full fill-white" viewBox="0 0 520 520">
               <path
@@ -57,7 +57,7 @@ function Sifaris() {
           <div className="flex items-center cursor-pointer">
             <img src='https://readymadeui.com/product_img_1.webp' className="w-10 h-10 p-1.5 shrink-0 bg-gray-100" />
             <div className="mx-4">
-              <p className="text-sm text-white">{item.title}</p>
+              <p className="text-sm text-black">{item.title}</p>
             </div>
           </div>
         </td>
@@ -106,11 +106,11 @@ function Sifaris() {
       </table>
 
       <div className="md:flex m-4">
-        <p className="text-sm text-white flex-1">Showind 1 to 5 of 100 entries</p>
+        <p className="text-sm text-black flex-1">Showind 1 to 5 of 100 entries</p>
         <div className="flex items-center max-md:mt-4">
-          <p className="text-sm text-white">Display</p>
+          <p className="text-sm text-black">Display</p>
 
-          <select className="text-sm text-white border border-gray-400 rounded h-8 px-1 mx-4 outline-none">
+          <select className="text-sm text-black border border-gray-400 rounded h-8 px-1 mx-4 outline-none">
             <option>5</option>
             <option>10</option>
             <option>20</option>

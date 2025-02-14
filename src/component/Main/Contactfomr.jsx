@@ -24,7 +24,7 @@ function ContactForm() {
     return (
         <form onSubmit={handleSubmit} className="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-full lg:px-6">
             <div className="mb-3 w-full">
-                <label className="block font-medium mb-[2px] text-teal-700" htmlFor="name">
+                <label className="block font-medium mb-[2px] text-teal-700" htmlhtmlFor="name">
                     Ad:
                 </label>
                 <input
@@ -40,7 +40,7 @@ function ContactForm() {
             </div>
 
             <div className="mb-3 w-full">
-                <label className="block font-medium mb-[2px] text-teal-700" htmlFor="email">
+                <label className="block font-medium mb-[2px] text-teal-700" htmlhtmlFor="email">
                     Email:
                 </label>
                 <input
@@ -56,7 +56,7 @@ function ContactForm() {
             </div>
 
             <div className="mb-3 w-full">
-                <label className="block font-medium mb-[2px] text-teal-700" htmlFor="message">
+                <label className="block font-medium mb-[2px] text-teal-700" htmlhtmlFor="message">
                     Mesaj:
                 </label>
                 <textarea

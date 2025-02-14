@@ -78,7 +78,7 @@ const CoffeeSuggestion = () => {
    <div className="selecet-list flex items-center justify-center gap-4 xl:flex-row 2xl:flex-row flex-col lg:flex-row md:flex-row">
    <div className="mb-8">
       <label
-        htmlFor="zodiac"
+        htmlhtmlFor="zodiac"
         className="block text-lg font-medium text-white mb-3"
       >
         🔮 Burcunuzu seçin:
@@ -100,7 +100,7 @@ const CoffeeSuggestion = () => {
   
     <div className="mb-8">
       <label
-        htmlFor="gender"
+        htmlhtmlFor="gender"
         className="block text-lg font-medium text-white mb-3"
       >
         🚻 Cinsinizi seçin:
