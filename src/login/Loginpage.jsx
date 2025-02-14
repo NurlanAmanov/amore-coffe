@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdClose } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/Authlogin";
 
 function LoginPage({ toggleProfile }) {
-  const { login } = useAuth(); // 🔥 Context-dən login funksiyasını götürürük
+  const { login, user } = useAuth();
   const [formData, setFormData] = useState({
     UserNameOrEmail: "",
     Password: "",
   });
-
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // İstifadəçi artıq daxil olubsa, onları dashboard səhifəsinə yönləndiririk.
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,16 +27,16 @@ function LoginPage({ toggleProfile }) {
     e.preventDefault();
     try {
         console.log("📤 Göndərilən məlumatlar:", formData);
-        
+
+        // Backend login çağırışı
         const response = await login(formData);
 
-        console.log("✅ Backend cavabı:", response); // Backend-in qaytardığı JSON-u yoxla
-
         if (response && response.token) {
-            console.log("🔑 Token alındı:", response.token);
+            console.log("✅ Token alındı:", response.token);
+            navigate("/dashboard"); // İstifadəçi daxil olduqda yönləndir
         } else {
             console.error("❌ Token qaytarılmadı!");
-            setError("Giriş zamanı xəta baş verdi! Yanlış e-mail və ya şifrə.");
+            setError("Yanlış e-mail və ya şifrə.");
         }
     } catch (err) {
         console.error("❌ Giriş xətası:", err);

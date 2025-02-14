@@ -10,6 +10,12 @@ async function GetProduct() {
     const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Product");
     return res.data;
 }
+async function GetProductById(id) {
+
+        const res = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Product/${id}`);
+        return res.data; // ✅ ID-yə görə məhsulu qaytarır
+  
+}
 
 async function Getbanner() {
     const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/HeadBanners")
@@ -45,4 +51,4 @@ async function GetLocation() {
 
 
 
-export { GetData, GetProduct, Getbanner,GetSocialMedia,GetLogo,Getslogan,Getsilder,GetLocation }
+export { GetData, GetProduct, Getbanner,GetSocialMedia,GetLogo,Getslogan,Getsilder,GetLocation,GetProductById }

@@ -9,6 +9,9 @@ import Allcategory from './component/All-category/Allcategory'
 import Checkout from './component/checkout/Checkout'
 import Registr from './login/Registr'
 import Cabinet from './component/Usecabiner/Cabinet'
+import ProductPage from './component/Main/ProductPage'
+
+
 
 
 function App() {
@@ -28,7 +31,7 @@ function App() {
     <Route path="about" element={<Haqqimizda />} />
     <Route path="qeydiyyat" element={<Registr />} />
     <Route path="Cabinet" element={<Cabinet />} />
-
+    <Route path="/product/:id" element={<ProductPage />} /> {/* 🔥 Bu route məhsul səhifəsini göstərir */}
     <Route path="Check" element={<Checkout />} />
   </Route>
 </Routes>
