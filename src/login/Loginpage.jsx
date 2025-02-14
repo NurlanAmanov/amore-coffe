@@ -15,7 +15,7 @@ function LoginPage({ toggleProfile }) {
   useEffect(() => {
     // İstifadəçi artıq daxil olubsa, onları dashboard səhifəsinə yönləndiririk.
     if (user) {
-      navigate("/cabinet");
+      navigate("/");
     }
   }, [user, navigate]);
 
@@ -33,7 +33,7 @@ function LoginPage({ toggleProfile }) {
 
         if (response && response.token) {
             console.log("✅ Token alındı:", response.token);
-            navigate("/dashboard"); // İstifadəçi daxil olduqda yönləndir
+            navigate("/"); // İstifadəçi daxil olduqda yönləndir
         } else {
             console.error("❌ Token qaytarılmadı!");
             setError("Yanlış e-mail və ya şifrə.");

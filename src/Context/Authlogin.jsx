@@ -28,7 +28,7 @@ export const CustomAuthProvider = ({ children }) => {  // ✅ Yeni ad: CustomAut
                 localStorage.setItem("token", data);
                 setUser({ token: data });
               
-                navigate("/cabinet");
+                navigate("/");
             } else {
                 throw new Error("Token qayt-arılmadı!");
             }

@@ -3,27 +3,31 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/Authlogin";
 import Sifaris from "./Sifaris";
 import Acountinfo from "./Accountsettings";
-
-// Bölmə komponentləri
-// import Favorites from "./Favorites";
+// import Acountinfo from "./Accountsettings";
 // import PromoCodes from "./PromoCodes";
+// import Favorites from "./Favorites";
 // import Notifications from "./Notifications";
-
 
 function Cabinet() {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("hesab"); // Default: "Hesabım"
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // ✅ Mobil menyunu idarə edir
 
   const handleLogout = () => {
     logout();
     navigate("/");
   };
 
-  // Seçim düyməsinə basanda hansı komponentin göstərilməsini müəyyən edirik
+  // ✅ Seçim edəndə menyunu bağlayırıq (mobil üçün)
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setIsMenuOpen(false); // ✅ Mobil menyunu bağla
+  };
+
+  // ✅ Seçim düyməsinə basanda hansı komponentin göstərilməsini müəyyən edirik
   const renderComponent = () => {
     switch (activeTab) {
-    
       case "sifarishler":
         return <Sifaris />;
       case "promokodlar":
@@ -41,26 +45,43 @@ function Cabinet() {
     <div className="mx-4 py-[130px] min-h-screen max-w-screen-xl sm:mx-8 xl:mx-auto">
       <h1 className="border-b py-6 text-4xl font-semibold">Şəxsi kabinet</h1>
       <div className="grid grid-cols-8 pt-3 sm:grid-cols-10">
-        {/* Mobil üçün seçim menyusu */}
+
+        {/* ✅ Mobil üçün açılıb bağlanan menyu */}
         <div className="relative my-4 w-56 sm:hidden">
-          <input className="peer hidden" type="checkbox" name="select-1" id="select-1" />
-          <label htmlhtmlFor="select-1" className="flex w-full cursor-pointer select-none rounded-lg border p-2 px-3 text-sm text-gray-700 ring-blue-700 peer-checked:ring">
-            Accounts
-          </label>
-          <svg xmlns="http://www.w3.org/2000/svg" className="pointer-events-none absolute right-0 top-3 ml-auto mr-5 h-4 text-slate-700 transition peer-checked:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
-          <ul className="max-h-0 select-none flex-col overflow-hidden rounded-b-lg shadow-md transition-all duration-300 peer-checked:max-h-56 peer-checked:py-3">
-            <li onClick={() => setActiveTab("hesabim")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Hesabım</li>
-            <li onClick={() => setActiveTab("sifarishler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Sifarişlərim</li>
-            <li onClick={() => setActiveTab("promokodlar")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Promokodlarım</li>
-            <li onClick={() => setActiveTab("sevimliler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Sevimlilər</li>
-            <li onClick={() => setActiveTab("bildirishler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Bildirişlər</li>
-            <li onClick={handleLogout} className="cursor-pointer px-3 py-2 text-sm text-red-600 hover:bg-red-700 hover:text-white">Çıxış</li>
-          </ul>
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)} 
+            className="flex w-full cursor-pointer rounded-lg border p-2 px-3 text-sm text-gray-700 ring-blue-700">
+            Bölmələr seçin
+            <svg xmlns="http://www.w3.org/2000/svg" className={`ml-auto h-4 transition-transform ${isMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {isMenuOpen && (
+            <ul className="absolute w-full bg-white shadow-md rounded-lg mt-2 z-10">
+              <li onClick={() => handleTabChange("hesab")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
+                Hesabım
+              </li>
+              <li onClick={() => handleTabChange("sifarishler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
+                Sifarişlərim
+              </li>
+              <li onClick={() => handleTabChange("promokodlar")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
+                Promokodlarım
+              </li>
+              <li onClick={() => handleTabChange("sevimliler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
+                Sevimlilər
+              </li>
+              <li onClick={() => handleTabChange("bildirishler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
+                Bildirişlər
+              </li>
+              <li onClick={handleLogout} className="cursor-pointer px-3 py-2 text-sm text-red-600 hover:bg-red-700 hover:text-white">
+                Çıxış
+              </li>
+            </ul>
+          )}
         </div>
 
-        {/* Desktop üçün menyu */}
+        {/* ✅ Desktop üçün menyu */}
         <div className="col-span-2 hidden sm:block">
           <ul>
             <li onClick={() => setActiveTab("hesab")} className={`mt-5 cursor-pointer border-l-2 px-2 py-2 font-semibold transition ${activeTab === "hesab" ? "border-l-blue-700 text-blue-700" : "border-transparent hover:border-l-blue-700 hover:text-blue-700"}`}>
@@ -84,9 +105,8 @@ function Cabinet() {
           </ul>
         </div>
 
-        {/* Dinamik komponentlər burada göstərilir */}
+        {/* ✅ Dinamik komponentlər burada göstərilir */}
         <div className="col-span-8 overflow-hidden rounded-xl sm:bg-gray-50 sm:px-8 sm:shadow">
-     
           {renderComponent()}
         </div>
       </div>
