@@ -58,16 +58,18 @@ function ProductCard({ item, bassketadd, navigate }) {
       <div className="mt-4">
         <h2 className="text-lg font-semibold text-gray-900">{item.title}</h2>
         <p className="text-sm text-gray-600">{item.categoryName}</p>
+        <p className="text-sm text-gray-600">{item.description}</p>
 
         <div className="flex items-center gap-2 mt-2">
-          {item.discount > 0 ? (
-            <>
-              <span className="text-gray-500 text-sm line-through">{item.price} ₼</span>
-              <span className="text-green-600 text-lg font-bold">{finalPrice} ₼</span>
-            </>
-          ) : (
-            <span className="text-lg font-bold text-gray-900">{finalPrice} ₼</span>
-          )}
+        {item.discount > 0 ? (
+  <>
+    <span className="text-gray-500 text-sm line-through">{item.price.toFixed(2)} ₼</span>
+    <span className="text-green-600 text-lg font-bold">{finalPrice.toFixed(2)} ₼</span>
+  </>
+) : (
+  <span className="text-lg font-bold text-gray-900">{finalPrice.toFixed(2)} ₼</span>
+)}
+
         </div>
 
         {/* Say seçimi */}
