@@ -19,34 +19,37 @@ apiClient.interceptors.request.use((config) => {
     return config;
 });
 
+// Login funksiyası
 export const loginUser = async (formData) => {
     try {
         console.log("📤 Göndərilən məlumatlar:", formData);
 
+        // FormData obyekti yaradılır
         const formDataToSend = new FormData();
         formDataToSend.append("UserNameOrEmail", formData.UserNameOrEmail);
         formDataToSend.append("Password", formData.Password);
 
         console.log("📦 Göndərilən FormData:", Object.fromEntries(formDataToSend.entries()));
 
-        // API sorğusu
+        // API-yə POST sorğusu göndəririk
         const response = await apiClient.post('/Auth/Login', formDataToSend, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
-            responseType: "text", // 🔥 JSON yox, düz mətn kimi oxu
         });
-
-        console.log("✅ Login uğurludur (text formatında cavab):", response.data);
-
-        return response.data; // JSON çevirmirik
+        
+        console.log("✅ Login cavabı:", response.data);
+        return response.data;
     } catch (error) {
-        console.error("❌ Login xətası:", error.response?.data);
+        // Xətanı düzgün loglayaq
+        console.error("❌ Login xətası:");
+        console.error("Status kodu:", error.response?.status);
+        console.error("Error mesaji:", error.response?.data);
+        
+        // Əgər xətanı əldə edə bilmədiksə, daha geniş bir səhv mesajı yazdıraq
         throw error.response?.data || "Giriş zamanı xəta baş verdi!";
     }
 };
-
-
 
 // Çıxış funksiyası
 export const logoutUser = () => {

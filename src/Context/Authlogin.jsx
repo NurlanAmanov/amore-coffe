@@ -25,13 +25,13 @@ export const CustomAuthProvider = ({ children }) => {  // ✅ Yeni ad: CustomAut
             
             const data = await loginUser(formData);
     
-            if (data.token) {
-                localStorage.setItem("token", data.token);
-                setUser({ token: data.token });
-                console.log("🔑 Token yadda saxlandı:", data.token);
-                navigate("/dashboard");
+            if (data) {
+                localStorage.setItem("token", data);
+                setUser({ token: data });
+                console.log("🔑 Token yadda saxlandı:", data);
+                navigate("/cabinet");
             } else {
-                throw new Error("Token qaytarılmadı!");
+                throw new Error("Token qayt-arılmadı!");
             }
         } catch (error) {
             console.error("❌ Giriş zamanı xəta:", error.response?.data || "Bilinməyən xəta!");
@@ -40,11 +40,10 @@ export const CustomAuthProvider = ({ children }) => {  // ✅ Yeni ad: CustomAut
     };
     
     const logout = () => {
-        logoutUser();
-        localStorage.removeItem("token");
-        setUser(null);
+        localStorage.removeItem("token"); // Tokeni sil
+        setUser(null); // İstifadəçi məlumatını sıfırla
         console.log("🚪 Çıxış edildi.");
-        navigate("/login");
+        navigate("/"); // Ana səhifəyə yönləndir
     };
 
     return (

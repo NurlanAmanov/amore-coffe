@@ -13,7 +13,6 @@ import ProductPage from './component/Main/ProductPage'
 
 
 
-
 function App() {
   const { pathname } = useLocation()
   useEffect(() => {
@@ -31,7 +30,7 @@ function App() {
     <Route path="about" element={<Haqqimizda />} />
     <Route path="qeydiyyat" element={<Registr />} />
     <Route path="Cabinet" element={<Cabinet />} />
-    <Route path="/product/:id" element={<ProductPage />} /> {/* 🔥 Bu route məhsul səhifəsini göstərir */}
+    <Route path="/product/:id" element={<ProductPage />} />
     <Route path="Check" element={<Checkout />} />
   </Route>
 </Routes>

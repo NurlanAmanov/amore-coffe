@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { CABINETDATA } from '../../Context/CabinetContext';
 import Sifaris from './Sifaris';
+import Acountinfo from './Acountinfo';
 
 function Cabinet() {
   const [activeTab, setActiveTab] = useState('orders');
@@ -45,7 +46,7 @@ function Cabinet() {
         {activeTab === 'settings' && (
           <div className="bg-gray-500 text-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold">⚙️ Ayarlar</h3>
-            <p className="mt-2 text-white/80">Hesab ayarlarınızı burada idarə edə bilərsiniz.</p>
+            <Acountinfo/>
           </div>
         )}
       </div>

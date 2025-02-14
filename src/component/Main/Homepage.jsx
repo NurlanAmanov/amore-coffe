@@ -29,13 +29,13 @@ function Homepage() {
         {/* ✅ Düymələr */}
         <div className="mt-8 flex max-sm:flex-col sm:space-x-4 max-sm:space-y-6">
           <a
-            href="javascript:void(0);"
+            href="/;"
             className="px-6 py-3 text-base font-semibold text-white bg-[#7a461f] rounded-full hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-[#7a461f] focus:outline-none focus:ring-opacity-50"
           >
             Menyuya Bax
           </a>
           <a
-            href="javascript:void(0);"
+            href="/;"
             className="px-6 py-3 text-base font-semibold text-[#7a461f] border border-[#c69c6d] rounded-full hover:text-white hover:bg-[#7a461f] transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-[#7a461f] focus:outline-none focus:ring-opacity-50"
           >
             İndi Sifariş Et

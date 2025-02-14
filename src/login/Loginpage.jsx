@@ -15,7 +15,7 @@ function LoginPage({ toggleProfile }) {
   useEffect(() => {
     // İstifadəçi artıq daxil olubsa, onları dashboard səhifəsinə yönləndiririk.
     if (user) {
-      navigate("/dashboard");
+      navigate("/cabinet");
     }
   }, [user, navigate]);
 
