@@ -31,7 +31,7 @@ function Cabinet() {
         return <Sifaris />;
       case "promokodlar":
         return <PromoCodes />;
-      case "sevimliler":
+      case "sevimli":
         return <Sevimli/>;
       case "bildirishler":
         return <Notifications />;
@@ -92,7 +92,7 @@ function Cabinet() {
             <li onClick={() => setActiveTab("promokodlar")} className={`mt-5 cursor-pointer border-l-2 px-2 py-2 font-semibold transition ${activeTab === "promokodlar" ? "border-l-blue-700 text-blue-700" : "border-transparent hover:border-l-blue-700 hover:text-blue-700"}`}>
               Promokodlarım
             </li>
-            <li onClick={() => setActiveTab("sevimliler")} className={`mt-5 cursor-pointer border-l-2 px-2 py-2 font-semibold transition ${activeTab === "sevimliler" ? "border-l-blue-700 text-blue-700" : "border-transparent hover:border-l-blue-700 hover:text-blue-700"}`}>
+            <li onClick={() => setActiveTab("sevimli")} className={`mt-5 cursor-pointer border-l-2 px-2 py-2 font-semibold transition ${activeTab === "sevimliler" ? "border-l-blue-700 text-blue-700" : "border-transparent hover:border-l-blue-700 hover:text-blue-700"}`}>
               Sevimlilər
             </li>
             <li onClick={() => setActiveTab("bildirishler")} className={`mt-5 cursor-pointer border-l-2 px-2 py-2 font-semibold transition ${activeTab === "bildirishler" ? "border-l-blue-700 text-blue-700" : "border-transparent hover:border-l-blue-700 hover:text-blue-700"}`}>
