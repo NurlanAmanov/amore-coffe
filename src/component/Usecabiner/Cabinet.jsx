@@ -4,10 +4,7 @@ import { useAuth } from "../../Context/Authlogin";
 import Sifaris from "./Sifaris";
 import Acountinfo from "./Accountsettings";
 import Sevimliler from "./sevimliler";
-// import Acountinfo from "./Accountsettings";
-// import PromoCodes from "./PromoCodes";
-// import Favorites from "./Favorites";
-// import Notifications from "./Notifications";
+
 
 function Cabinet() {
   const { logout } = useAuth();
@@ -69,7 +66,7 @@ function Cabinet() {
               <li onClick={() => handleTabChange("promokodlar")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
                 Promokodlarım
               </li>
-              <li onClick={() => handleTabChange("sevimliler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
+              <li onClick={() => handleTabChange("Sevimliler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
                 Sevimlilər
               </li>
               <li onClick={() => handleTabChange("bildirishler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
