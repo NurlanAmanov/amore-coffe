@@ -30,7 +30,7 @@ function Product() {
           ))
         ) : (
           <p className="text-gray-500 text-lg font-semibold text-center col-span-full">
-            Bu kateqoriyada məhsul tapılmadı.
+            Bu kateqoriyada məhsul tapılmadı!.
           </p>
         )}
       </div>
