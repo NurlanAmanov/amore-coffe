@@ -49,7 +49,7 @@ function Header() {
                 </Link>
 
                 <nav className="hidden xl:flex items-center gap-6">
-                    <Link to="/cabinet" className="text-white text-base font-medium hover:text-gray-300 transition">Lokasiyalar</Link>
+                    <Link to="/" className="text-white text-base font-medium hover:text-gray-300 transition">Lokasiyalar</Link>
                     <Link to="/about" className="text-white text-base font-medium hover:text-gray-300 transition">Haqqımızda</Link>
                     <Link to="/teklif" className="text-white text-base font-medium hover:text-gray-300 transition">Bizə təklif göndər</Link>
                 </nav>
@@ -76,7 +76,7 @@ function Header() {
             <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end transition-opacity duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                 <div className={`bg-[#7a461f] w-3/4 sm:w-1/2 md:w-1/3 h-full p-6 text-white flex flex-col space-y-6 transition-transform duration-300 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                     <IoClose className="text-3xl cursor-pointer self-end" onClick={toggleMenu} />
-                    <Link to="/s" className="text-lg font-medium" onClick={toggleMenu}>Lokasiyalar</Link>
+                    <Link to="/" className="text-lg font-medium" onClick={toggleMenu}>Lokasiyalar</Link>
                     <Link to="/about" className="text-lg font-medium" onClick={toggleMenu}>Haqqımızda</Link>
                     <Link to="/teklif" className="text-lg font-medium" onClick={toggleMenu}>Bizə təklif göndər</Link>
 

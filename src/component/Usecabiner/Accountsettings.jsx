@@ -4,7 +4,7 @@ function Acountinfo() {
 
     return (
        <>
-<div className="col-span-8 overflow-hidden rounded-xl sm:bg-gray-50 sm:px-8 sm:shadow">
+<div className="col-span-8 overflow-hidden rounded-xl my-12 sm:bg-gray-50 sm:px-8 sm:shadow">
   <div className="pt-4">
     <h1 className="py-2 text-2xl font-semibold">Hesab ayarları</h1>
   </div>

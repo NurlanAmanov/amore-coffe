@@ -7,10 +7,15 @@ function BasketContext({ children }) {
   const cook = new Cookies();
 
   // **Cookie-dən səbəti götür, əgər boşdursa `[]` qoy**
-  const [sebet, setSebet] = useState(() => {
+  const [sebet, setSebet] = useState([]);
+
+  // **Səhifə yüklənəndə cookiedən `sebet` oxu**
+  useEffect(() => {
     const storedSebet = cook.get("sebet");
-    return storedSebet ? storedSebet : [];
-  });
+    if (storedSebet) {
+      setSebet(storedSebet);
+    }
+  }, []);
 
   // **Məhsul səbətə əlavə ediləndə cookiedə saxla**
   function bassketadd(title, about, id, imgUrl, description, price, discount, finalPrice, count) {
@@ -39,8 +44,19 @@ function BasketContext({ children }) {
     });
   }
 
+  // **Məhsulu səbətdən çıxarma funksiyası**
+  function basketRemove(id) {
+    setSebet((prevSebet) => {
+      const newSebet = prevSebet.filter((item) => item.id !== id);
+      cook.set("sebet", newSebet, { path: "/" });
+      return newSebet;
+    });
+  }
+
+  console.log("Cari səbət:", sebet); // ✅ Konsolda səbətin içini yoxla
+
   return (
-    <BASKET.Provider value={{ sebet, bassketadd }}>
+    <BASKET.Provider value={{ sebet, bassketadd, basketRemove }}>
       {children}
     </BASKET.Provider>
   );

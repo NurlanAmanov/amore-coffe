@@ -2,12 +2,16 @@ import React, { useContext, useState } from "react";
 import { DATA } from "../../Context/Datacontext";
 import { BASKET } from "../../Context/BasketContext";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { LIKESDATA } from "../../Context/LikeContext";
 
 function Product() {
   const { mehsul } = useContext(DATA);
-  const { bassketadd } = useContext(BASKET);
+  const { sebet = [], bassketadd } = useContext(BASKET);
+  const { toggleLike } = useContext(LIKESDATA); // ✅ Funksiya düzgün çağırılır
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate(); // ✅ Yönləndirmə üçün
+  const navigate = useNavigate();
+
+  console.log("Səbət:", sebet);
 
   const categoryName = searchParams.get("category");
   const filteredProducts = categoryName
@@ -22,7 +26,7 @@ function Product() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((item) => (
-            <ProductCard key={item.id} item={item} bassketadd={bassketadd} navigate={navigate} />
+            <ProductCard key={item.id} item={item} sebet={sebet} bassketadd={bassketadd} toggleLike={toggleLike} navigate={navigate} />
           ))
         ) : (
           <p className="text-gray-500 text-lg font-semibold text-center col-span-full">
@@ -34,9 +38,12 @@ function Product() {
   );
 }
 
-function ProductCard({ item, bassketadd, navigate }) {
+function ProductCard({ item, sebet = [], bassketadd, toggleLike, navigate }) {
   const [count, setCount] = useState(1);
   const finalPrice = (item.discount > 0 ? item.finalPrice : item.price) * count;
+
+  // ✅ Məhsulun səbətdə olub-olmadığını yoxlayırıq
+  const isInBasket = sebet.some((basketItem) => basketItem.id === item.id);
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden w-full xl:w-[280px] p-4">
@@ -61,15 +68,14 @@ function ProductCard({ item, bassketadd, navigate }) {
         <p className="text-sm text-gray-600">{item.description}</p>
 
         <div className="flex items-center gap-2 mt-2">
-        {item.discount > 0 ? (
-  <>
-    <span className="text-gray-500 text-sm line-through">{item.price.toFixed(2)} ₼</span>
-    <span className="text-green-600 text-lg font-bold">{finalPrice.toFixed(2)} ₼</span>
-  </>
-) : (
-  <span className="text-lg font-bold text-gray-900">{finalPrice.toFixed(2)} ₼</span>
-)}
-
+          {item.discount > 0 ? (
+            <>
+              <span className="text-gray-500 text-sm line-through">{item.price.toFixed(2)} ₼</span>
+              <span className="text-green-600 text-lg font-bold">{finalPrice.toFixed(2)} ₼</span>
+            </>
+          ) : (
+            <span className="text-lg font-bold text-gray-900">{finalPrice.toFixed(2)} ₼</span>
+          )}
         </div>
 
         {/* Say seçimi */}
@@ -91,39 +97,34 @@ function ProductCard({ item, bassketadd, navigate }) {
 
         {/* Düymələr */}
         <div className="flex flex-col gap-3 mt-4">
-        <button
-  onClick={() => {
-    bassketadd(
-      item.title,
-      item.about,
-      item.id,
-      `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`,
-      item.description,
-      item.price,
-      item.discount,
-      item.finalPrice,
-      count // ✅ Burada seçilmiş say göndərilir
-    );
-  }}
-  className="bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition duration-200"
->
-  {count} ədəd Səbətə at
-</button>
-
-
           <button
             onClick={() => {
-              bassketadd(
-                item.title,
-                item.about,
-                item.id,
-                `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`,
-                item.description,
-                item.price,
-                item.discount,
-                item.finalPrice
-              );
+              if (!isInBasket) {
+                bassketadd(
+                  item.title,
+                  item.about,
+                  item.id,
+                  `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`,
+                  item.description,
+                  item.price,
+                  item.discount,
+                  item.finalPrice,
+                  count
+                );
+              }
             }}
+            className={`py-2 rounded-lg font-semibold transition duration-200 ${
+              isInBasket
+                ? "bg-gray-300 text-gray-700 cursor-not-allowed"
+                : "bg-blue-500 text-white hover:bg-blue-600"
+            }`}
+            disabled={isInBasket}
+          >
+            {isInBasket ? "✅ Səbətdədir" : `${count} ədəd Səbətə at`}
+          </button>
+
+          <button
+            onClick={() => toggleLike(item.title, item.id, item.imgUrl, item.finalPrice, item.discount, item.price)}
             className="bg-gray-200 text-gray-800 py-2 rounded-lg font-semibold hover:bg-gray-300 transition duration-200"
           >
             Sevimlilərə əlavə et

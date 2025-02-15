@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/Authlogin";
 import Sifaris from "./Sifaris";
 import Acountinfo from "./Accountsettings";
+import Sevimliler from "./sevimliler";
 // import Acountinfo from "./Accountsettings";
 // import PromoCodes from "./PromoCodes";
 // import Favorites from "./Favorites";
@@ -33,7 +34,7 @@ function Cabinet() {
       case "promokodlar":
         return <PromoCodes />;
       case "sevimliler":
-        return <Favorites />;
+        return <Sevimliler />;
       case "bildirishler":
         return <Notifications />;
       default:

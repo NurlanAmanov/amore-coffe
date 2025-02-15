@@ -8,21 +8,26 @@ import { ContactProvider } from './Context/ContactContext.jsx'
 import { UserAuthProvider } from './Context/AuthRegstr.jsx'
 import { CustomAuthProvider } from './Context/Authlogin.jsx'
 import CabinetDatam from './Context/CabinetContext.jsx'
-
+import LikeContext from './Context/LikeContext.jsx'
 createRoot(document.getElementById('root')).render(
     <Datacontext>
-        <BrowserRouter>
-            <BasketContext>
-                <ContactProvider>
-                    <UserAuthProvider>
-                        <CustomAuthProvider>
-                            <CabinetDatam>
-                                <App />
-                            </CabinetDatam>
-                        </CustomAuthProvider>
-                    </UserAuthProvider>
-                </ContactProvider>
-            </BasketContext>
-        </BrowserRouter>
+       
+            <BrowserRouter>
+                <BasketContext>
+                    <ContactProvider>
+                        <UserAuthProvider>
+                            <CustomAuthProvider>
+                                <CabinetDatam>
+                                    <LikeContext>
+
+                                    <App />
+                                    </LikeContext>
+                                </CabinetDatam>
+                            </CustomAuthProvider>
+                        </UserAuthProvider>
+                    </ContactProvider>
+                </BasketContext>
+            </BrowserRouter>
+    
     </Datacontext>
 )
