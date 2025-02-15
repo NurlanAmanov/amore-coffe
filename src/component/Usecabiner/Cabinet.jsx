@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/Authlogin";
 import Sifaris from "./Sifaris";
 import Acountinfo from "./Accountsettings";
-import Sevimliler from "./sevimliler";
+import Sevimli from "./Sevimli";
+
 
 
 function Cabinet() {
@@ -31,7 +32,7 @@ function Cabinet() {
       case "promokodlar":
         return <PromoCodes />;
       case "sevimliler":
-        return <Sevimliler />;
+        return <Sevimli/>;
       case "bildirishler":
         return <Notifications />;
       default:
