@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/Authlogin";
 import Sifaris from "./Sifaris";
 import Acountinfo from "./Accountsettings";
 import Sevimli from "./Sevimli";
+import { CABINETDATA } from "../../Context/CabinetContext";
 
 
 
 function Cabinet() {
+  const {autcontent}=useContext(CABINETDATA)
+  console.log(autcontent);
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("hesab"); // Default: "Hesabım"

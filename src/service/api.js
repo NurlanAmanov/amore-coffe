@@ -48,7 +48,12 @@ async function GetLocation() {
     return res.data;
 
 }
+async function GetAuth() {
+    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Auth")
+    return res.data;
+
+}
 
 
 
-export { GetData, GetProduct, Getbanner,GetSocialMedia,GetLogo,Getslogan,Getsilder,GetLocation,GetProductById }
+export { GetData, GetProduct, Getbanner,GetSocialMedia,GetLogo,Getslogan,Getsilder,GetLocation,GetProductById,GetAuth }

@@ -55,7 +55,8 @@ function Sifaris() {
         </td>
         <td className="p-4 text-sm">
           <div className="flex items-center cursor-pointer">
-            <img src='https://readymadeui.com/product_img_1.webp' className="w-10 h-10 p-1.5 shrink-0 bg-gray-100" />
+            <img  src={`http://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
+          alt={item.title}  className="w-10 h-10 p-1.5 shrink-0 bg-gray-100" />
             <div className="mx-4">
               <p className="text-sm text-black">{item.title}</p>
             </div>

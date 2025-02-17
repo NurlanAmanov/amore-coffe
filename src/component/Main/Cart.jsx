@@ -58,6 +58,7 @@ function Cart({ opensebet, setOpensebet }) {
                         <div className="flex flex-col">
                           <h3 className="text-base font-bold text-gray-800">{item.title}</h3>
                           <p className="text-xs font-semibold text-gray-500">Miqdar: {item.count}</p>
+                          <p className="text-xs font-semibold text-gray-500">Şəkər miqdarı: {item.sugarLevel}</p>
                         </div>
                       </div>
                       <div className="ml-auto flex flex-col items-end">

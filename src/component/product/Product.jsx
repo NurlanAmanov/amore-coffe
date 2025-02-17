@@ -7,11 +7,9 @@ import { LIKESDATA } from "../../Context/LikeContext";
 function Product() {
   const { mehsul } = useContext(DATA);
   const { sebet = [], bassketadd } = useContext(BASKET);
-  const { toggleLike } = useContext(LIKESDATA); // ✅ Funksiya düzgün çağırılır
+  const { toggleLike } = useContext(LIKESDATA);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-
-  console.log("Səbət:", sebet);
 
   const categoryName = searchParams.get("category");
   const filteredProducts = categoryName
@@ -40,14 +38,12 @@ function Product() {
 
 function ProductCard({ item, sebet = [], bassketadd, toggleLike, navigate }) {
   const [count, setCount] = useState(1);
+  const [sugarLevel, setSugarLevel] = useState("Şəkərli");
   const finalPrice = (item.discount > 0 ? item.finalPrice : item.price) * count;
-
-  // ✅ Məhsulun səbətdə olub-olmadığını yoxlayırıq
   const isInBasket = sebet.some((basketItem) => basketItem.id === item.id);
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden w-full xl:w-[280px] p-4">
-      {/* Məhsul şəkli */}
       <div className="relative cursor-pointer" onClick={() => navigate(`/product/${item.id}`)}>
         <img
           src={`http://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
@@ -61,24 +57,35 @@ function ProductCard({ item, sebet = [], bassketadd, toggleLike, navigate }) {
         )}
       </div>
 
-      {/* Məhsul məlumatları */}
       <div className="mt-4">
         <h2 className="text-lg font-semibold text-gray-900">{item.title}</h2>
         <p className="text-sm text-gray-600">{item.categoryName}</p>
         <p className="text-sm text-gray-600">{item.description}</p>
 
-        <div className="flex items-center gap-2 mt-2">
-          {item.discount > 0 ? (
-            <>
-              <span className="text-gray-500 text-sm line-through">{item.price.toFixed(2)} ₼</span>
-              <span className="text-green-600 text-lg font-bold">{finalPrice.toFixed(2)} ₼</span>
-            </>
-          ) : (
-            <span className="text-lg font-bold text-gray-900">{finalPrice.toFixed(2)} ₼</span>
-          )}
+        {item.productVariants && item.productVariants.length > 0 && (
+          <div className="mt-4">
+            <label className="block text-gray-700 font-semibold">Variant seç:</label>
+            <select className="w-full mt-1 p-2 border rounded-md">
+              {item.productVariants.map((variant) => (
+                <option key={variant.variantId} value={variant.variant.name}>{variant.variant.name}</option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        <div className="mt-4">
+          <label className="block text-gray-700 font-semibold">Şəkər səviyyəsi:</label>
+          <select
+            value={sugarLevel}
+            onChange={(e) => setSugarLevel(e.target.value)}
+            className="w-full mt-1 p-2 border rounded-md"
+          >
+            <option value="Şəkərli">Şəkərli</option>
+            <option value="Az şəkərli">Az şəkərli</option>
+            <option value="Çox şəkərli">Çox şəkərli</option>
+          </select>
         </div>
 
-        {/* Say seçimi */}
         <div className="flex items-center justify-between bg-gray-100 px-3 py-2 rounded-lg mt-4">
           <button
             className="text-gray-700 text-lg font-bold"
@@ -95,7 +102,6 @@ function ProductCard({ item, sebet = [], bassketadd, toggleLike, navigate }) {
           </button>
         </div>
 
-        {/* Düymələr */}
         <div className="flex flex-col gap-3 mt-4">
           <button
             onClick={() => {
@@ -109,7 +115,8 @@ function ProductCard({ item, sebet = [], bassketadd, toggleLike, navigate }) {
                   item.price,
                   item.discount,
                   item.finalPrice,
-                  count
+                  count,
+                  sugarLevel
                 );
               }
             }}
@@ -121,13 +128,6 @@ function ProductCard({ item, sebet = [], bassketadd, toggleLike, navigate }) {
             disabled={isInBasket}
           >
             {isInBasket ? "✅ Səbətdədir" : `${count} ədəd Səbətə at`}
-          </button>
-
-          <button
-            onClick={() => toggleLike(item.title, item.id, item.imgUrl, item.finalPrice, item.discount, item.price)}
-            className="bg-gray-200 text-gray-800 py-2 rounded-lg font-semibold hover:bg-gray-300 transition duration-200"
-          >
-            Sevimlilərə əlavə et
           </button>
         </div>
       </div>
