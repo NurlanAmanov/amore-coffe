@@ -12,6 +12,7 @@ function Datacontext({ children }) {
     useEffect(() => {
         GetData().then(res => setData(res));
         GetProduct().then(res => setMehsul(res));
+        Getbanner().then(res=>setbanner(res))
     }, []);
 
     // ID ilə məhsulu gətirmək üçün funksiya
@@ -25,7 +26,7 @@ function Datacontext({ children }) {
     };
 
     return (
-        <DATA.Provider value={{ data, mehsul, mehsulid, fetchProductById }}>
+        <DATA.Provider value={{ data, mehsul,banner, mehsulid, fetchProductById }}>
             {children}
         </DATA.Provider>
     );

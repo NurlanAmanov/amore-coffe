@@ -5,56 +5,60 @@ import CoffeeSuggestion from './CoffeeSuggestion'
 import Silder from './Silder'
 import Category from './Category'
 function Homepage() {
+
+
   return (
 <>
-<div className='bg-[#EFE6DD] '>
-<section className="hero overflow-hidden  w-full mx-auto  py-4 ">
-<div className="silder-content rounded-lg z-40  pb-5 pt-[60px] ">
-<Silder className="" />
+<div className='bg-[#f1ece9] '>
+<section className="silder pt-[30px]">
+<Silder />
+</section>
+
+<section className='catefory py-[50px] bg-white '>
+  <p className='text-3xl font-[600] text-center'>Kateqoriyalar</p>
+  <hr className='h-[50px] w-[3px] my-6 mx-auto bg-[#db9457]'/>
+  <p className="text-lg text-center font-semibold">Seçilmiş ləzzətlərlə hazırlanmış menu</p>
+<Category/>
+</section>
+<section className='about py-[50px] bg-[#f7f7f7]'>
+<p className='text-3xl font-[600] text-center'>Haqqımızda</p>
+<hr className='h-[50px] w-[3px] my-6 mx-auto bg-[#db9457]'/>
+<div className="content text-center">
+<p className="text-gray-700 text-lg leading-relaxed text-center w-[90%] mx-auto">
+        Hər şeyi qəlb, bədən və ruhla edirik. Dünyanın dörd bir yanından fermerlərlə dərin tərəfdaşlıqlar 
+        qurmağa və birlikdə perspektiv yaratmağa çalışırıq;
+        <br />
+        etibar və hörmətə əsaslanan sağlam iş münasibətləri qururuq.
+      </p>
+      <a href="#" className='border border-[#db9457] mx-auto w-[150px]  py-3 block mt-12'>Daha çox öyrən....</a>
 </div>
 </section>
-<section className='slogan pt-[50px]'>
-<div className="grid md:grid-cols-2 items-center md:gap-8 gap-6 max-w-[95%] mx-auto">
-      
-      {/* ✅ Sol Tərəf - Mətn və Düymələr */}
-      <div className="max-md:order-1 max-md:text-center">
-        <h2 className="md:text-4xl text-3xl md:leading-10 font-extrabold text-[#7a461f] mb-4">
-          Hər Fincanda Həzzin Zirvəsi
-        </h2>
-        <p className="mt-4 text-base text-gray-700 leading-relaxed">
-          Amore Coffee ilə unikal dadı kəşf edin. Bizim yüksək keyfiyyətli qəhvə dənələrimiz hər fincanda mükəmməl ləzzəti təmin edir.
-          İndi sifariş edin və dadını hiss edin!
-        </p>
 
-        {/* ✅ Düymələr */}
-        <div className="mt-8 flex max-sm:flex-col sm:space-x-4 max-sm:space-y-6">
-          <a
-            href="/;"
-            className="px-6 py-3 text-base font-semibold text-white bg-[#7a461f] rounded-full hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-[#7a461f] focus:outline-none focus:ring-opacity-50"
-          >
-            Menyuya Bax
-          </a>
-          <a
-            href="/;"
-            className="px-6 py-3 text-base font-semibold text-[#7a461f] border border-[#c69c6d] rounded-full hover:text-white hover:bg-[#7a461f] transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-[#7a461f] focus:outline-none focus:ring-opacity-50"
-          >
-            İndi Sifariş Et
-          </a>
+<section className='encoxsatilan'>
+<div className="max-w-4xl mx-auto py-10">
+      <div className="grid grid-cols-3 gap-2 md:gap-4">
+        
+        {/* İlk 3 şəkil */}
+        <img src="https://www.coffeebeancompany.co.uk/app/uploads/2017/04/Coffee-Shop-1024x765.jpg" alt="Soyuq Kofe" className="w-full h-full object-cover rounded-lg"/>
+        <img src="https://www.coffeebeancompany.co.uk/app/uploads/2017/04/Coffee-Shop-1024x765.jpg" alt="Rahat Künc" className="w-full h-full object-cover rounded-lg"/>
+        <img src="https://www.coffeebeancompany.co.uk/app/uploads/2017/04/Coffee-Shop-1024x765.jpg" alt="Dondurmalı Kofe" className="w-full h-full object-cover rounded-lg"/>
+        <img src="https://www.coffeebeancompany.co.uk/app/uploads/2017/04/Coffee-Shop-1024x765.jpg" alt="Dondurmalı Kofe" className="w-full h-full object-cover rounded-lg"/>
+
+        {/* Mərkəzdə Başlıq */}
+        <div className="flex items-center justify-center bg-gray-200 text-center text-xl font-semibold p-6 rounded-lg">
+          ƏN ÇOX <br /> SATILANLAR
         </div>
-      </div>
 
-      {/* ✅ Sağ Tərəf - Şəkil */}
-      <div className="md:h-[450px]">
-        <img
-          src={coffeabout}
-          className="w-[80%] mx-auto h-full object-cover rounded-lg "
-          alt="Amore Coffee"
-        />
+        {/* Son 5 şəkil */}
+        <img src="https://www.coffeebeancompany.co.uk/app/uploads/2017/04/Coffee-Shop-1024x765.jpg" alt="Şam və Kofe" className="w-full h-full object-cover rounded-lg"/>
+        <img src="https://www.coffeebeancompany.co.uk/app/uploads/2017/04/Coffee-Shop-1024x765.jpg" alt="Şam və Kofe" className="w-full h-full object-cover rounded-lg"/>
+        <img src="https://www.coffeebeancompany.co.uk/app/uploads/2017/04/Coffee-Shop-1024x765.jpg" alt="Şam və Kofe" className="w-full h-full object-cover rounded-lg"/>
+        <img src="https://www.coffeebeancompany.co.uk/app/uploads/2017/04/Coffee-Shop-1024x765.jpg" alt="Şam və Kofe" className="w-full h-full object-cover rounded-lg"/>
+
+      
+
       </div>
     </div>
-</section>
-<section className='catefory pt-[50px] '>
-<Category/>
 </section>
 <section className='pt-[50px]'>
 <CoffeeSuggestion/>
