@@ -141,6 +141,7 @@ function Checkout() {
                         <h3 className="text-sm text-gray-800 font-bold">{item.title}</h3>
                         <ul className="text-xs text-gray-800 space-y-1 mt-2">
                           <li className="flex flex-wrap gap-4">Miqdar <span className="ml-auto">{item.quantity}</span></li>
+                          <li className="flex flex-wrap gap-4">Ölçü <span className="ml-auto">{item.selectedVariant} </span></li>
                           <li className="flex flex-wrap gap-4">Qiymət <span className="ml-auto">{item.price} ₼</span></li>
                           <li className="flex flex-wrap gap-4">Toplam <span className="ml-auto">{(item.quantity * item.price).toFixed(2)} ₼</span></li>
                         </ul>

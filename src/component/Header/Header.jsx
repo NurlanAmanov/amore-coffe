@@ -59,7 +59,7 @@ function Header() {
             
             {/* ✅ Sol tərəfdə menyu */}
             <nav className="hidden xl:flex items-center gap-6">
-                <Link to="/" className="text-black text-base font-medium r transition">Lokasiyalar</Link>
+                <Link to="/lokasiya" className="text-black text-base font-medium r transition">Lokasiyalar</Link>
                 <Link to="/about" className="text-black text-base font-medium  transition">Haqqımızda</Link>
                 <Link to="/teklif" className="text-black text-base font-medium transition">Bizə təklif göndər</Link>
             </nav>

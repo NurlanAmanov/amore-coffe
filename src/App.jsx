@@ -10,6 +10,7 @@ import Checkout from './component/checkout/Checkout'
 import Registr from './login/Registr'
 import Cabinet from './component/Usecabiner/Cabinet'
 import ProductPage from './component/Main/ProductPage'
+import Location from './component/Main/Location'
 
 
 
@@ -32,6 +33,7 @@ function App() {
     <Route path="Cabinet" element={<Cabinet />} />
     <Route path="/product/:id" element={<ProductPage />} />
     <Route path="Check" element={<Checkout />} />
+    <Route path="lokasiya" element={<Location />} />
   </Route>
 </Routes>
 

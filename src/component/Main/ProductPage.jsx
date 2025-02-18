@@ -9,7 +9,7 @@ function ProductPage() {
   const { mehsulid, fetchProductById } = useContext(DATA);
   const { bassketadd } = useContext(BASKET);
   const [count, setCount] = useState(1);
-  const [sugarLevel, setSugarLevel] = useState("Şəkərli");
+
   const [selectedSize, setSelectedSize] = useState("Kiçik"); // Default olaraq Kiçik seçilib
 
   useEffect(() => {
@@ -98,8 +98,7 @@ function ProductPage() {
             </div>
 
             {/* Şəkər səviyyəsi */}
-          
-
+            
             {/* Səbətə at düymələri */}
             <div className="mt-4 flex flex-wrap gap-4">
               <button className="px-4 py-3 w-[45%] border border-gray-300 bg-white hover:bg-gray-50 text-gray-800 text-sm font-semibold">
@@ -117,7 +116,8 @@ function ProductPage() {
                     mehsulid.discount,
                     mehsulid.finalPrice,
                     count,
-                    sugarLevel
+                   
+                    selectedSize // Seçilən ölçü ilə əlavə edirik
                   );
                 }}
                 className="px-4 py-3 w-[45%] border border-[#7a461f] bg-[#7a461f] text-white hover:bg-white hover:text-black duration-300 text-sm font-semibold"
