@@ -25,7 +25,7 @@ function Silder() {
       <div className="flex justify-center lg:justify-end">
         <img
           id="heroImg1"
-          className="transition-all duration-300 ease-in-out  w-full max-w-md lg:max-w-lg"
+          className="transition-all duration-300 ease-in-out  w-full max-w-md lg:max-w-xl"
           src="https://www.coffeebeancompany.co.uk/app/uploads/2017/04/Coffee-Shop-1024x765.jpg"
           alt="Awesome hero page image"
           width="500"
