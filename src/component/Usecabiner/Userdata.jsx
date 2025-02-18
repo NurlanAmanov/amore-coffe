@@ -1,15 +1,11 @@
 import React from "react";
-import { useAuth } from "../../Context/Authlogin";
+import { useAuth } from "../Context/Authlogin"; // 🔥 Auth kontekstini istifadə edirik
 
-function Acountinfo() {
+const Userdata = () => {
   const { user } = useAuth(); // 🔥 Login olmuş istifadəçi məlumatları
-  
-  
-    return (
-       <>
 
-
-<div className="p-6 bg-white shadow-md rounded-lg">
+  return (
+    <div className="p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-semibold mb-4">İstifadəçi Məlumatları</h2>
 
       {user ? (
@@ -23,11 +19,7 @@ function Acountinfo() {
         <p className="text-gray-500">İstifadəçi məlumatları yüklənir...</p>
       )}
     </div>
+  );
+};
 
-       
-       
-       </>
-    );
-}
-
-export default Acountinfo;
+export default Userdata;

@@ -6,11 +6,8 @@ function Category() {
   const { data } = useContext(DATA);
 
   return (
-    <>
-     
-
-     <div className="grid px-2 pt-[50px] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-screen-xl mx-auto">
-      {data.map((item, i) => (
+    <div className="grid px-2 pt-[50px] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-screen-xl mx-auto">
+      {data.slice(0, 4).map((item, i) => (
         <Link
           key={i}
           to={`/Product?category=${encodeURIComponent(item.name)}`}
@@ -29,13 +26,9 @@ function Category() {
           <div className="bg-gray-700 text-white text-center py-2 ">
             <h3 className="text-md font-semibold">{item.name}</h3>
           </div>
-
         </Link>
       ))}
     </div>
-
-      
-    </>
   );
 }
 

@@ -9,8 +9,8 @@ import { CABINETDATA } from "../../Context/CabinetContext";
 
 
 function Cabinet() {
-  const {autcontent}=useContext(CABINETDATA)
-  console.log(autcontent);
+
+
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("hesab"); // Default: "Hesabım"

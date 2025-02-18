@@ -5,32 +5,32 @@ export const LIKESDATA = createContext(null);
 
 function LikeContext({ children }) {
   const cook = new Cookies();
+
+  // **Cookie-dən sevimliləri götür, əgər boşdursa `[]` qoy**
   const [likedItems, setLikedItems] = useState([]);
 
-  // **Component yüklənəndə cookie-dən sevimliləri götür**
+  // **Səhifə yüklənəndə cookiedən `likedItems` oxu**
   useEffect(() => {
     const storedLikes = cook.get("likes");
-    if (storedLikes) {
+    if (storedLikes && Array.isArray(storedLikes)) {
       setLikedItems(storedLikes);
     }
   }, []);
 
-  
-
   // **Məhsulu Sevimlilərə əlavə et və ya çıxar**
-  function toggleLike(name, id, imgUrl, price, discount, oldPrice) {
+  function toggleLike(product) {
     setLikedItems((prevLikes) => {
       let updatedLikes;
 
       // **Əgər məhsul artıq varsa, onu çıxar**
-      const existingIndex = prevLikes.findIndex((item) => item.id === id);
-      if (existingIndex !== -1) {
-        updatedLikes = prevLikes.filter((item) => item.id !== id); // ❌ Məhsulu sil
+      const existingProductIndex = prevLikes.findIndex((item) => item.id === product.id);
+      if (existingProductIndex !== -1) {
+        updatedLikes = prevLikes.filter((item) => item.id !== product.id); // ❌ Məhsulu sil
       } else {
-        updatedLikes = [...prevLikes, { name, id, imgUrl, price, discount, oldPrice }]; // ✅ Yeni məhsulu əlavə et
+        updatedLikes = [...prevLikes, product]; // ✅ Yeni məhsulu əlavə et
       }
 
-      // **Cookie-də yenilə**
+      // **Yenilənmiş sevimliləri cookiedə saxla**
       cook.set("likes", updatedLikes, {
         path: "/",
         expires: new Date(Date.now() + 86400 * 1000),
@@ -40,8 +40,19 @@ function LikeContext({ children }) {
     });
   }
 
+  // **Məhsulu sevimlilərdən çıxarma funksiyası**
+  function likeRemove(id) {
+    setLikedItems((prevLikes) => {
+      const updatedLikes = prevLikes.filter((item) => item.id !== id);
+      cook.set("likes", updatedLikes, { path: "/" });
+      return updatedLikes;
+    });
+  }
+
+  console.log("Cari sevimlilər:", likedItems); // ✅ Konsolda sevimlilərin içini yoxla
+
   return (
-    <LIKESDATA.Provider value={{ likedItems, toggleLike }}>
+    <LIKESDATA.Provider value={{ likedItems, toggleLike, likeRemove }}>
       {children}
     </LIKESDATA.Provider>
   );

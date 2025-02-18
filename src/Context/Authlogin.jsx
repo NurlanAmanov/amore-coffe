@@ -9,6 +9,7 @@ export const CustomAuthProvider = ({ children }) => {  // ✅ Yeni ad: CustomAut
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
+
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {

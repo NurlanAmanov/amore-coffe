@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { DATA } from "../../Context/Datacontext"; 
+import { DATA } from "../../Context/Datacontext";
 import { BASKET } from "../../Context/BasketContext";
 import Teklifler from "../product/Teklifler";
 
@@ -9,6 +9,8 @@ function ProductPage() {
   const { mehsulid, fetchProductById } = useContext(DATA);
   const { bassketadd } = useContext(BASKET);
   const [count, setCount] = useState(1);
+  const [sugarLevel, setSugarLevel] = useState("Şəkərli");
+  const [selectedSize, setSelectedSize] = useState("Kiçik"); // Default olaraq Kiçik seçilib
 
   useEffect(() => {
     fetchProductById(id);
@@ -17,7 +19,7 @@ function ProductPage() {
   // Məhsul məlumatı yüklənmədikdə loading göstəricisi
   if (!mehsulid) {
     return (
-      <div className="flex flex-col m-8 rounded shadow-md w-60 sm:w-80 animate-pulse h-96 ">
+      <div className="flex flex-col m-8 rounded shadow-md w-60 sm:w-80 animate-pulse h-96">
         <div className="h-48 rounded-t bg-gray-300"></div>
         <div className="flex-1 px-4 py-8 space-y-4 sm:p-8 bg-gray-50">
           <div className="w-full h-6 rounded bg-gray-300"></div>
@@ -37,12 +39,12 @@ function ProductPage() {
     <div className="font-[sans-serif] p-4 bg-gray-100 py-32">
       <div className="lg:max-w-6xl max-w-xl mx-auto">
         <div className="grid items-start grid-cols-1 lg:grid-cols-2 gap-8">
-          
+
           {/* Məhsul şəkli */}
           <div className="w-full lg:sticky top-0">
             <div className="bg-white shadow p-2">
               <img src={`https://finalprojectt-001-site1.jtempurl.com${mehsulid.imgUrl}`}
-                alt={mehsulid.title} className="w-full object-cover"/>
+                alt={mehsulid.title} className="w-full object-cover" />
             </div>
           </div>
 
@@ -73,12 +75,37 @@ function ProductPage() {
                 className="border-none outline-none px-2">➕</button>
             </div>
 
+            {/* Ölçü Seçimi (Kiçik, Orta, Böyük) */}
+            <div className="flex items-center gap-4 mt-4">
+              <button
+                onClick={() => setSelectedSize("Kiçik")}
+                className={`px-4 py-2 w-full sm:w-auto rounded-md ${selectedSize === "Kiçik" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              >
+                Kiçik
+              </button>
+              <button
+                onClick={() => setSelectedSize("Orta")}
+                className={`px-4 py-2 w-full sm:w-auto rounded-md ${selectedSize === "Orta" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              >
+                Orta
+              </button>
+              <button
+                onClick={() => setSelectedSize("Böyük")}
+                className={`px-4 py-2 w-full sm:w-auto rounded-md ${selectedSize === "Böyük" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              >
+                Böyük
+              </button>
+            </div>
+
+            {/* Şəkər səviyyəsi */}
+          
+
             {/* Səbətə at düymələri */}
             <div className="mt-4 flex flex-wrap gap-4">
               <button className="px-4 py-3 w-[45%] border border-gray-300 bg-white hover:bg-gray-50 text-gray-800 text-sm font-semibold">
                 Sevimlilərə at
               </button>
-              <button  
+              <button
                 onClick={() => {
                   bassketadd(
                     mehsulid.title,
@@ -89,9 +116,10 @@ function ProductPage() {
                     mehsulid.price,
                     mehsulid.discount,
                     mehsulid.finalPrice,
-                    count
+                    count,
+                    sugarLevel
                   );
-                }} 
+                }}
                 className="px-4 py-3 w-[45%] border border-[#7a461f] bg-[#7a461f] text-white hover:bg-white hover:text-black duration-300 text-sm font-semibold"
               >
                 {count} ədəd Səbətə at

@@ -18,9 +18,19 @@ function Cart({ opensebet, setOpensebet }) {
 
   // ✅ Toplam məbləği hesablayırıq
   const totalPrice = groupedBasket.reduce(
-    (total, item) => total + item.count * (item.discount > 0 ? item.finalPrice : item.price),
+    (total, item) => {
+      // Qiymətləri yoxlayın ki, NaN olmasın
+      const itemPrice = item.discount > 0 ? (isNaN(item.finalPrice) ? 0 : item.finalPrice) : (isNaN(item.price) ? 0 : item.price);
+      const itemCount = isNaN(item.count) ? 0 : item.count; // Sayı yoxlayın
+      return total + itemCount * itemPrice;
+    },
     0
   );
+  
+  
+  console.log(groupedBasket);
+console.log("Total Price:", totalPrice);
+
 
   return (
     <section className="relative">
@@ -57,8 +67,8 @@ function Cart({ opensebet, setOpensebet }) {
                         </div>
                         <div className="flex flex-col">
                           <h3 className="text-base font-bold text-gray-800">{item.title}</h3>
-                          <p className="text-xs font-semibold text-gray-500">Miqdar: {item.count}</p>
-                          <p className="text-xs font-semibold text-gray-500">Şəkər miqdarı: {item.sugarLevel}</p>
+                 
+                          <p className="text-xs font-semibold text-gray-500">Ölçü: {item.selectedVariant}</p>
                         </div>
                       </div>
                       <div className="ml-auto flex flex-col items-end">
