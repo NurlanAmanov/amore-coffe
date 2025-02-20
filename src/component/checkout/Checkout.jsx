@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { BASKET } from '../../Context/BasketContext';
 
 function Checkout() {
@@ -13,6 +13,7 @@ function Checkout() {
     apartment: "",
   });
 
+  const [selectedAddress, setSelectedAddress] = useState(""); // Seçili ünvana görə məlumat
   const [shippingInfo, setShippingInfo] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -34,8 +35,28 @@ function Checkout() {
     fetchShippingInfo();
   }, []);
 
+  // Seçilən məlumatları formda saxlayırıq
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Ünvan seçimindən sonra formu avtomatik doldurmaq
+  const handleAddressChange = (e) => {
+    const selected = e.target.value;
+    setSelectedAddress(selected);
+
+    // Seçilmiş ünvana əsasən formu doldururuq
+    const selectedShipping = shippingInfo.find(item => item.id === selected);
+    if (selectedShipping) {
+      setFormData({
+        name: selectedShipping.name,
+        surname: selectedShipping.surname,
+        email: selectedShipping.email,
+        city: selectedShipping.city,
+        streetAddress: selectedShipping.streetAddress,
+        apartment: selectedShipping.apartment,
+      });
+    }
   };
 
   // Məhsulları qruplaşdırır və toplam məbləği hesablayır
@@ -69,7 +90,7 @@ function Checkout() {
       const response = await fetch("https://finalprojectt-001-site1.jtempurl.com/api/ShippingInfo", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}` // Token əlavə edilib
+          "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`, // Token əlavə edilib
         },
         body: formDataToSend,
       });
@@ -96,18 +117,83 @@ function Checkout() {
               {loading ? (
                 <p>Göndərmə məlumatları yüklənir...</p>
               ) : (
-                <div className="grid sm:grid-cols-2 gap-8 mt-8">
-                  <input type="text" name="name" placeholder="Name" onChange={handleChange} className="input" />
-                  <input type="text" name="surname" placeholder="Surname" onChange={handleChange} className="input" />
-                  <input type="email" name="email" placeholder="Email address" onChange={handleChange} className="input" />
-                  <input type="text" name="city" placeholder="City" onChange={handleChange} className="input" />
-                  <input type="text" name="streetAddress" placeholder="Street address" onChange={handleChange} className="input" />
-                  <input type="text" name="apartment" placeholder="Apartment" onChange={handleChange} className="input" />
+                <div>
+                  {/* Ünvan seçim */}
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">Ünvan Seçin</label>
+                    <select
+                      value={selectedAddress}
+                      onChange={handleAddressChange}
+                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Ünvan seçin</option>
+                      {shippingInfo.map((address) => (
+                        <option key={address.id} value={address.id}>
+                          {address.name} - {address.city}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Form sahələri */}
+                  <div className="grid sm:grid-cols-2 gap-8 mt-8">
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                    <input
+                      type="text"
+                      name="surname"
+                      placeholder="Surname"
+                      value={formData.surname}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email address"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                    <input
+                      type="text"
+                      name="city"
+                      placeholder="City"
+                      value={formData.city}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                    <input
+                      type="text"
+                      name="streetAddress"
+                      placeholder="Street address"
+                      value={formData.streetAddress}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                    <input
+                      type="text"
+                      name="apartment"
+                      placeholder="Apartment"
+                      value={formData.apartment}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                  </div>
                 </div>
               )}
 
               <div className="flex flex-wrap gap-4 mt-8">
-                <button type="submit" className="min-w-[150px] px-6 py-3.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                <button
+                  type="submit"
+                  className="min-w-[150px] px-6 py-3.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                >
                   Sifarişi tamamla ({totalPrice.toFixed(2)} ₼)
                 </button>
               </div>

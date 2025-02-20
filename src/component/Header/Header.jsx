@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import logo from '../../assets/icon/logo.png';
+import logos from '../../assets/icon/logo.png';
 import Cart from '../Main/Cart';
 import spotfy from '../../assets/icon/spotify.png'
 import { Link, useNavigate } from 'react-router-dom';
@@ -20,7 +20,7 @@ function Header() {
     const { sebet } = useContext(BASKET);
     const navigate = useNavigate(); // Router yönləndirməsi üçün
 
-console.log(logo);
+
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -67,7 +67,7 @@ console.log(logo);
 
             {/* ✅ Orta hissədə logo */}
             <Link to="/" className="flex items-center justify-center xl:translate-x-[-50px]">
-                <img src={logo} alt="Logo" className="h-[60px] w-[90px] xl:w-[150px] object-cover" />
+                <img src={logos} alt="Logo" className="h-[60px] w-[90px] xl:w-[150px] object-cover" />
             </Link>
 
             {/* ✅ Sağ tərəfdə Sifariş et, Profil, Səbət */}
