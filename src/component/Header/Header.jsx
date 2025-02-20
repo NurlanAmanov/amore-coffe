@@ -13,13 +13,14 @@ import { useAuth } from '../../Context/Authlogin';
 
 function Header() {
     const { user } = useAuth(); // İstifadəçinin daxil olub-olmadığını yoxlayırıq
-    const { banner } = useContext(DATA);
+    const { banner,logo } = useContext(DATA);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [opensebet, setOpensebet] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const { sebet } = useContext(BASKET);
     const navigate = useNavigate(); // Router yönləndirməsi üçün
 
+console.log(logo);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -71,9 +72,9 @@ function Header() {
 
             {/* ✅ Sağ tərəfdə Sifariş et, Profil, Səbət */}
             <div className="flex items-center gap-4">
-                <span className='text-black px-4 py-3 rounded-md  hover:text-[#000] duration-300 ease-in cursor-pointer'>
+                <Link to={'Allcategory'}  className='border flex rounded-md items-center hover:bg-[#de9f69] hover:text-white duration-300  cursor-pointer justify-center w-[60%]  border-[#de9f69] text-center py-2 px-2  mx-auto'>
                     Sifariş et
-                </span>
+                </Link>
 
                 {/* Profil düyməsi */}
                 <div id="profile-dropdown" className="relative">

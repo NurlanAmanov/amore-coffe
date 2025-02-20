@@ -18,7 +18,7 @@ function BasketContext({ children }) {
   }, []);
 
   // **Məhsul səbətə əlavə ediləndə cookiedə saxla**
-  function bassketadd(title, about, id, imgUrl, description, price, discount, finalPrice, count,selectedVariant) {
+  function bassketadd(title, about, id, imgUrl, price, discount, totalPrice, selectedSize,quantity) {
     setSebet((prevSebet) => {
       let newSebet = [...prevSebet];
 
@@ -27,11 +27,11 @@ function BasketContext({ children }) {
       if (existingProductIndex !== -1) {
         newSebet[existingProductIndex] = {
           ...newSebet[existingProductIndex],
-          count: newSebet[existingProductIndex].count + count, // ✅ Say artır
+          quantity: newSebet[existingProductIndex].quantity + quantity, // ✅ Say artır
         };
       } else {
         // Yeni məhsulu əlavə et
-        newSebet.push({ title, about, id, imgUrl, description, price, discount, finalPrice, count,selectedVariant });
+        newSebet.push({ title, about, id, imgUrl, price, discount, totalPrice, selectedSize,quantity });
       }
 
       // **Yenilənmiş səbəti cookiedə saxla**

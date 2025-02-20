@@ -36,8 +36,7 @@ function Cabinet() {
         return <PromoCodes />;
       case "sevimli":
         return <Sevimli/>;
-      case "bildirishler":
-        return <Notifications />;
+      
       default:
         return <Acountinfo />;
     }
@@ -73,9 +72,7 @@ function Cabinet() {
               <li onClick={() => handleTabChange("Sevimliler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
                 Sevimlilər
               </li>
-              <li onClick={() => handleTabChange("bildirishler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
-                Bildirişlər
-              </li>
+              
               <li onClick={handleLogout} className="cursor-pointer px-3 py-2 text-sm text-red-600 hover:bg-red-700 hover:text-white">
                 Çıxış
               </li>
@@ -98,9 +95,7 @@ function Cabinet() {
             <li onClick={() => setActiveTab("sevimli")} className={`mt-5 cursor-pointer border-l-2 px-2 py-2 font-semibold transition ${activeTab === "sevimliler" ? "border-l-blue-700 text-blue-700" : "border-transparent hover:border-l-blue-700 hover:text-blue-700"}`}>
               Sevimlilər
             </li>
-            <li onClick={() => setActiveTab("bildirishler")} className={`mt-5 cursor-pointer border-l-2 px-2 py-2 font-semibold transition ${activeTab === "bildirishler" ? "border-l-blue-700 text-blue-700" : "border-transparent hover:border-l-blue-700 hover:text-blue-700"}`}>
-              Bildirişlər
-            </li>
+          
             <li onClick={handleLogout} className="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold text-red-600 transition hover:border-l-red-700 hover:text-red-700">
               Çıxış
             </li>

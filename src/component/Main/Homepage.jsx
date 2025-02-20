@@ -4,6 +4,7 @@ import amorecoffe from '../../assets/coffe.png'
 import CoffeeSuggestion from './CoffeeSuggestion'
 import Silder from './Silder'
 import Category from './Category'
+import Abouthome from './Abouthome'
 function Homepage() {
 
 
@@ -20,19 +21,7 @@ function Homepage() {
   <p className="text-lg text-center font-semibold">Seçilmiş ləzzətlərlə hazırlanmış menu</p>
 <Category/>
 </section>
-<section className='about py-[50px] bg-[#f7f7f7]'>
-<p className='text-3xl font-[600] text-center'>Haqqımızda</p>
-<hr className='h-[50px] w-[3px] my-6 mx-auto bg-[#db9457]'/>
-<div className="content text-center">
-<p className="text-gray-700 text-lg leading-relaxed text-center w-[90%] mx-auto">
-        Hər şeyi qəlb, bədən və ruhla edirik. Dünyanın dörd bir yanından fermerlərlə dərin tərəfdaşlıqlar 
-        qurmağa və birlikdə perspektiv yaratmağa çalışırıq;
-        <br />
-        etibar və hörmətə əsaslanan sağlam iş münasibətləri qururuq.
-      </p>
-      <a href="#" className='border border-[#db9457] mx-auto w-[150px]  py-3 block mt-12'>Daha çox öyrən....</a>
-</div>
-</section>
+<Abouthome/>
 
 <section className='encoxsatilan'>
 <div className="max-w-4xl mx-auto py-10 px-2">

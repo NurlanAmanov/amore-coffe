@@ -11,6 +11,7 @@ import Registr from './login/Registr'
 import Cabinet from './component/Usecabiner/Cabinet'
 import ProductPage from './component/Main/ProductPage'
 import Location from './component/Main/Location'
+import ProductDetail from './component/product/ProductDetail'
 
 
 
@@ -21,21 +22,22 @@ function App() {
   }, [pathname])
   return (
     <>
-<Routes>
-  <Route path="/" element={<Layout />}>
-  <Route index element={<Homepage />} />
-    <Route path="haqqimizda" element={<Haqqimizda />} />
-    <Route path="teklif" element={<Teklif />} />
-    <Route path="Product" element={<Product />} />
-    <Route path="Allcategory" element={<Allcategory />} />
-    <Route path="about" element={<Haqqimizda />} />
-    <Route path="qeydiyyat" element={<Registr />} />
-    <Route path="Cabinet" element={<Cabinet />} />
-    <Route path="/product/:id" element={<ProductPage />} />
-    <Route path="Check" element={<Checkout />} />
-    <Route path="lokasiya" element={<Location />} />
-  </Route>
-</Routes>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Homepage />} />
+          <Route path="haqqimizda" element={<Haqqimizda />} />
+          <Route path="teklif" element={<Teklif />} />
+          <Route path="Product" element={<Product />} />
+          <Route path="Allcategory" element={<Allcategory />} />
+          <Route path="about" element={<Haqqimizda />} />
+          <Route path="qeydiyyat" element={<Registr />} />
+          <Route path="Cabinet" element={<Cabinet />} />
+          <Route path="Check" element={<Checkout />} />
+          <Route path="lokasiya" element={<Location />} />
+          <Route path="/ProductDetail/:id" element={<ProductDetail />} />
+          <Route path="Allcategory" element={<Allcategory />} />
+        </Route>
+      </Routes>
 
     </>
   )

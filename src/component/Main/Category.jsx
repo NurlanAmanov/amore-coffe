@@ -6,7 +6,9 @@ function Category() {
   const { data } = useContext(DATA);
 
   return (
-    <div className="grid px-2 pt-[50px] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-screen-xl mx-auto">
+<>
+
+<div className="grid px-2 pt-[50px] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-screen-xl mx-auto">
       {data.slice(0, 4).map((item, i) => (
         <Link
           key={i}
@@ -28,7 +30,11 @@ function Category() {
           </div>
         </Link>
       ))}
+
+    
     </div>
+      <Link to={'Allcategory'}  className='border flex rounded-sm items-center hover:bg-[#de9f69] hover:text-white duration-300 justify-center w-[65%] xl:w-[20%] border-[#de9f69] text-center py-4 px-4 mt-12 mx-auto'>Bütün kateqoriyalara göz atın</Link>
+</>
   );
 }
 

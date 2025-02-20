@@ -82,12 +82,12 @@ function Sifaris() {
 
       {/* Count Column */}
       <td className="p-4 text-sm">
-        {item.count}
+        {item.quantity}
       </td>
 
       {/* Variant Column */}
       <td className="p-4 text-sm">
-        {item.selectedVariant || 'Seçilməyib'} {/* Show variant if exists, otherwise show "Not Selected" */}
+        {item.selectedSize || 'Seçilməyib'} {/* Show variant if exists, otherwise show "Not Selected" */}
       </td>
     </tr>
   )

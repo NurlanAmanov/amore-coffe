@@ -16,7 +16,7 @@ function Sevimli() {
             <div key={item.id} className="bg-white rounded-lg w-full max-w-xs mx-auto shadow-md overflow-hidden p-4">
               {/* Məhsul şəkli */}
               <img
-                src={item.imgUrl ? `http://finalprojectt-001-site1.jtempurl.com${item.imgUrl}` : '/default-image.jpg'}  // Default image fallback
+                src={item.imgUrl}  // Default image fallback
                 alt={item.title}
                 className="w-full h-52 object-cover rounded-lg"
               />

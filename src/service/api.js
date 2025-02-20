@@ -39,7 +39,7 @@ async function GetSocialMedia() {
 }
 
 async function GetLogo() {
-    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Logo")
+    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/UploadFile/upload")
     return res.data;
 
 }

@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { Getbanner, GetData, GetProduct, GetProductById } from '../service/api';
+import { Getbanner, GetData, GetLogo, GetProduct, GetProductById, Getslogan } from '../service/api';
 
 export const DATA = createContext([]);
 
@@ -8,11 +8,15 @@ function Datacontext({ children }) {
     const [mehsul, setMehsul] = useState([]);
     const [mehsulid, setMehsulid] = useState(null); // ID ilə məhsulu saxlayan state
     const [banner, setbanner] = useState([]);
+    const [slogan, setSlogan] = useState([]);
+    const [logo, setLogo] = useState([]);
 
     useEffect(() => {
         GetData().then(res => setData(res));
         GetProduct().then(res => setMehsul(res));
         Getbanner().then(res=>setbanner(res))
+        Getslogan().then(res=>setSlogan(res))
+        GetLogo().then(res=>setLogo(res))
     }, []);
 
     // ID ilə məhsulu gətirmək üçün funksiya
@@ -26,7 +30,7 @@ function Datacontext({ children }) {
     };
 
     return (
-        <DATA.Provider value={{ data, mehsul,banner, mehsulid, fetchProductById }}>
+        <DATA.Provider value={{ data, mehsul,banner, mehsulid, fetchProductById,slogan,logo }}>
             {children}
         </DATA.Provider>
     );

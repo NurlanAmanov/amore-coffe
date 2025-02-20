@@ -16,20 +16,12 @@ function Cart({ opensebet, setOpensebet }) {
     return acc;
   }, []);
 
-  // ✅ Toplam məbləği hesablayırıq
-  const totalPrice = groupedBasket.reduce(
-    (total, item) => {
-      // Qiymətləri yoxlayın ki, NaN olmasın
-      const itemPrice = item.discount > 0 ? (isNaN(item.finalPrice) ? 0 : item.finalPrice) : (isNaN(item.price) ? 0 : item.price);
-      const itemCount = isNaN(item.count) ? 0 : item.count; // Sayı yoxlayın
-      return total + itemCount * itemPrice;
-    },
-    0
-  );
+  const totalPrice = groupedBasket.reduce((total, item) => {
+    const effectivePrice = item.discount > 0 ? (isNaN(item.finalPrice) ? item.price : item.finalPrice) : item.price;
+    const effectiveQuantity = isNaN(item.quantity) ? 0 : item.quantity;
+    return total + effectiveQuantity * effectivePrice;
+  }, 0);
   
-  
-  console.log(groupedBasket);
-console.log("Total Price:", totalPrice);
 
 
   return (
@@ -68,14 +60,14 @@ console.log("Total Price:", totalPrice);
                         <div className="flex flex-col">
                           <h3 className="text-base font-bold text-gray-800">{item.title}</h3>
                  
-                          <p className="text-xs font-semibold text-gray-500">Ölçü: {item.selectedVariant}</p>
+                          <p className="text-xs font-semibold text-gray-500">Ölçü: {item.selectedSize}</p>
                         </div>
                       </div>
                       <div className="ml-auto flex flex-col items-end">
                         <h4 className="text-base font-bold text-gray-800">
-                          {item.discount > 0 ? item.finalPrice : item.price} ₼
+                          {item.discount > 0 ? item.totalPrice : item.price} ₼
                         </h4>
-                        <p className="text-xs text-gray-500">({item.count} ədəd)</p>
+                        <p className="text-xs text-gray-500">({item.quantity} ədəd)</p>
                       </div>
                     </div>
                   </div>
