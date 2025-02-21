@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Forgetpassword() {
     const [email, setEmail] = useState('');
@@ -64,6 +65,7 @@ function Forgetpassword() {
                         Şifrəni Sıfırla
                     </button>
                 </form>
+                <Link to="/resetpassword" >GEtreset</Link>
             </div>
             
             {/* Modal Component */}
