@@ -12,28 +12,32 @@ function Forgetpassword() {
         event.preventDefault();
         const formData = new FormData();
         formData.append('Email', email);
-
+    
         try {
             const response = await fetch('https://finalprojectt-001-site1.jtempurl.com/api/Auth/ForgotPassword', {
                 method: 'POST',
                 body: formData
             });
-
+    
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
+    
             const data = await response.json();
             console.log('Success:', data);
-            setShowModal(true); // Modal göstər
+    
+            // Modal göstərmək və sonra yönləndirmək
+            setShowModal(true); // Modalı göstər
             setTimeout(() => {
-                window.location.href = '/'; // Ana səhifəyə yönləndir
-            }, 1000); // 3 saniyə sonra ana səhifəyə yönləndir
+                // Yönləndirmə
+                window.location.href = `http://localhost:5173/resetpassword?email=${email}&token=${data.token}`;
+            }, 1000); // 1 saniyə sonra yönləndir
         } catch (error) {
             console.error('Error:', error);
             alert('Error sending password reset email.');
         }
     };
+    
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">

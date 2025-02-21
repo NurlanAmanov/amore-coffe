@@ -1,73 +1,100 @@
-import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 function ResetPassword() {
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const email = queryParams.get('email');
+    const token = queryParams.get('token');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    if (newPassword !== confirmPassword) {
-      setMessage('Şifrələr uyğun gəlmir.');
-      return;
-    }
-
-    const resetData = {
-      email: "nurlanamanov31@gmail.com",
-      token: "CfDJ8AlJhaGF4v9FiR7oyAIml3p3EOHlxp1CiOEe/eOZVlwnDgyJTPu62HRDOCZAZy+eC/duphaz4uiyweCDsEU0j1wqtd2XEkqCtjL+KdbVj2t3Szm2417Sq8JEK4Iv/yp1jYWe0+zsqtsC+3/fMw7UL35Z+M5nGQ3zVrRulz3jkqlC5LUDEmpwVuftaJVQq7fGi/t8EMXnWkPVO4v5NG19pw4AiaMCLNCkUya38tkxbhKN",
-      newPassword: newPassword,
-      confirmPassword: confirmPassword
+    const handlePasswordChange = (event) => {
+        const { name, value } = event.target;
+        if (name === 'newPassword') setNewPassword(value);
+        if (name === 'confirmPassword') setConfirmPassword(value);
     };
 
-    try {
-      const response = await fetch('https://finalprojectt-001-site1.jtempurl.com/api/Auth/ResetPassword', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(resetData),
-      });
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-      const result = await response.json();
+        if (newPassword !== confirmPassword) {
+            alert('Şifrəni təsdiq edin!');
+            return;
+        }
 
-      if (response.ok) {
-        setMessage('Şifrəniz uğurla yeniləndi!');
-      } else {
-        setMessage(result.message || 'Şifrə yenilənməsi zamanı xəta baş verdi.');
-      }
-    } catch (error) {
-      setMessage('Xəta baş verdi: ' + error.message);
-    }
-  };
+        try {
+            const response = await fetch('https://finalprojectt-001-site1.jtempurl.com/api/Auth/ResetPassword', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    token,
+                    newPassword,
+                }),
+            });
 
-  return (
-    <div>
-      <h1>Şifrəni Yenilə</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Yeni Şifrə:</label>
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
+            if (!response.ok) {
+                throw new Error('Şifrə sıfırlanarkən xəta baş verdi.');
+            }
+
+            const data = await response.json();
+            console.log('Şifrə sıfırlandı:', data);
+            alert('Şifrə uğurla sıfırlandı!');
+        } catch (error) {
+            console.error('Xəta:', error);
+            alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+        }
+    };
+
+    return (
+        <div className="min-h-screen py-[100px] bg-gray-100 flex items-center justify-center">
+            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md w-full">
+                <h1 className="text-center text-2xl font-bold mb-6">Şifrəni Sıfırlayın</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 font-bold mb-2" htmlFor="newPassword">
+                            Yeni Şifrə
+                        </label>
+                        <input
+                            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="newPassword"
+                            name="newPassword"
+                            type="password"
+                            placeholder="Yeni şifrənizi daxil edin"
+                            value={newPassword}
+                            onChange={handlePasswordChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 font-bold mb-2" htmlFor="confirmPassword">
+                            Şifrəni Təsdiq Edin
+                        </label>
+                        <input
+                            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="Şifrənizi təsdiq edin"
+                            value={confirmPassword}
+                            onChange={handlePasswordChange}
+                            required
+                        />
+                    </div>
+                    <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+                        type="submit"
+                    >
+                        Şifrəni Sıfırlayın
+                    </button>
+                </form>
+            </div>
         </div>
-        <div>
-          <label>Yeni Şifrəni Təsdiqlə:</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Şifrəni Yenilə</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
-  );
+    );
 }
 
 export default ResetPassword;
