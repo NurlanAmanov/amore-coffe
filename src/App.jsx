@@ -9,9 +9,10 @@ import Allcategory from './component/All-category/Allcategory'
 import Checkout from './component/checkout/Checkout'
 import Registr from './login/Registr'
 import Cabinet from './component/Usecabiner/Cabinet'
-import ProductPage from './component/Main/ProductPage'
 import Location from './component/Main/Location'
 import ProductDetail from './component/product/ProductDetail'
+import Resetpasword from './login/Resetpasword'
+import Forgetpassword from './login/Forgetpassword'
 
 
 
@@ -36,6 +37,8 @@ function App() {
           <Route path="lokasiya" element={<Location />} />
           <Route path="/ProductDetail/:id" element={<ProductDetail />} />
           <Route path="Allcategory" element={<Allcategory />} />
+          <Route path="resetpassword" element={<Resetpasword />} />
+          <Route path="Forgetpassword" element={<Forgetpassword />} />
         </Route>
       </Routes>
 

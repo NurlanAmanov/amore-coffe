@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import logos from '../../assets/icon/logo.png';
+
 import Cart from '../Main/Cart';
 import spotfy from '../../assets/icon/spotify.png'
 import { Link, useNavigate } from 'react-router-dom';
@@ -67,8 +67,17 @@ function Header() {
 
             {/* ✅ Orta hissədə logo */}
             <Link to="/" className="flex items-center justify-center xl:translate-x-[-50px]">
-              {logo && logo.map((item)=>{
-                  <img src={item.imgUrl} alt="Logo" className="h-[60px] w-[90px] xl:w-[150px] object-cover" />
+              { logo.map((item)=>{
+                  return(
+             
+                  
+                    <img 
+                    src={`https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`} 
+                    alt="Logo" 
+                    className="h-[60px] w-[90px] xl:w-[150px] object-cover" 
+                  />
+                  
+                )
               })}
             </Link>
 
