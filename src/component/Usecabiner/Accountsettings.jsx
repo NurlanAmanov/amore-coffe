@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 
 function AccountInfo() {
   const [userInfo, setUserInfo] = useState(null);
+  const [promocodes, setPromocodes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // LocalStorage-dan istifadəçi məlumatlarını oxumaq
   const user = JSON.parse(localStorage.getItem("user"));
@@ -11,30 +13,54 @@ function AccountInfo() {
     // Yalnız istifadəçi login olduqda və token mövcud olduqda API çağırışı edilir
     if (user && user.email && user.token) {
       setLoading(true);
-      const fetchUserInfo = async () => {
+      setError(null); // Hər yeni çağırışda əvvəlki səhvi sıfırlamaq
+
+      const fetchData = async () => {
         try {
-          const response = await fetch(`https://finalprojectt-001-site1.jtempurl.com/api/Auth/${user.email}`, {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${user.token}`, // Token başlığı ilə
-              'Content-Type': 'application/json'
-            }
-          });
-          if (response.ok) {
-            const data = await response.json();
-            console.log("API-dən gələn məlumat:", data); // Konsola çıxar
-            setUserInfo(data);
+          // İki API çağırışını paralel şəkildə yerinə yetir
+          const [userResponse, promocodesResponse] = await Promise.all([
+            fetch(`https://finalprojectt-001-site1.jtempurl.com/api/Auth?email=${user.email}`, {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+                'Content-Type': 'application/json'
+              }
+            }),
+            fetch(`https://finalprojectt-001-site1.jtempurl.com/api/Auth/Login?email=${user.email}`, {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+                'Content-Type': 'application/json'
+              }
+            })
+          ]);
+
+          // İstifadəçi məlumatlarını çək
+          if (userResponse.ok) {
+            const userData = await userResponse.json();
+            setUserInfo(userData);
           } else {
-            throw new Error('Məlumatları çəkmək mümkün olmadı.');
+            throw new Error('İstifadəçi məlumatları çəkilmədi.');
+          }
+
+          // Promokod məlumatlarını çək
+          if (promocodesResponse.ok) {
+            const promocodesData = await promocodesResponse.json();
+            setPromocodes(promocodesData);
+          } else {
+            throw new Error('Promokod məlumatları çəkilmədi.');
           }
         } catch (error) {
-          console.error('Error:', error);
+          setError(error.message); // Səhv mesajını idarə et
         } finally {
           setLoading(false);
         }
       };
 
-      fetchUserInfo();
+      fetchData();
+    } else {
+      setError("İstifadəçi məlumatları tapılmadı.");
+      setLoading(false);
     }
   }, [user]); // user dəyişdikdə çağırılır
 
@@ -43,6 +69,8 @@ function AccountInfo() {
       <h2 className="text-2xl font-semibold mb-4">İstifadəçi Məlumatları</h2>
       {loading ? (
         <p className="text-gray-500">Məlumatlar yüklənir...</p>
+      ) : error ? (
+        <p className="text-red-500">{error}</p> // Səhv mesajını göstərin
       ) : userInfo ? (
         <div className="space-y-2">
           <p><strong>Ad:</strong> {userInfo.name}</p>
@@ -51,15 +79,15 @@ function AccountInfo() {
           <p><strong>İstifadəçi Adı:</strong> {userInfo.userName}</p>
 
           {/* Promokodlar */}
-          {userInfo.userPromocodes && userInfo.userPromocodes.length > 0 && (
+          {promocodes.length > 0 && (
             <div>
               <h3 className="text-xl font-semibold mt-4">Promokodlar</h3>
               <ul>
-                {userInfo.userPromocodes.map((promo) => (
+                {promocodes.map((promo) => (
                   <li key={promo.id} className="mt-2">
-                    <p><strong>Promokod:</strong> {promo.promocode.code}</p>
-                    <p><strong>Endirim Faizi:</strong> {promo.promocode.discountPercentage}%</p>
-                    <p><strong>Bitmə Tarixi:</strong> {new Date(promo.promocode.expirationDate).toLocaleDateString()}</p>
+                    <p><strong>Promokod:</strong> {promo.code}</p>
+                    <p><strong>Endirim Faizi:</strong> {promo.discountPercentage}%</p>
+                    <p><strong>Bitmə Tarixi:</strong> {new Date(promo.expirationDate).toLocaleDateString()}</p>
                   </li>
                 ))}
               </ul>

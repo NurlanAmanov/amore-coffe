@@ -18,7 +18,7 @@ function Cart({ opensebet, setOpensebet }) {
 
   const totalPrice = groupedBasket.reduce((total, item) => {
     const effectivePrice = item.discount > 0 ? (isNaN(item.finalPrice) ? item.price : item.finalPrice) : item.price;
-    const effectiveQuantity = isNaN(item.quantity) ? 0 : item.quantity;
+    const effectiveQuantity = item.quantity || 0;  // Quantity yoxlanır
     return total + effectiveQuantity * effectivePrice;
   }, 0);
   
@@ -46,35 +46,35 @@ function Cart({ opensebet, setOpensebet }) {
 
               {/* Məhsullar */}
               {groupedBasket.length > 0 ? (
-                groupedBasket.map((item, i) => (
-                  <div key={i} className="space-y-4 mt-6 border-b pb-4">
-                    <div className="grid grid-cols-3 items-start gap-4">
-                      <div className="col-span-2 flex items-start gap-4">
-                        <div className="w-24 h-24 bg-gray-100 p-2 rounded-md">
-                          <img
-                            src={item.imgUrl}
-                            className="w-full h-full object-contain"
-                            alt={item.title}
-                          />
-                        </div>
-                        <div className="flex flex-col">
-                          <h3 className="text-base font-bold text-gray-800">{item.title}</h3>
-                 
-                          <p className="text-xs font-semibold text-gray-500">Ölçü: {item.selectedSize}</p>
-                        </div>
-                      </div>
-                      <div className="ml-auto flex flex-col items-end">
-                        <h4 className="text-base font-bold text-gray-800">
-                          {item.discount > 0 ? item.totalPrice : item.price} ₼
-                        </h4>
-                        <p className="text-xs text-gray-500">({item.quantity} ədəd)</p>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-center text-gray-500 mt-6">Səbət boşdur.</p>
-              )}
+  groupedBasket.map((item, i) => (
+    <div key={i} className="space-y-4 mt-6 border-b pb-4">
+      <div className="grid grid-cols-3 items-start gap-4">
+        <div className="col-span-2 flex items-start gap-4">
+          <div className="w-24 h-24 bg-gray-100 p-2 rounded-md">
+            <img
+              src={item.imgUrl}
+              className="w-full h-full object-contain"
+              alt={item.title}
+            />
+          </div>
+          <div className="flex flex-col">
+            <h3 className="text-base font-bold text-gray-800">{item.title}</h3>
+            <p className="text-xs font-semibold text-gray-500">Ölçü: {item.selectedSize}</p>
+          </div>
+        </div>
+        <div className="ml-auto flex flex-col items-end">
+          <h4 className="text-base font-bold text-gray-800">
+            {item.discount > 0 ? item.finalPrice.toFixed(2) : item.price.toFixed(2)} ₼
+          </h4>
+          <p className="text-xs text-gray-500">({item.quantity} ədəd)</p>
+        </div>
+      </div>
+    </div>
+  ))
+) : (
+  <p className="text-center text-gray-500 mt-6">Səbət boşdur.</p>
+)}
+
             </div>
 
             {/* Alt Panel */}

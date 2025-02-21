@@ -13,6 +13,7 @@ import Location from './component/Main/Location'
 import ProductDetail from './component/product/ProductDetail'
 import Resetpasword from './login/Resetpasword'
 import Forgetpassword from './login/Forgetpassword'
+import Order from './component/checkout/Order'
 
 
 
@@ -39,6 +40,7 @@ function App() {
           <Route path="Allcategory" element={<Allcategory />} />
           <Route path="reset-password" element={<Resetpasword />} />
           <Route path="Forgetpassword" element={<Forgetpassword />} />
+          <Route path="order" element={<Order />} />
         </Route>
       </Routes>
 

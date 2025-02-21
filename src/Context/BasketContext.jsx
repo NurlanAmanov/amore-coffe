@@ -18,7 +18,33 @@ function BasketContext({ children }) {
   }, []);
 
   // **Məhsul səbətə əlavə ediləndə cookiedə saxla**
-  function bassketadd(title, about, id, imgUrl, price, discount, totalPrice, selectedSize,quantity) {
+  function bassketadd(title, about, id, imgUrl, price, discount, finalPrice, selectedSize,quantity) {
+    setSebet((prevSebet) => {
+      let newSebet = [...prevSebet];
+
+      // Məhsul varsa, sayını artır
+      const existingProductIndex = newSebet.findIndex((item) => item.id === id);
+      if (existingProductIndex !== -1) {
+        newSebet[existingProductIndex] = {
+          ...newSebet[existingProductIndex],
+          quantity: newSebet[existingProductIndex].quantity + quantity, // ✅ Say artır
+        };
+      } else {
+        // Yeni məhsulu əlavə et
+        newSebet.push({ title, about, id, imgUrl, price, discount, finalPrice, selectedSize,quantity });
+      }
+
+      // **Yenilənmiş səbəti cookiedə saxla**
+      cook.set("sebet", newSebet, {
+        path: "/",
+        expires: new Date(Date.now() + 86400 * 1000),
+      });
+
+      return newSebet;
+    });
+  }
+
+  function bassketadd2(title,  id, imgUrl, price, discount, finalPrice, selectedSize,quantity) {
     setSebet((prevSebet) => {
       let newSebet = [...prevSebet];
 
@@ -56,7 +82,7 @@ function BasketContext({ children }) {
   console.log("Cari səbət:", sebet); // ✅ Konsolda səbətin içini yoxla
 
   return (
-    <BASKET.Provider value={{ sebet, bassketadd, basketRemove }}>
+    <BASKET.Provider value={{ sebet, bassketadd,bassketadd2, basketRemove }}>
       {children}
     </BASKET.Provider>
   );

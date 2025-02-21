@@ -6,7 +6,7 @@ import { LIKESDATA } from "../../Context/LikeContext";
 
 function Product() {
   const { mehsul } = useContext(DATA);
-  const { sebet = [], bassketadd } = useContext(BASKET);
+  const { sebet = [], bassketadd,bassketadd2 } = useContext(BASKET);
   const { toggleLike } = useContext(LIKESDATA);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -113,7 +113,7 @@ function ProductList({ filteredProducts, bassketadd, toggleLike, navigate }) {
               <div className="absolute bottom-0 left-0 w-full h-12 bg-[#333] opacity-40"></div>
               <div className="absolute bottom-0 left-0 w-full flex items-center justify-between p-2">
                 <button
-                  onClick={() => bassketadd(item.title, item.about, item.id, `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`, item.description, item.price, item.finalPrice)}
+                  onClick={() => bassketadd2(item.title, item.about, item.id, `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`, item.description, item.price, item.finalPrice)}
                   className="text-white bg-white/20 rounded-full p-2 cursor-pointer"
                 >
                   🛒

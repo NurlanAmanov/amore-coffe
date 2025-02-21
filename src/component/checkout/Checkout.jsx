@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { BASKET } from '../../Context/BasketContext';
+import { Link } from 'react-router-dom';
 
 function Checkout() {
   const { sebet } = useContext(BASKET);
@@ -194,8 +195,17 @@ function Checkout() {
                   type="submit"
                   className="min-w-[150px] px-6 py-3.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 >
-                  Sifarişi tamamla ({totalPrice.toFixed(2)} ₼)
+              Məlumatları yadda saxla
                 </button>
+                <Link
+  to={{
+    pathname: '/order',
+    state: { totalPrice }, // TotalPrice məlumatını ötür
+  }}
+  className="min-w-[150px] px-6 py-3.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+>
+  Ödəniş et ({totalPrice.toFixed(2)} ₼)
+</Link>
               </div>
             </form>
           </div>
