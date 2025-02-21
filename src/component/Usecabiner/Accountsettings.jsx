@@ -9,11 +9,11 @@ function AccountInfo() {
 
   useEffect(() => {
     // Yalnız istifadəçi login olduqda və token mövcud olduqda API çağırışı edilir
-    if (user && user.id && user.token) {
+    if (user && user.email && user.token) {
       setLoading(true);
       const fetchUserInfo = async () => {
         try {
-          const response = await fetch(`https://finalprojectt-001-site1.jtempurl.com/api/Auth/${user.id}`, {
+          const response = await fetch(`https://finalprojectt-001-site1.jtempurl.com/api/Auth/${user.email}`, {
             method: 'GET',
             headers: {
               Authorization: `Bearer ${user.token}`, // Token başlığı ilə
