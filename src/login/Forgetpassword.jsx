@@ -30,7 +30,7 @@ function Forgetpassword() {
             setShowModal(true); // Modalı göstər
             setTimeout(() => {
                 // Yönləndirmə
-                window.location.href = `http://localhost:5173/resetpassword?email=${email}&token=${data.token}`;
+                window.location.href = `https://amore-coffe.vercel.app/resetpassword?email=${email}&token=${data.token}`;
             }, 1000); // 1 saniyə sonra yönləndir
         } catch (error) {
             console.error('Error:', error);
