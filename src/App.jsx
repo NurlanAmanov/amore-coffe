@@ -37,7 +37,7 @@ function App() {
           <Route path="lokasiya" element={<Location />} />
           <Route path="/ProductDetail/:id" element={<ProductDetail />} />
           <Route path="Allcategory" element={<Allcategory />} />
-          <Route path="resetpassword" element={<Resetpasword />} />
+          <Route path="reset-password" element={<Resetpasword />} />
           <Route path="Forgetpassword" element={<Forgetpassword />} />
         </Route>
       </Routes>
