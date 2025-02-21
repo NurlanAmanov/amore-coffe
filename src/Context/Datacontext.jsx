@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { Getbanner, GetData, GetLogo, GetProduct, GetProductById, Getslogan, GetSocialMedia } from '../service/api';
+import { Getbanner, GetData, GetLogo, GetProduct, GetProductById, Getsilder, Getslogan, GetSocialMedia } from '../service/api';
 
 export const DATA = createContext([]);
 
@@ -10,6 +10,7 @@ function Datacontext({ children }) {
     const [banner, setbanner] = useState([]);
     const [slogan, setSlogan] = useState([]);
     const [logo, setLogo] = useState([]);
+    const [silder, setSilder] = useState([]);
     const [socailmedia, setMedia] = useState([]);
 
     useEffect(() => {
@@ -19,6 +20,7 @@ function Datacontext({ children }) {
         Getslogan().then(res=>setSlogan(res))
         GetLogo().then(res=>setLogo(res))
         GetSocialMedia().then(res=>setMedia(res))
+        Getsilder().then(res=>setSilder(res))
     }, []);
 
     // ID ilə məhsulu gətirmək üçün funksiya
@@ -32,7 +34,7 @@ function Datacontext({ children }) {
     };
 
     return (
-        <DATA.Provider value={{ data, mehsul,banner, mehsulid, fetchProductById,slogan,logo,socailmedia }}>
+        <DATA.Provider value={{ data, mehsul,banner, mehsulid, fetchProductById,slogan,logo,socailmedia,silder }}>
             {children}
         </DATA.Provider>
     );

@@ -1,6 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+// import required modules
+import { Pagination ,Autoplay} from 'swiper/modules';
+import { DATA } from '../../Context/Datacontext';
 function Silder() {
+  const {silder} = useContext(DATA)
   return (
     <>
  <div className="w-[95%] mx-auto overflow-x-hidden grid grid-cols-1 lg:grid-cols-2 items-center md:py-14 lg:py-24 xl:py-14 lg:mt-3 xl:mt-5" data-aos="fade-right" data-aos-duration="800">
@@ -23,14 +31,29 @@ function Silder() {
 
       {/* Şəkil olan hissə */}
       <div className="flex justify-center lg:justify-end">
-        <img
-          id="heroImg1"
-          className="transition-all duration-300 ease-in-out  w-full max-w-md lg:max-w-xl"
-          src="https://www.coffeebeancompany.co.uk/app/uploads/2017/04/Coffee-Shop-1024x765.jpg"
-          alt="Awesome hero page image"
-          width="500"
-          height="488"
-        />
+      <Swiper spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Autoplay, Pagination]}
+        className="mySwiper">
+        {silder && silder.map((item,i)=>{
+return(
+  <SwiperSlide key={i} className='w-[350px] block h-[450px]'>
+
+    <img src={item.imgUrl} alt='Silder' className='w-[100%] object-cover'  />
+  </SwiperSlide>
+)
+        })}
+   
+
+      </Swiper>
       </div>
 
     </div>

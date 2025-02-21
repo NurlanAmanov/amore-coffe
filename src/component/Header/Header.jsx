@@ -67,7 +67,9 @@ function Header() {
 
             {/* ✅ Orta hissədə logo */}
             <Link to="/" className="flex items-center justify-center xl:translate-x-[-50px]">
-                <img src={logos} alt="Logo" className="h-[60px] w-[90px] xl:w-[150px] object-cover" />
+              {logo && logo.map((item)=>{
+                  <img src={item.imgUrl} alt="Logo" className="h-[60px] w-[90px] xl:w-[150px] object-cover" />
+              })}
             </Link>
 
             {/* ✅ Sağ tərəfdə Sifariş et, Profil, Səbət */}

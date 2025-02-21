@@ -13,22 +13,22 @@ function Footer() {
    <>
 <footer className='bg-[#333333] p-5'>
 <div className="footer-conent flex items-center justify-between p-3 xl:flex-row flex-col gap-2">
-  <div className="social flex items-center justify-center gap-3">
+  <div  className="social flex items-center justify-center gap-3">
 
 {socailmedia && socailmedia.map((item,i)=>{
   return(
 <>
-<a href={item.facebookUrl}>
+<a key={i} href={item.facebookUrl}>
 <img src={fb} className='w-[30px] object-cover' />
 </a>
-<a href={item.instagramUrl}>
+<a key={i}  href={item.instagramUrl}>
 
 <img src={insta} className='w-[30px] object-cover' />
 </a>
-<a href={item.linkedinUrl}>
+<a key={i}  href={item.linkedinUrl}>
 <img src={linkedin} className='w-[30px] object-cover' />
 </a>
-<a href={item.twitterUrl}>
+<a key={i} href={item.twitterUrl}>
 <img src={twlogo} className='w-[30px] object-cover' />
 </a>
 </>
