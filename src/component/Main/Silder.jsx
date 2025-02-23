@@ -14,13 +14,12 @@ function Silder() {
  <div className="w-[95%] mx-auto overflow-x-hidden grid grid-cols-1 lg:grid-cols-2 items-center md:py-14 lg:py-24 xl:py-14 lg:mt-3 xl:mt-5" data-aos="fade-right" data-aos-duration="800">
       
       {/* Yazı olan hissə */}
-      <div className="pr-2 py-14 md:py-0 text-center lg:text-left">
-        <h1 className="text-3xl font-bold text-black xl:text-3xl lg:text-2xl">
-          <span className="block w-full">Koffe seçiminiz ulduzlardan ilham alsın</span>
-          İndi sifariş edin və dadını hiss edin!
+      <div className="pr-2 py-18 md:py-0 text-center lg:text-left mr-20">
+        <h1 className="text-3xl font-semibold text-black xl:text-3xl lg:text-2xl">
+          <span className="block w-full font-playfair text-[55px] leading-none">Kofe seçiminiz ulduzlardan ilham alsın</span>
         </h1>
-        <p className="py-4 text-lg text-gray-500 2xl:py-8 md:py-6 2xl:pr-5">
-          Hər Fincanda Həzzin Zirvəsi
+        <p className="py-4 text-[20px] text-gray-500 2xl:py-8 md:py-6 2xl:pr-5 font-poppins">
+          Hər Fincanda ulduzların enerjisi gizlidir. Bürcünüzə uyğun kofenizi seçin!
         </p>
         <div className="mt-4">
           <a href="#contact" className="px-5 py-3 text-lg tracking-wider text-black bg-transparent border border-[#de9f69] rounded-lg md:px-8 hover:bg-[#de9f69] hover:text-white duration-300">

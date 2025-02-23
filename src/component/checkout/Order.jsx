@@ -1,205 +1,183 @@
-import React, { useState, useEffect, useContext } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { useNavigate } from "react-router-dom";
-import { BASKET } from "../../Context/BasketContext"; // Səbət konteksti
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Order() {
-  const stripe = useStripe();
-  const elements = useElements();
+  const location = useLocation();
   const navigate = useNavigate();
-  const { sebet } = useContext(BASKET); // Səbət məlumatlarını çəkirik
+  const token = localStorage.getItem("token");
 
-  // State-lər
+  // Səbətdəki məhsulları və ümumi qiyməti location-dan alırıq
+  const { totalPrice = 0, orderIds = '' } = location.state || {};
+
+  // 🔹 İstifadəçinin `userId`-sini çəkmək üçün state
+  const [userId, setUserId] = useState('');
+
+  // 🔹 Forma üçün state
   const [formData, setFormData] = useState({
-    CardholderName: "",
-    CVV: "",
-    CardNumber: "",
-    EXP: "",
-    TotalPrice: 0, // Səbətdəki məhsulların ümumi məbləği
-    PaymentMethod: "card",
-    AppUserId: localStorage.getItem("userId") || "",
-    OrderId: "", // Sifariş ID-si səbətdən avtomatik yaradılacaq
-    PaymentToken: "", // Stripe token burada əlavə olunacaq
+    cvv: '',
+    cardholderName: '',
+    paymentMethod: 'Card', // Backend formatına uyğun dəyişdirilib
+    cardNumber: '',
+    expDate: '',
+    paymentToken: 'tok_visa', // Default olaraq Visa üçün token
+    orderId: orderIds,
+    totalPrice: totalPrice
   });
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  // Səbətdəki məhsulların ümumi məbləğini hesablayır
+  // 🔹 `Auth/profile` API-dən istifadəçinin `userId`-sini çəkmək
   useEffect(() => {
-    const totalPrice = sebet.reduce((total, item) => {
-      return total + item.quantity * (item.discount > 0 ? item.finalPrice : item.price);
-    }, 0);
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get(
+          "https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.data) {
+          setUserId(response.data.id); // 🔥 `userId` state-ə yazılır
+        }
+      } catch (error) {
+        console.error("İstifadəçi məlumatları yüklənmədi:", error);
+      }
+    };
 
-    // Sifariş ID-si yaradın (məsələn, səbətdəki məhsul ID-lərindən istifadə edərək)
-    const orderId = sebet.map((item) => item.id).join("-");
+    if (token) {
+      fetchUserProfile();
+    }
+  }, [token]);
 
-    setFormData((prevData) => ({
-      ...prevData,
-      TotalPrice: totalPrice,
-      OrderId: orderId,
-    }));
-  }, [sebet]);
-
-  // Input dəyərlərinin dəyişməsini idarə edir
+  // 🔹 Form daxilində dəyişiklikləri idarə edən funksiya
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Formun göndərilməsini idarə edir
+  // 🔹 Ödənişi icra edən funksiya
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
-
-    if (!stripe || !elements) {
-      setError("Stripe yüklənməyib.");
-      setLoading(false);
-      return;
-    }
-
-    const cardElement = elements.getElement(CardElement);
-
+    
     try {
-      // Stripe ilə ödəniş token-i yaradın
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: cardElement,
-      });
+      // ✅ FormData istifadə edərək multipart/form-data formatında göndəririk
+      const form = new FormData();
+      form.append('CVV', formData.cvv);
+      form.append('TotalPrice', formData.totalPrice);
+      form.append('CardholderName', formData.cardholderName);
+      form.append('PaymentMethod', formData.paymentMethod);
+      form.append('AppUserId', userId); // 🔥 `userId` avtomatik olaraq API-dən gəlir
+      form.append('OrderId', formData.orderId);
+      form.append('PaymentToken', formData.paymentToken);
+      form.append('CardNumber', formData.cardNumber);
+      form.append('EXP', formData.expDate);
 
-      if (error) {
-        throw new Error(error.message);
-      }
+      console.log("📦 Göndərilən FormData:", Object.fromEntries(form.entries()));
 
-      // Stripe token-i formData-ya əlavə edin
-      formData.PaymentToken = paymentMethod.id;
-
-      // FormData obyekti yaradın
-      const formDataToSend = new FormData();
-      formDataToSend.append("CVV", formData.CVV);
-      formDataToSend.append("TotalPrice", formData.TotalPrice.toString());
-      formDataToSend.append("CardholderName", formData.CardholderName);
-      formDataToSend.append("PaymentMethod", formData.PaymentMethod);
-      formDataToSend.append("AppUserId", formData.AppUserId);
-      formDataToSend.append("OrderId", formData.OrderId);
-      formDataToSend.append("PaymentToken", formData.PaymentToken);
-      formDataToSend.append("CardNumber", formData.CardNumber);
-      formDataToSend.append("EXP", formData.EXP);
-
-      // Ödəniş məlumatlarını backend-ə göndər
+      // 🔹 API Çağırışı (`multipart/form-data` formatında)
       const response = await fetch(
         "https://finalprojectt-001-site1.jtempurl.com/api/Checkout/process-payment",
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+            "accept": "*/*",
+            "Authorization": `Bearer ${token}`,
           },
-          body: formDataToSend, // FormData ilə göndərin
+          body: form, // 🔥 FormData bədən olaraq göndərilir
         }
       );
 
-      const result = await response.json();
-
       if (!response.ok) {
-        throw new Error(result.message || "Ödəniş zamanı xəta baş verdi.");
+        const result = await response.json();
+        console.error("API Response:", result);
+        throw new Error(result.message || "Ödənişin işlənməsi zamanı xəta baş verdi.");
       }
 
+      const result = await response.json();
       console.log("✅ Ödəniş uğurla tamamlandı:", result);
       alert("Ödəniş uğurla tamamlandı!");
-      navigate("/"); // Ödəniş uğurlu olduqda əsas səhifəyə yönləndir
+      navigate("/confirmation"); // Ödəniş tamamlandıqdan sonra yönləndir
+
     } catch (error) {
-      console.error("❌ Xəta baş verdi:", error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
+      console.error("❌ Ödəniş xətası:", error);
+      alert("Ödəniş zamanı xəta baş verdi!");
     }
   };
 
   return (
-    <div className="py-[150px] bg-white">
-      <div className="mx-auto w-full max-w-4xl p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-6">Ödəniş məlumatları</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="grid sm:grid-cols-2 gap-8">
-            {/* Kart sahibinin adı */}
-            <input
-              type="text"
-              name="CardholderName"
-              placeholder="Kart sahibinin adı"
-              value={formData.CardholderName}
-              onChange={handleChange}
-              required
-              className="input"
-            />
+    <div className='py-[160px]'>
+      <h1>Sifariş Təsdiqi</h1>
+      <p><strong>Ümumi Qiymət:</strong> {totalPrice.toFixed(2)} ₼</p>
+      <p><strong>Sifarişlər:</strong> {orderIds}</p>
 
-            {/* Kart nömrəsi */}
-            <input
-              type="text"
-              name="CardNumber"
-              placeholder="Kart nömrəsi"
-              value={formData.CardNumber}
-              onChange={handleChange}
-              required
-              className="input"
-            />
+      <form onSubmit={handleSubmit} className="mt-8">
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Kart Sahibi</label>
+          <input 
+            type="text" 
+            name="cardholderName" 
+            value={formData.cardholderName}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded-md"
+          />
+        </div>
 
-            {/* Son istifadə tarixi */}
-            <input
-              type="text"
-              name="EXP"
-              placeholder="Son istifadə tarixi (MM/YY)"
-              value={formData.EXP}
-              onChange={handleChange}
-              required
-              className="input"
-            />
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Kart Nömrəsi</label>
+          <input 
+            type="text" 
+            name="cardNumber" 
+            value={formData.cardNumber}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded-md"
+          />
+        </div>
 
-            {/* CVV */}
-            <input
-              type="text"
-              name="CVV"
-              placeholder="CVV"
-              value={formData.CVV}
-              onChange={handleChange}
-              required
-              className="input"
-            />
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Bitmə Tarixi (MM/YY)</label>
+          <input 
+            type="text" 
+            name="expDate" 
+            value={formData.expDate}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded-md"
+          />
+        </div>
 
-            {/* Stripe Card Element */}
-            <div className="col-span-2">
-              <CardElement
-                options={{
-                  style: {
-                    base: {
-                      fontSize: "16px",
-                      color: "#424770",
-                      "::placeholder": {
-                        color: "#aab7c4",
-                      },
-                    },
-                    invalid: {
-                      color: "#9e2146",
-                    },
-                  },
-                }}
-              />
-            </div>
-          </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">CVV</label>
+          <input 
+            type="text" 
+            name="cvv" 
+            value={formData.cvv}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded-md"
+          />
+        </div>
 
-          {/* Xəta mesajı */}
-          {error && <div className="text-red-500 mt-4">{error}</div>}
-
-          {/* Ödəniş et düyməsi */}
-          <button
-            type="submit"
-            disabled={loading || !stripe}
-            className="mt-6 min-w-[150px] px-6 py-3.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Ödəniş Metodu</label>
+          <select 
+            name="paymentMethod"
+            value={formData.paymentMethod}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-md"
           >
-            {loading ? "Yüklənir..." : "Ödəniş et"}
-          </button>
-        </form>
-      </div>
+            <option value="Card">Kart (Visa, MasterCard)</option>
+            <option value="PayPal">PayPal</option>
+          </select>
+        </div>
+
+        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+          Ödənişi Tamamla
+        </button>
+      </form>
     </div>
   );
 }

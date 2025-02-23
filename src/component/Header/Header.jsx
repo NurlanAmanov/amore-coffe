@@ -63,6 +63,7 @@ function Header() {
                 <Link to="/lokasiya" className="text-black text-base font-medium r transition">Lokasiyalar</Link>
                 <Link to="/about" className="text-black text-base font-medium  transition">Haqqımızda</Link>
                 <Link to="/teklif" className="text-black text-base font-medium transition">Bizə təklif göndər</Link>
+                <Link to="/music" className="text-black text-base font-medium transition">music</Link>
             </nav>
 
             {/* ✅ Orta hissədə logo */}
@@ -80,7 +81,7 @@ function Header() {
                 )
               })}
             </Link>
-
+          
             {/* ✅ Sağ tərəfdə Sifariş et, Profil, Səbət */}
             <div className="flex items-center gap-4">
                 <Link to={'Allcategory'}  className='border flex rounded-md items-center hover:bg-[#de9f69] hover:text-white duration-300  cursor-pointer justify-center w-[60%]  border-[#de9f69] text-center py-2 px-2  mx-auto'>

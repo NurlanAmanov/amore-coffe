@@ -32,8 +32,7 @@ function Cabinet() {
     switch (activeTab) {
       case "sifarishler":
         return <Sifaris />;
-      case "promokodlar":
-        return <PromoCodes />;
+      
       case "sevimli":
         return <Sevimli/>;
       
@@ -66,9 +65,7 @@ function Cabinet() {
               <li onClick={() => handleTabChange("sifarishler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
                 Sifarişlərim
               </li>
-              <li onClick={() => handleTabChange("promokodlar")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
-                Promokodlarım
-              </li>
+            
               <li onClick={() => handleTabChange("Sevimliler")} className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
                 Sevimlilər
               </li>
@@ -89,9 +86,7 @@ function Cabinet() {
             <li onClick={() => setActiveTab("sifarishler")} className={`mt-5 cursor-pointer border-l-2 px-2 py-2 font-semibold transition ${activeTab === "sifarishler" ? "border-l-blue-700 text-blue-700" : "border-transparent hover:border-l-blue-700 hover:text-blue-700"}`}>
               Sifarişlərim
             </li>
-            <li onClick={() => setActiveTab("promokodlar")} className={`mt-5 cursor-pointer border-l-2 px-2 py-2 font-semibold transition ${activeTab === "promokodlar" ? "border-l-blue-700 text-blue-700" : "border-transparent hover:border-l-blue-700 hover:text-blue-700"}`}>
-              Promokodlarım
-            </li>
+           
             <li onClick={() => setActiveTab("sevimli")} className={`mt-5 cursor-pointer border-l-2 px-2 py-2 font-semibold transition ${activeTab === "sevimliler" ? "border-l-blue-700 text-blue-700" : "border-transparent hover:border-l-blue-700 hover:text-blue-700"}`}>
               Sevimlilər
             </li>
