@@ -102,24 +102,43 @@ function Coment({ productId }) {
       {error && <p className="text-red-500">{error}</p>}
 
       {reviews.length > 0 ? (
-        reviews.map((review, index) => (
-          <div key={index} className="border-b pb-2 mt-2">
-            <p className="font-semibold">{review.userName}</p>
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                i < review.rating ? (
-                  <IoStar key={i} className="text-yellow-500" />
-                ) : (
-                  <IoStarOutline key={i} className="text-gray-400" />
-                )
-              ))}
-            </div>
-            <p className="text-gray-700">{review.comment}</p>
-          </div>
-        ))
+  reviews.map((review, index) => (
+    <div key={index} className="border-b pb-2 mt-2">
+      <p className="font-semibold">{review.userName}</p>
+      
+      {/* 🔥 Şəkili düzgün URL ilə göstərmək */}
+      {review.imgUrl ? (
+        <img
+          src={`https://finalprojectt-001-site1.jtempurl.com/uploads/${review.imgUrl}`}
+          alt="Profile Photo"
+          className="w-12 h-12 rounded-full object-cover"
+          onError={(e) => { e.target.src = "/default-profile.png"; }} // 🔥 Əgər şəkil tapılmasa, default şəkil
+        />
       ) : (
-        <p className="text-gray-500">Bu məhsula hələ şərh yazılmayıb.</p>
+        <img
+          src="/default-profile.png"
+          alt="Default Profile"
+          className="w-12 h-12 rounded-full object-cover"
+        />
       )}
+
+      {/* ⭐⭐⭐⭐⭐ Ulduzlar */}
+      <div className="flex">
+        {[...Array(5)].map((_, i) => (
+          i < review.rating ? (
+            <IoStar key={i} className="text-yellow-500" />
+          ) : (
+            <IoStarOutline key={i} className="text-gray-400" />
+          )
+        ))}
+      </div>
+
+      <p className="text-gray-700">{review.comment}</p>
+    </div>
+  ))
+) : (
+  <p className="text-gray-500">Bu məhsula hələ şərh yazılmayıb.</p>
+)}
 
       {userName && (
         <form className="mt-4" onSubmit={handleCommentSubmit}>

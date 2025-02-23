@@ -1,182 +1,150 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { BASKET } from '../../Context/BasketContext';
 
 function Order() {
   const location = useLocation();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  // Səbətdəki məhsulları və ümumi qiyməti location-dan alırıq
-  const { totalPrice = 0, orderIds = '' } = location.state || {};
+  const { sebet, basketRemove } = useContext(BASKET);
+  
+  const { totalPrice: initialTotalPrice = 0 } = location.state || {};
 
-  // 🔹 İstifadəçinin `userId`-sini çəkmək üçün state
   const [userId, setUserId] = useState('');
+  const [orders, setOrders] = useState([]); // ✅ İstifadəçinin sifarişlərini saxlayırıq
+  const [promocode, setPromocode] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(initialTotalPrice);
+  const [error, setError] = useState('');
 
-  // 🔹 Forma üçün state
+  // **Forma üçün state**
   const [formData, setFormData] = useState({
     cvv: '',
     cardholderName: '',
-    paymentMethod: 'Card', // Backend formatına uyğun dəyişdirilib
+    paymentMethod: 'Card',
     cardNumber: '',
     expDate: '',
-    paymentToken: 'tok_visa', // Default olaraq Visa üçün token
-    orderId: orderIds,
-    totalPrice: totalPrice
+    paymentToken: 'tok_visa',
   });
 
-  // 🔹 `Auth/profile` API-dən istifadəçinin `userId`-sini çəkmək
+  // 🔹 **İstifadəçi məlumatlarını `Auth/profile` API-dən avtomatik çəkmək**
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          "https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
+        const response = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.data && response.data.id) {
+          setUserId(response.data.id);
+          console.log("✅ User ID uğurla tapıldı:", response.data.id);
+
+          // 🔥 İstifadəçinin `order`-lərini çəkmək
+          fetchUserOrders(response.data.id);
+
+          // 🔥 Əgər `userPromocodes` varsa, promokodu avtomatik çəkmək
+          if (response.data.userPromocodes?.length > 0) {
+            const promo = response.data.userPromocodes[0].promocode;
+            setPromocode(promo.code);
+            applyPromoCode(promo.code); // ✅ Avtomatik tətbiq et
           }
-        );
-        if (response.data) {
-          setUserId(response.data.id); // 🔥 `userId` state-ə yazılır
+        } else {
+          throw new Error("İstifadəçi ID tapılmadı!");
         }
       } catch (error) {
-        console.error("İstifadəçi məlumatları yüklənmədi:", error);
+        console.error("❌ İstifadəçi məlumatı yüklənmədi:", error);
       }
     };
 
     if (token) {
-      fetchUserProfile();
+      fetchUserData();
     }
   }, [token]);
 
-  // 🔹 Form daxilində dəyişiklikləri idarə edən funksiya
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  // 🔹 Ödənişi icra edən funksiya
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+  // 🔹 **İstifadəçinin sifarişlərini (`orders`) API-dən çəkmək**
+  const fetchUserOrders = async (userId) => {
     try {
-      // ✅ FormData istifadə edərək multipart/form-data formatında göndəririk
-      const form = new FormData();
-      form.append('CVV', formData.cvv);
-      form.append('TotalPrice', formData.totalPrice);
-      form.append('CardholderName', formData.cardholderName);
-      form.append('PaymentMethod', formData.paymentMethod);
-      form.append('AppUserId', userId); // 🔥 `userId` avtomatik olaraq API-dən gəlir
-      form.append('OrderId', formData.orderId);
-      form.append('PaymentToken', formData.paymentToken);
-      form.append('CardNumber', formData.cardNumber);
-      form.append('EXP', formData.expDate);
+      const response = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Order/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
-      console.log("📦 Göndərilən FormData:", Object.fromEntries(form.entries()));
-
-      // 🔹 API Çağırışı (`multipart/form-data` formatında)
-      const response = await fetch(
-        "https://finalprojectt-001-site1.jtempurl.com/api/Checkout/process-payment",
-        {
-          method: "POST",
-          headers: {
-            "accept": "*/*",
-            "Authorization": `Bearer ${token}`,
-          },
-          body: form, // 🔥 FormData bədən olaraq göndərilir
-        }
-      );
-
-      if (!response.ok) {
-        const result = await response.json();
-        console.error("API Response:", result);
-        throw new Error(result.message || "Ödənişin işlənməsi zamanı xəta baş verdi.");
+      if (response.data && response.data.length > 0) {
+        setOrders(response.data); // ✅ Sifarişləri state-də saxlayırıq
+        console.log("✅ Sifarişlər tapıldı:", response.data);
+      } else {
+        console.log("ℹ️ İstifadəçinin sifarişi yoxdur.");
+        setOrders([]);
       }
-
-      const result = await response.json();
-      console.log("✅ Ödəniş uğurla tamamlandı:", result);
-      alert("Ödəniş uğurla tamamlandı!");
-      navigate("/confirmation"); // Ödəniş tamamlandıqdan sonra yönləndir
-
     } catch (error) {
-      console.error("❌ Ödəniş xətası:", error);
-      alert("Ödəniş zamanı xəta baş verdi!");
+      console.error("❌ Sifarişlər yüklənmədi:", error.response?.data || error.message);
+      setOrders([]);
     }
   };
 
   return (
     <div className='py-[160px]'>
       <h1>Sifariş Təsdiqi</h1>
-      <p><strong>Ümumi Qiymət:</strong> {totalPrice.toFixed(2)} ₼</p>
-      <p><strong>Sifarişlər:</strong> {orderIds}</p>
+      <p><strong>Əsas Qiymət:</strong> {initialTotalPrice.toFixed(2)} ₼</p>
 
-      <form onSubmit={handleSubmit} className="mt-8">
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Kart Sahibi</label>
-          <input 
-            type="text" 
-            name="cardholderName" 
-            value={formData.cardholderName}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Kart Nömrəsi</label>
-          <input 
-            type="text" 
-            name="cardNumber" 
-            value={formData.cardNumber}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Bitmə Tarixi (MM/YY)</label>
-          <input 
-            type="text" 
-            name="expDate" 
-            value={formData.expDate}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">CVV</label>
-          <input 
-            type="text" 
-            name="cvv" 
-            value={formData.cvv}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Ödəniş Metodu</label>
-          <select 
-            name="paymentMethod"
-            value={formData.paymentMethod}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md"
-          >
-            <option value="Card">Kart (Visa, MasterCard)</option>
-            <option value="PayPal">PayPal</option>
-          </select>
-        </div>
-
-        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-          Ödənişi Tamamla
+      {/* 🔥 Promokod Giriş Yeri */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">Promokod daxil edin</label>
+        <input 
+          type="text" 
+          value={promocode} 
+          onChange={(e) => setPromocode(e.target.value)} 
+          className="w-full p-2 border rounded-md" 
+          placeholder="Promokod" 
+        />
+        <button 
+          onClick={() => applyPromoCode()} 
+          className="mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+        >
+          Tətbiq et
         </button>
+        {error && <p className="text-red-500">{error}</p>}
+      </div>
+
+      <p><strong>Endirim:</strong> {discount}%</p>
+      <p><strong>Yekun Qiymət:</strong> {totalPrice.toFixed(2)} ₼</p>
+
+      {/* 🔥 Sifarişlərin siyahısı */}
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold">Sizin Sifarişləriniz:</h2>
+        {orders.length > 0 ? (
+          <ul className="mt-4 space-y-2">
+            {orders.map((order, index) => (
+              <li key={index} className="p-4 border rounded-md bg-gray-100">
+                <p><strong>Sifariş ID:</strong> {order.id}</p>
+                <p><strong>Məhsul adı:</strong> {order.title}</p>
+                <p><strong>Qiymət:</strong> {order.price} ₼</p>
+                <p><strong>Status:</strong> {order.status}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-500">ℹ️ Sizin heç bir sifarişiniz yoxdur.</p>
+        )}
+      </div>
+
+      <form className="mt-8">
+        <input type="text" name="cardholderName" value={formData.cardholderName} onChange={e => setFormData({ ...formData, cardholderName: e.target.value })} required className="w-full p-2 border rounded-md" placeholder="Kart Sahibinin Adı" />
+
+        <input type="text" name="cardNumber" value={formData.cardNumber} onChange={e => setFormData({ ...formData, cardNumber: e.target.value })} required className="w-full p-2 border rounded-md" placeholder="Kart Nömrəsi" />
+
+        <input type="text" name="expDate" value={formData.expDate} onChange={e => setFormData({ ...formData, expDate: e.target.value })} required className="w-full p-2 border rounded-md" placeholder="Bitmə Tarixi (MM/YY)" />
+
+        <input type="text" name="cvv" value={formData.cvv} onChange={e => setFormData({ ...formData, cvv: e.target.value })} required className="w-full p-2 border rounded-md" placeholder="CVV" />
+
+        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Ödənişi Tamamla</button>
       </form>
     </div>
   );

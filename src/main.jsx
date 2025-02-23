@@ -9,7 +9,7 @@ import { UserAuthProvider } from './Context/AuthRegstr.jsx';
 import { CustomAuthProvider } from './Context/Authlogin.jsx';
 import CabinetDatam from './Context/CabinetContext.jsx';
 import LikeContext from './Context/LikeContext.jsx';
-import { SpotifyProvider } from './Context/SpotifyContext.jsx'; // Spotify konteksti əlavə edildi
+
 
 createRoot(document.getElementById('root')).render(
   <Datacontext>
@@ -20,9 +20,9 @@ createRoot(document.getElementById('root')).render(
             <CustomAuthProvider>
               <CabinetDatam>
                 <LikeContext>
-                  <SpotifyProvider>
+       
                     <App />
-                  </SpotifyProvider>
+               
                 </LikeContext>
               </CabinetDatam>
             </CustomAuthProvider>
