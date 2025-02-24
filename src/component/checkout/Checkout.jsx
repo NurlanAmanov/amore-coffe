@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BASKET } from '../../Context/BasketContext';
+import {GetCabinet} from "../../service/Cabinet.js";
+import axios from "axios";
 
 function Checkout() {
   const { sebet } = useContext(BASKET);
@@ -100,15 +102,41 @@ function Checkout() {
     }
   };
 
-  const activatePayment = (shippingInfoId) => {
+  const activatePayment = async (shippingInfoId) => {
     // Bu addımda ödənişin aktivləşdirilməsini həyata keçiririk
     // Əgər ödəniş üçün xüsusi bir endpoint varsa, buraya onu əlavə edirik
     console.log("Ödəniş aktivləşdirilir...");
 
     // Yönləndirmə əməliyyatı
     const totalPrice = sebet.reduce((total, item) => total + item.quantity * (item.discount > 0 ? item.finalPrice : item.price), 0);
-    const orderIds = sebet.map(item => item.id).join('-');
-    navigate('/order', { state: { totalPrice, orderIds, shippingInfoId } });
+    console.log(totalPrice, 'Total Price');
+    console.log(sebet, 'Basket');
+    const token = localStorage.getItem('token');
+    const currentUser = await axios.get('https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.data).catch(err => console.error(err));
+
+    if(currentUser) {
+      const createOrderFormData = new FormData();
+        createOrderFormData.append("AppUserId", currentUser.id);
+        createOrderFormData.append("ProductIds", sebet.map(item => item.id));
+      const createdOrder = await axios.post('https://finalprojectt-001-site1.jtempurl.com/api/Order/create', createOrderFormData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      }).then(res => res.data).catch(err => console.error(err));
+
+      if(!createdOrder || !createdOrder.orderId) {
+        alert('Sifariş yaradılmadı!');
+        return;
+      }
+
+      console.log(createdOrder, 'Created Order');
+      navigate('/order?orderId=' + createdOrder.orderId);
+    }
   };
 
   const proceedToOrder = () => {

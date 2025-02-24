@@ -65,7 +65,7 @@ function Forgetpassword() {
                         Şifrəni Sıfırla
                     </button>
                 </form>
-                <Link to="/reset-password" >GEtreset</Link>
+              
             </div>
             
             {/* Modal Component */}

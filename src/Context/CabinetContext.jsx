@@ -11,9 +11,7 @@ function CabinetDatam({ children }) {
     useEffect(() => {
         GetCabinet().then(res =>setcabinetmehsul(res))
         GetAuth().then(res =>setAuthcontent(res))
-      
- 
-    },[])
+    },[]);
 
     return (
         <CABINETDATA.Provider value={{cabinetmehsul,autcontent }}>

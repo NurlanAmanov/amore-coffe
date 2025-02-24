@@ -1,113 +1,103 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
-const ACCESS_TOKEN = 'BQDOZp7XNE5_J1zm39C325Xkvqfi2lzIRuARoIm_JDEfFbP8ezFcrg5-ves5RwCC0BZhynRB5OVhsqiLuZPeRUgQylY63ZxDZgcAQmoM1UAX3mTe5D0fmf-K2xohrsdaKESM-haKRzbjBQk0QlribVwuTA1ljvto1maEipnznCo1sIiXAgYj97jqvg0yc6uzQVgacjMnbi8euxrJ4m_ohbkBDrttgikNxB22hu2zX5D3S44gXuHUJqFPxbtn9nIu'; // Replace with your valid access token
+// Authorization token that must have been created previously. 
+const token = 'BQBf3fbO_U1MgbKZc8jRcwXHN14iI_UZ5xR8ZaArfDveqnDLI2KjJyZUcxtkipq2KogXOLrBXVsomvXn9CiWlueOv8fj9lutryW7fyZl0CrTIARqXhJbXT0Dzwj3xcZG_XidnVk8dmyA6plg7rGLmTP8ezn_5fDj-vEXrQOM_lZxQM5bMeMj9eN-KoH-U-iT-8nRBBuYtr1p9R_J-iNVRY5oKPN5CT9Pbel7Aiz9DZC0b_RaXJ8Qu5jXr6NHBR3_8xrJ-_ADhbTnjTx0-LG5fpd3I45ktDIWsgSeOMFmcYHS6x18cl8mSTL0';
 
-function Music() {
-  const [tracks, setTracks] = useState([]);
-  const [player, setPlayer] = useState(null);
+async function fetchWebApi(endpoint, method = 'GET', body = null) {
+  const res = await fetch(`https://api.spotify.com/${endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method,
+    body: body ? JSON.stringify(body) : null,
+  });
+  return await res.json();
+}
+
+async function getTopTracks() {
+  return (await fetchWebApi('v1/me/top/tracks?time_range=long_term&limit=2')).items;
+}
+
+async function createPlaylist(tracksUri) {
+  const { id: user_id } = await fetchWebApi('v1/me', 'GET');
+
+  // Create a new playlist for the user
+  const playlist = await fetchWebApi(`v1/users/${user_id}/playlists`, 'POST', {
+    name: 'My top tracks playlist',
+    description: 'Playlist created by the tutorial on developer.spotify.com',
+    public: false,
+  });
+
+  // Add tracks one by one
+  for (let i = 0; i < tracksUri.length; i++) {
+    await fetchWebApi(`v1/playlists/${playlist.id}/tracks?uris=${tracksUri[i]}`, 'POST');
+  }
+
+  return playlist;
+}
+
+const Music = () => {
+  const [topTracks, setTopTracks] = useState([]);
+  const [playlist, setPlaylist] = useState(null);
   const [error, setError] = useState('');
-  const [currentTrack, setCurrentTrack] = useState(null);
 
-  // Fetch top tracks on component mount
   useEffect(() => {
-    fetchTopTracks();
+    const fetchData = async () => {
+      try {
+        const topTracksData = await getTopTracks();
+        setTopTracks(topTracksData);
+
+        const tracksUri = topTracksData.map(track => track.uri);
+
+        const createdPlaylist = await createPlaylist(tracksUri);
+        setPlaylist(createdPlaylist);
+      } catch (err) {
+        setError('An error occurred while fetching data.');
+        console.error(err);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  // Initialize the Spotify Web Playback SDK
-  useEffect(() => {
-    if (window.Spotify) {
-      window.onSpotifyWebPlaybackSDKReady = () => {
-        const playerInstance = new Spotify.Player({
-          name: 'Web Playback Player',
-          getOAuthToken: (cb) => { cb(ACCESS_TOKEN); },
-          volume: 0.5,
-        });
-
-        playerInstance.connect();
-
-        playerInstance.on('ready', ({ device_id }) => {
-          console.log('The Web Playback SDK is ready with device ID:', device_id);
-          setPlayer(playerInstance);
-        });
-
-        playerInstance.on('player_state_changed', (state) => {
-          console.log(state);
-          if (state && state.track_window) {
-            setCurrentTrack(state.track_window.current_track);
-          }
-        });
-
-        playerInstance.on('initialization_error', ({ message }) => {
-          console.error(message);
-        });
-
-        playerInstance.on('authentication_error', ({ message }) => {
-          console.error(message);
-        });
-
-        playerInstance.on('account_error', ({ message }) => {
-          console.error(message);
-        });
-
-        playerInstance.on('not_ready', ({ device_id }) => {
-          console.log('Device ID has gone offline:', device_id);
-        });
-      };
-    } else {
-      console.error("Spotify Web Playback SDK could not be loaded.");
-    }
-  }, []);
-
-  const fetchTopTracks = async () => {
-    try {
-      const response = await axios.get('https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=5', {
-        headers: { Authorization: `Bearer ${ACCESS_TOKEN}` }
-      });
-      setTracks(response.data.items || []);
-    } catch (error) {
-      console.error('Error fetching tracks from Spotify:', error);
-      setError('Failed to fetch tracks from Spotify. Please check your login status.');
-    }
-  };
-
-  const togglePlay = () => {
-    if (player) {
-      player.togglePlay();
-    } else {
-      console.log('Player is not ready yet.');
-    }
-  };
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
-    <div className="my-[100px] block pt-32 text-center">
-      <h1 className="text-3xl font-bold mb-6">Spotify Musics</h1>
-      {error && <p className="text-red-500">{error}</p>}
+    <div className="music-player">
+      <h1>Spotify Web Playback</h1>
 
-      {tracks.length > 0 ? (
-        <ul className="space-y-2">
-          {tracks.map((track, index) => (
-            <li key={index} className="border p-3 rounded-lg shadow-sm">
-              <strong>{track.name}</strong> - {track.artists.map(artist => artist.name).join(', ')}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-gray-500">No tracks found.</p>
+      {topTracks.length > 0 && (
+        <div>
+          <h2>Your Top Tracks</h2>
+          <ul>
+            {topTracks.map(({ name, artists }, index) => (
+              <li key={index}>
+                {name} by {artists.map(artist => artist.name).join(', ')}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
-      <button onClick={togglePlay} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
-        Toggle Play
-      </button>
-
-      {currentTrack && (
-        <div className="mt-4">
-          <h2 className="text-xl font-bold">Currently Playing:</h2>
-          <p>{currentTrack.name} by {currentTrack.artists.map(artist => artist.name).join(', ')}</p>
+      {playlist && (
+        <div>
+          <h3>Created Playlist: {playlist.name}</h3>
+          <iframe
+            title="Spotify Embed: Recommendation Playlist"
+            src={`https://open.spotify.com/embed/playlist/${playlist.id}?utm_source=generator&theme=0`}
+            width="100%"
+            height="100%"
+            style={{ minHeight: '360px' }}
+            frameBorder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          />
         </div>
       )}
     </div>
   );
-}
+};
 
 export default Music;
