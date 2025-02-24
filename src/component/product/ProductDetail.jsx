@@ -31,7 +31,7 @@ const ProductDetail = () => {
       console.error("Məhsul yüklənərkən xəta baş verdi:", error);
     }
   };
-console.log(id);
+  console.log(id);
 
   // 🔹 Yükləmə effekti
   if (!product) {
@@ -76,11 +76,34 @@ console.log(id);
             <IoStarSharp className="text-yellow-500" />
             <span className="text-gray-500 text-sm">2 rəylər</span>
           </div>
-
+          <span className="text-gray-500 text-sm my-4 font-[500]">
+            Taglar : {product.tags.map((tag, index) => (
+              <span key={index}>
+                {tag.tag.name}
+                {index < product.tags.length - 1 && ', '} {/* Əgər tag-lar çoxdursa, aralarına vergül qoyulur */}
+              </span>
+            ))}
+          </span>
           {/* Qiymət */}
           <div className="mt-4 text-lg font-semibold">
             <span className="text-red-500">{product.finalPrice} ₼</span>
             <span className="line-through text-gray-400 ml-2">{product.price}₼</span>
+          </div>
+
+          {/* Variantlar / Seçimlər */}
+          <div className="mt-4">
+            <h3 className="text-lg font-medium">Ölçü Seçin:</h3>
+            <div className="flex gap-4 mt-2">
+              {product.productVariants.map((variant) => (
+                <button
+                  key={variant.variantId}
+                  onClick={() => setSelectedSize(variant.variant.name)}  // Ölçü seçimi
+                  className={`px-4 py-2 border rounded-lg ${selectedSize === variant.variant.name ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                >
+                  {variant.variant.name}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Açıklama */}

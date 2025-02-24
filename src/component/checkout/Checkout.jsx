@@ -102,42 +102,66 @@ function Checkout() {
     }
   };
 
-  const activatePayment = async (shippingInfoId) => {
-    // Bu addımda ödənişin aktivləşdirilməsini həyata keçiririk
-    // Əgər ödəniş üçün xüsusi bir endpoint varsa, buraya onu əlavə edirik
+  const activatePayment = async () => {
     console.log("Ödəniş aktivləşdirilir...");
-
-    // Yönləndirmə əməliyyatı
+  
     const totalPrice = sebet.reduce((total, item) => total + item.quantity * (item.discount > 0 ? item.finalPrice : item.price), 0);
     console.log(totalPrice, 'Total Price');
     console.log(sebet, 'Basket');
     const token = localStorage.getItem('token');
-    const currentUser = await axios.get('https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile', {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    }).then(res => res.data).catch(err => console.error(err));
-
-    if(currentUser) {
-      const createOrderFormData = new FormData();
-        createOrderFormData.append("AppUserId", currentUser.id);
-        createOrderFormData.append("ProductIds", sebet.map(item => item.id));
-      const createdOrder = await axios.post('https://finalprojectt-001-site1.jtempurl.com/api/Order/create', createOrderFormData, {
+  
+    try {
+      // 1. İstifadəçi məlumatlarını alırıq
+      const currentUserResponse = await axios.get('https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile', {
         headers: {
           'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
-      }).then(res => res.data).catch(err => console.error(err));
-
-      if(!createdOrder || !createdOrder.orderId) {
+      });
+  
+      const currentUser = currentUserResponse.data;
+      console.log("User:", currentUser);
+  
+      if (!currentUser) {
+        alert("İstifadəçi məlumatları tapılmadı!");
+        return;
+      }
+  
+      // 2. Məhsul ID-lərini hazırlayırıq
+      const productIds = sebet.map(item => item.id); // Create an array of product IDs
+      if (productIds.length === 0) {
+        alert("No products selected in the basket.");
+        return;
+      }
+  
+      // 3. Order yaratmaq üçün JSON məlumatları
+      const createOrderData = {
+        AppUserId: currentUser.id, // İstifadəçi ID-si
+        ProductIds: productIds // Məhsul ID-lərini JSON array formatında göndəririk
+      };
+  
+      const createdOrderResponse = await axios.post('https://finalprojectt-001-site1.jtempurl.com/api/Order/create', createOrderData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      });
+  
+      const createdOrder = createdOrderResponse.data;
+      if (!createdOrder || !createdOrder.orderId) {
         alert('Sifariş yaradılmadı!');
         return;
       }
-
-      console.log(createdOrder, 'Created Order');
+  
+      console.log("Created Order:", createdOrder);
       navigate('/order?orderId=' + createdOrder.orderId);
+  
+    } catch (error) {
+      console.error("Error occurred:", error);
+      alert("Xəta baş verdi. Sifariş yaratmaq mümkün olmadı.");
     }
   };
+  
 
   const proceedToOrder = () => {
     if (selectedAddress) {

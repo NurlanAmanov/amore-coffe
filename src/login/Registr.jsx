@@ -10,6 +10,7 @@ function RegisterPage() {
         userName: "",
         email: "",
         dob: "",
+        ImgUrl: "", // Burada imgUrl-in dəyərini avtomatik əlavə edəcəyik
         gender: "",
         password: "",
         confirmPassword: "",
@@ -28,6 +29,10 @@ function RegisterPage() {
         }
 
         try {
+            // Avtomatik imgUrl əlavə edirik
+            const defaultImgUrl = "/Uploads/profilphoto/28a96018-5599-47df-a026-2c8584ebc1d7default-avatar-profile-icon-grey-photo-placeholder-99724602.webp";
+            formData.ImgUrl = defaultImgUrl;
+
             const form = new FormData();
             form.append("Name", formData.name);
             form.append("Surname", formData.surname);
@@ -37,6 +42,7 @@ function RegisterPage() {
             form.append("Gender", formData.gender);
             form.append("Password", formData.password);
             form.append("ConfirmPassword", formData.confirmPassword);
+            form.append("ImgUrl", formData.ImgUrl); // imgUrl əlavə edirik
 
             const response = await axios.post(
                 "https://finalprojectt-001-site1.jtempurl.com/api/Auth/Register",
@@ -49,7 +55,7 @@ function RegisterPage() {
             );
 
             alert("Qeydiyyat uğurla tamamlandı!");
-            navigate("/");
+            navigate("/"); // Qeydiyyatdan sonra ana səhifəyə yönləndirmək
         } catch (error) {
             alert(`Xəta baş verdi: ${error.response?.data || "Bilinməyən xəta"}`);
         }

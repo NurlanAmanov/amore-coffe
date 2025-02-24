@@ -16,7 +16,7 @@ function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [opensebet, setOpensebet] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const [isFixed, setIsFixed] = useState(false); // Header-in sabit olub-olmamasını izləyirik
+
     const { sebet } = useContext(BASKET);
     const navigate = useNavigate();
 
@@ -30,18 +30,7 @@ function Header() {
         }
     };
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 10) { 
-                setIsFixed(true); 
-            } else {
-                setIsFixed(false); 
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+  
 
     useEffect(() => {
         if (isMenuOpen || isProfileOpen) {
@@ -59,7 +48,9 @@ function Header() {
                     <p className="text-base max-sm:text-sm max-sm:px-4">{item.description}</p>
                 </div>
             ))}
-            <header className={`w-full bg-[#f1ece9] shadow-lg z-[40] transition-all duration-300 ${isFixed ? 'fixed top-0 left-0' : 'absolute'} ${banner ? 'top-[60px]' : 'top-0'}`}>
+            
+            {/* Header - scrolla görə dəyişir */}
+            <header className="w-full bg-[#f1ece9] shadow-lg ">
                 <div className="container mx-auto max-w-screen-xl px-6">
                     <div className="flex items-center justify-between w-full mx-auto py-3">
                         {/* Sol tərəfdə menyu */}

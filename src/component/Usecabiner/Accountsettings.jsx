@@ -5,6 +5,7 @@ function AccountInfo() {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [newProfilePhoto, setNewProfilePhoto] = useState(null);
 
   // 🔹 LocalStorage-dan token götürmək
   const token = localStorage.getItem("token");
@@ -43,8 +44,61 @@ function AccountInfo() {
     fetchUserProfile();
   }, [token]);
 
+  // 🔹 Şəkil dəyişdirmək
+  const handleProfilePhotoChange = async () => {
+    if (!newProfilePhoto) {
+      setError("Lütfən, bir şəkil seçin.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", newProfilePhoto); // Yeni şəkil yükləmək
+
+    try {
+      // Şəkil yükləmək
+      const response = await axios.post(
+        "https://finalprojectt-001-site1.jtempurl.com/api/UploadFile/upload",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const imgUrl = response.data.url;
+
+      // Profil şəkilini yeniləmək
+      const updateResponse = await axios.post(
+        "https://finalprojectt-001-site1.jtempurl.com/api/Auth/Update-Own-Photo-In-Cabinet",
+        {
+          id: userInfo.id, // İstifadəçi ID-si
+          imgUrl: imgUrl, // Yeni şəkil URL-i
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Yeni şəkil URL-ni istifadəçinin profil məlumatlarına əlavə edirik
+      setUserInfo((prevState) => ({
+        ...prevState,
+        imgUrl: imgUrl,
+      }));
+
+      alert("Profil şəkiliniz uğurla yeniləndi!");
+    } catch (error) {
+      setError("Şəkil yüklənərkən xəta baş verdi.");
+      console.error("Error uploading profile photo:", error);
+    }
+  };
+
   return (
-    <div className=" w-full bg-white shadow-md rounded-lg  p-4 mx-auto">
+    <div className="w-full bg-white shadow-md rounded-lg p-4 mx-auto">
       <h2 className="text-xl font-semibold text-center mb-4">İstifadəçi Məlumatları</h2>
 
       {/* 🔹 Yüklənmə və ya xəta mesajları */}
@@ -54,7 +108,31 @@ function AccountInfo() {
         <p className="text-red-500 text-center">{error}</p>
       ) : userInfo ? (
         <div className="border border-gray-300 rounded-lg p-4">
-          <table className="w-full text-left border-collapse">
+          <div className="flex items-center justify-center w-full p-4">
+            <img
+              src={`https://finalprojectt-001-site1.jtempurl.com${userInfo.imgUrl}`}
+              alt="Profile"
+              className="w-[120px] object-contain mx-auto rounded-full"
+            />
+          </div>
+
+          {/* 🔹 Yeni Profil Şəkli Yükləmə */}
+          <div className="flex justify-center mt-4">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setNewProfilePhoto(e.target.files[0])} // Yeni şəkil seçərkən
+              className="border p-2 rounded-lg"
+            />
+            <button
+              onClick={handleProfilePhotoChange}
+              className="bg-blue-500 text-white p-2 rounded-lg ml-4"
+            >
+              Profil Şəkilini Yenilə
+            </button>
+          </div>
+
+          <table className="w-full text-left border-collapse mt-4">
             <tbody>
               <tr className="border-b">
                 <td className="p-2 font-semibold">Ad:</td>
@@ -78,33 +156,6 @@ function AccountInfo() {
               </tr>
             </tbody>
           </table>
-
-          {/* 🔹 Promokodlar */}
-          {userInfo.userPromocodes && userInfo.userPromocodes.length > 0 ? (
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold border-b pb-2">Promokodlar</h3>
-              <table className="w-full text-left border-collapse mt-2">
-                <thead>
-                  <tr className="border-b bg-gray-100">
-                    <th className="p-2">Kod</th>
-                    <th className="p-2">Endirim (%)</th>
-                    <th className="p-2">Bitmə Tarixi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {userInfo.userPromocodes.map((promo) => (
-                    <tr key={promo.id} className="border-b">
-                      <td className="p-2">{promo.promocode.code}</td>
-                      <td className="p-2">{promo.promocode.discountPercentage}%</td>
-                      <td className="p-2">{new Date(promo.promocode.expirationDate).toLocaleDateString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p className="text-gray-500 text-center mt-4">Promokod yoxdur.</p>
-          )}
         </div>
       ) : (
         <p className="text-center text-gray-500">İstifadəçi məlumatları mövcud deyil.</p>
