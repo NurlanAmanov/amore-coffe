@@ -13,13 +13,13 @@ function Order() {
   const { sebet, basketRemove } = useContext(BASKET);
 
   const [userId, setUserId] = useState('');
-  const [promocode, setPromocode] = useState('');  // Promokod üçün state
+  const [promocode, setPromocode] = useState('');  
   const [discount, setDiscount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [error, setError] = useState('');
   const [order, setOrder] = useState(null);
 
-  // **Forma üçün state**
+
   const [formData, setFormData] = useState({
     cvv: '',
     cardholderName: '',
@@ -43,8 +43,8 @@ function Order() {
       paymentFormData.append('AppUserId', userId);
       paymentFormData.append('OrderId', currentOrderId);
       paymentFormData.append('TotalPrice', totalPrice);
-      paymentFormData.append('Promocode', promocode);  // Profildən gələn promokodu göndəririk
-      paymentFormData.append('Discount', discount);    // Endirimi göndəririk
+      paymentFormData.append('Promocode', promocode);  
+      paymentFormData.append('Discount', discount);   
 
       const paymentResponse = await axios.post('https://finalprojectt-001-site1.jtempurl.com/api/Checkout/process-payment', paymentFormData, {
         headers: {
@@ -62,7 +62,7 @@ function Order() {
     }
   };
 
-  // **Promokodun avtomatik alınması (profildən)**
+  
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -77,12 +77,12 @@ function Order() {
           setUserId(response.data.id);
           fetchUserOrder(response.data.id);
           
-          // Profil məlumatlarından promokod alınır
+       
           if (response.data.userPromocodes?.length > 0) {
             const promo = response.data.userPromocodes[0].promocode;
-            setPromocode(promo.code);  // Profildən alınan promokodu state-ə əlavə edirik
-            setDiscount(promo.discount); // Əgər varsa, endirimi də əldə edirik
-            setTotalPrice(prevPrice => prevPrice - promo.discount); // Yekun qiyməti endiririk
+            setPromocode(promo.code);  
+            setDiscount(promo.discount); 
+            setTotalPrice(prevPrice => prevPrice - promo.discount); 
           }
 
         } else {
@@ -106,7 +106,7 @@ function Order() {
         return;
       }
   
-      // İlk növbədə sifarişi çəkirik
+    
       const response = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Order/${currentOrderId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -118,7 +118,7 @@ function Order() {
         const orderData = response.data;
         setOrder(orderData);
   
-        // Məhsul məlumatlarını çəkirik
+       
         const productPromises = orderData.orderProducts.map((orderProduct) => {
           return axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Product/${orderProduct.product.id}`, {
             headers: {
@@ -128,10 +128,9 @@ function Order() {
           });
         });
   
-        // Bütün məhsul məlumatlarını alırıq
         const productResponses = await Promise.all(productPromises);
         
-        // Məhsul məlumatlarını sifarişə əlavə edirik
+
         const updatedOrderProducts = orderData.orderProducts.map((orderProduct, index) => {
           return {
             ...orderProduct,
@@ -143,13 +142,13 @@ function Order() {
           };
         });
   
-        // Yenilənmiş sifarişi state-ə təyin edirik
+      
         setOrder({
           ...orderData,
           orderProducts: updatedOrderProducts,
         });
   
-        // Toplam qiyməti hesablayırıq
+ 
         setTotalPrice(updatedOrderProducts.reduce((total, item) => total + item.product.price, 0));
       } else {
         setOrder(null);
@@ -167,13 +166,11 @@ function Order() {
         <h1>Sifariş Təsdiqi</h1>
         <p><strong>Əsas Qiymət:</strong> {totalPrice.toFixed(2)} ₼</p>
 
-        {/* 🔥 Promokod Giriş Yeri */}
      
 
         <p><strong>Endirim:</strong> {discount}%</p>
         <p><strong>Yekun Qiymət:</strong> {totalPrice.toFixed(2)} ₼</p>
 
-        {/* 🔥 Sifarişlərin siyahısı */}
         <div className="mt-8">
           <h2 className="text-lg font-semibold">Sizin Sifarişləriniz:</h2>
           {order ? (

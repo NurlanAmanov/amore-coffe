@@ -94,10 +94,10 @@ function ProductList({ filteredProducts, bassketadd, toggleLike, navigate }) {
           <option value="high-to-low">Çoxdan Aza</option>
         </select>
       </div>
-      <div className="grid xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 mx-auto xl:grid-cols-3 gap-4">
         {paginatedProducts.map((item) => (
           <div
-            className="relative bg-[#b5b5b5] rounded-lg shadow-md overflow-hidden w-[280px]"
+            className="relative bg-[#b5b5b5] rounded-lg shadow-md overflow-hidden lg:w-[280px]"
             key={item.id}
           >
             <div 
@@ -111,8 +111,8 @@ function ProductList({ filteredProducts, bassketadd, toggleLike, navigate }) {
               <img
                 src={`https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
                 alt={item.title}
-                className="absolute top-0 left-0 w-full h-full object-cover"
-                style={{ width: "280px", height: "330px" }}
+                className="absolute top-0 left-0 w-full lg:w-[280px] lg:h-[330px] h-full object-cover"
+                // style={{ width: "280px", height: "330px" }}
               />
               {/* Heart Icon (Favorilere Ekle) */}
               <button

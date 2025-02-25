@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BASKET } from '../../Context/BasketContext';
-import {GetCabinet} from "../../service/Cabinet.js";
 import axios from "axios";
 
 function Checkout() {
@@ -94,8 +93,7 @@ function Checkout() {
       console.log("✅ Məlumatlar uğurla göndərildi:", result);
       alert("Məlumatlar uğurla göndərildi!");
 
-      // Ödənişi aktivləşdirmək
-      activatePayment(result.id);
+      activatePayment();
     } catch (error) {
       console.error("❌ Məlumatları göndərmə xətası:", error);
       alert("Məlumatları göndərmək mümkün olmadı!");
@@ -104,70 +102,82 @@ function Checkout() {
 
   const activatePayment = async () => {
     console.log("Ödəniş aktivləşdirilir...");
-  
+
     const totalPrice = sebet.reduce((total, item) => total + item.quantity * (item.discount > 0 ? item.finalPrice : item.price), 0);
-    console.log(totalPrice, 'Total Price');
-    console.log(sebet, 'Basket');
+    console.log('Total Price:', totalPrice);
+    console.log('Basket Contents:', sebet);
     const token = localStorage.getItem('token');
-  
+
     try {
-      // 1. İstifadəçi məlumatlarını alırıq
       const currentUserResponse = await axios.get('https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
-  
+
       const currentUser = currentUserResponse.data;
       console.log("User:", currentUser);
-  
+
       if (!currentUser) {
         alert("İstifadəçi məlumatları tapılmadı!");
         return;
       }
-  
-      // 2. Məhsul ID-lərini hazırlayırıq
-      const productIds = sebet.map(item => item.id); // Create an array of product IDs
+
+      const productIds = sebet.map(item => item.id); 
+      console.log("Product IDs:", productIds);
+
       if (productIds.length === 0) {
         alert("No products selected in the basket.");
         return;
       }
-  
-      // 3. Order yaratmaq üçün JSON məlumatları
+
       const createOrderData = {
-        AppUserId: currentUser.id, // İstifadəçi ID-si
-        ProductIds: productIds // Məhsul ID-lərini JSON array formatında göndəririk
+        AppUserId: currentUser.id, 
+        ProductIds: productIds 
       };
-  
+
+      console.log("Create Order Data:", createOrderData);
+
       const createdOrderResponse = await axios.post('https://finalprojectt-001-site1.jtempurl.com/api/Order/create', createOrderData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         }
       });
-  
+
       const createdOrder = createdOrderResponse.data;
+      console.log("Created Order:", createdOrder);
+
       if (!createdOrder || !createdOrder.orderId) {
         alert('Sifariş yaradılmadı!');
         return;
       }
-  
-      console.log("Created Order:", createdOrder);
+
       navigate('/order?orderId=' + createdOrder.orderId);
-  
+
     } catch (error) {
-      console.error("Error occurred:", error);
-      alert("Xəta baş verdi. Sifariş yaratmaq mümkün olmadı.");
+      if (error.response) {
+        console.error("Server Error:", error.response.data);
+        alert("Xəta baş verdi: " + error.response.data.message);
+      } else {
+        console.error("Error:", error.message);
+        alert("Sifariş yaradılarkən xəta baş verdi.");
+      }
     }
   };
-  
 
   const proceedToOrder = () => {
-    if (selectedAddress) {
-      saveFormData();
+    if (selectedAddress || (formData.name && formData.surname && formData.email && formData.city && formData.streetAddress && formData.apartment)) {
+    
+      if (selectedAddress) {
+        saveFormData();
+      } else {
+     
+        activatePayment();
+      }
     } else {
-      alert("Zəhmət olmasa, ünvan seçin!");
+      alert("Zəhmət olmasa, ünvan seçin və ya məlumatları daxil edin!");
     }
   };
 

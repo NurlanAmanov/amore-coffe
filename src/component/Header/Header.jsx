@@ -50,8 +50,8 @@ function Header() {
             ))}
             
             {/* Header - scrolla görə dəyişir */}
-            <header className="w-full bg-[#f1ece9] shadow-lg ">
-                <div className="container mx-auto max-w-screen-xl px-6">
+            <header className="w-full bg-[#f1ece9] shadow-xl ">
+                <div className="container mx-auto  max-w-screen-xl px-6">
                     <div className="flex items-center justify-between w-full mx-auto py-3">
                         {/* Sol tərəfdə menyu */}
                         <nav className="hidden xl:flex items-center gap-6">
@@ -105,7 +105,7 @@ function Header() {
             {/* Sağdan Açılan Mobil Menyu */}
             <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end transition-opacity duration-300 
                 ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                <div className={`bg-[#7a461f] w-3/4 sm:w-1/2 md:w-1/3 h-full p-6 text-black flex flex-col space-y-6 transition-transform 
+                <div className={`bg-[#7a461f] w-3/4 sm:w-1/2 md:w-1/3 h-full p-6 text-white flex flex-col space-y-6 transition-transform 
                     duration-300 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                     <IoClose className="text-3xl cursor-pointer self-end" onClick={toggleMenu} />
                     <Link to="/" className="text-lg font-medium" onClick={toggleMenu}>Lokasiyalar</Link>

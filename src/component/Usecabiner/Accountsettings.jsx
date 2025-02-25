@@ -51,31 +51,30 @@ function AccountInfo() {
     }
   
     const formData = new FormData();
-    formData.append("File", newProfilePhoto); // Şəkil faylını əlavə et
-    formData.append("FolderName", "userphoto"); // Folder adı
+    formData.append("File", newProfilePhoto); 
+    formData.append("FolderName", "userphoto"); 
   
     try {
-      // Şəkil yükləmək
+      
       const response = await axios.post(
         "https://finalprojectt-001-site1.jtempurl.com/api/UploadFile/upload",
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data", // Düzgün content-type
+            "Content-Type": "multipart/form-data", 
           },
         }
       );
   
-      const imgUrl = response.data.imgUrl; // Burada artıq "https://finalprojectt-001-site1.jtempurl.com" əlavə etməyə ehtiyac yoxdur
+      const imgUrl = response.data.imgUrl; 
       console.log("Yüklənmiş şəkil URL-si:", imgUrl);
   
-      // Profil şəkilini yeniləmək
       const updateResponse = await axios.post(
         "https://finalprojectt-001-site1.jtempurl.com/api/Auth/Update-Own-Photo-In-Cabinet",
         {
-          id: userInfo.id, // İstifadəçi ID-si
-          imgUrl: imgUrl, // Yeni şəkil URL-i
+          id: userInfo.id, 
+          imgUrl: imgUrl, 
         },
         {
           headers: {
