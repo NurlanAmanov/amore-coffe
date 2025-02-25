@@ -76,7 +76,7 @@ const ProductDetail = () => {
           <img
             src={`http://finalprojectt-001-site1.jtempurl.com${product.imgUrl}`}
             alt={product.title}
-            className="w-[504px] h-[589px] object-cover rounded-lg"
+            className="lg:w-[504px] w-[90%] mx-auto lg:h-[589px] object-cover rounded-lg"
           />
         </div>
         <div className="xl:w-2/3 w-[95%] mx-auto">
@@ -107,8 +107,8 @@ const ProductDetail = () => {
           </div>
           <p className="text-gray-600 mt-6 mb-6 text-[16px] font-medium">{product.description}</p>
           <hr />
-          <div className="mt-4 flex justify-between items-center w-[400px]">
-            <div className="text-lg font-medium">Size:</div>
+          <div className="mt-4 flex lg:flex-row flex-col justify-start my-6 lg:my-2 lg:justify-between items-center lg:w-[400px]">
+            <div className="text-lg font-medium">Ölçü:</div>
             <div className="flex mt-2">
               {product.productVariants.map(variant => (
                 <button

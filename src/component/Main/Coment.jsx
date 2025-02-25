@@ -150,10 +150,10 @@ function Coment({ productId }) {
   reviews.map((review, index) => (
     <div
       key={index}
-      className="border-b pb-2 mt-2 flex items-start justify-start flex-col sm:flex-row"
+      className="border-b pb-2 mt-2 flex  items-start justify-start flex-col sm:flex-row"
     >
       {/* Fotoğraf ve ismin hizalanması */}
-      <div className="flex flex-col items-center justify-start w-full sm:w-auto sm:mr-4">
+      <div className="flex flex-col lg:items-center justify-start w-full sm:w-auto sm:mr-4">
   {review.imgUrl ? (
     <img
       src={`https://finalprojectt-001-site1.jtempurl.com${review.imgUrl}`}
