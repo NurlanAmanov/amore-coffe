@@ -9,7 +9,8 @@ export default {
       fontFamily: {
         playfair: ["'Playfair Display'", "serif"],
         poppins: ["'Poppins'", "sans-serif"],
-        montserrat: ["'montserrat','sans-serif'"]
+        montserrat: ["'montserrat','sans-serif'"],
+        inter: ["'inter', 'sans-serif'"]
       },
     },
   },

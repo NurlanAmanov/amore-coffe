@@ -6,7 +6,7 @@ import { LIKESDATA } from "../../Context/LikeContext";
 
 function Product() {
   const { mehsul } = useContext(DATA);
-  const { sebet = [], bassketadd,bassketadd2 } = useContext(BASKET);
+  const { sebet = [], bassketadd, bassketadd2 } = useContext(BASKET);
   const { toggleLike } = useContext(LIKESDATA);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -22,17 +22,15 @@ function Product() {
   });
 
   const handleFilter = () => {
-    // This function could potentially trigger a state update to re-render the list
-    // Currently it just ensures the filter button is interactive and could be used to log, analytics, etc.
     console.log("Filter applied:", { minPrice, maxPrice });
   };
 
   return (
     <>
-      <div className="bg-[#F2F2F2] flex items-center justify-center h-[90px] mt-20 pt-8">
+      <div className="bg-[#F2F2F2] flex items-center justify-center h-[90px] pt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-medium text-center text-black mb-10">
-            Məhsullar/{categoryName || "Bütün Kateqoriyalar"}
+          <h2 className="text-xl font-medium text-center text-black mb-10 font-playfair tracking-widest">
+            {categoryName || "Bütün Kateqoriyalar"}
           </h2>
         </div>
       </div>
@@ -48,10 +46,8 @@ function Product() {
               </div>
               <button className="w-full mt-3 bg-[#d9d9d9] text-black py-2 rounded hover:bg-[#DB9457] hover:text-[#f7f7f7] transition-colors duration-500" onClick={handleFilter}>Filter</button>
             </div>
-            {/* Here you can add more filtering options for campaigns or categories */}
           </div>
 
-          {/* Product Display Area */}
           <ProductList
             filteredProducts={filteredProducts}
             toggleLike={toggleLike}
@@ -101,49 +97,52 @@ function ProductList({ filteredProducts, bassketadd, toggleLike, navigate }) {
       <div className="grid xl:grid-cols-3 gap-4">
         {paginatedProducts.map((item) => (
           <div
-            className="relative bg-[#333] rounded-lg shadow-md overflow-hidden w-full h-[370px]"
+            className="relative bg-[#b5b5b5] rounded-lg shadow-md overflow-hidden w-[280px]"
             key={item.id}
           >
-            <img
-              src={`https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
-              alt={item.title}
-              className="absolute top-0 left-0 w-full h-full object-cover"
-            />
-            <div className="relative w-full h-full">
-              <div className="absolute bottom-0 left-0 w-full h-12 bg-[#333] opacity-40"></div>
-              <div className="absolute bottom-0 left-0 w-full flex items-center justify-between p-2">
-                <button
-                  onClick={() => bassketadd2(item.title, item.about, item.id, `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`, item.description, item.price, item.finalPrice)}
-                  className="text-white bg-white/20 rounded-full p-2 cursor-pointer"
-                >
-                  🛒
-                </button>
-                <h2 className="text-md font-semibold text-white">{item.title}</h2>
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => {
-                      const product = {
-                        id: item.id,
-                        title: item.title,
-                        about: item.about,
-                        imgUrl: `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`,
-                        description: item.description,
-                        price: item.price,
-                        finalPrice: item.finalPrice
-                      };
-                      toggleLike(product);
-                    }}
-                    className="text-white bg-white/20 rounded-full p-2"
-                  >
-                    ♥
-                  </button>
-                  <button
-                    onClick={() => handleProductClick(item.id)}
-                    className="text-white bg-white/20 rounded-full p-2"
-                  >
-                    👁
-                  </button>
-                </div>
+            <div 
+              className="relative w-full h-[330px]" 
+              onClick={() => handleProductClick(item.id)} // Burada tıkladığında yönlendirecek
+            >
+              {/* Discount Box */}
+              <div className="absolute top-0 left-0 bg-red-500 text-white text-[15px] font-[Playfair Display] px-2 py-1 rounded-br-lg">
+                %10
+              </div>
+              <img
+                src={`https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
+                alt={item.title}
+                className="absolute top-0 left-0 w-full h-full object-cover"
+                style={{ width: "280px", height: "330px" }}
+              />
+              {/* Heart Icon (Favorilere Ekle) */}
+              <button
+                onClick={() => {
+                  const product = {
+                    id: item.id,
+                    title: item.title,
+                    about: item.about,
+                    imgUrl: `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`,
+                    description: item.description,
+                    price: item.price,
+                    finalPrice: item.finalPrice
+                  };
+                  toggleLike(product);
+                }}
+                className="absolute top-[10px] right-[10px] shadow-lg p-1 pr-3 pl-3 rounded-full border-2 border-white text-white bg-transparent hover:bg-[#DB9457] transition-all duration-300"
+                style={{ fontSize: "20px" }}
+              >
+                ♥
+              </button>
+            </div>
+            <div className="relative w-full p-2 text-center">
+              <h2
+                className="text-lg font-normal text-black tracking-wide"
+                style={{ fontFamily: 'Playfair Display' }}
+              >
+                {item.title}
+              </h2>
+              <div className="text-[#fff] text-lg font-medium text-center">
+                {item.finalPrice}₼
               </div>
             </div>
           </div>
@@ -151,6 +150,13 @@ function ProductList({ filteredProducts, bassketadd, toggleLike, navigate }) {
       </div>
       {totalPages > 1 && (
         <div className="flex justify-center mt-6 space-x-2">
+          <button
+            className={`px-3 py-1 rounded-md ${currentPage === 1 ? "bg-gray-400 cursor-not-allowed" : "bg-[#333] text-white hover:bg-[#555]"}`}
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            ←
+          </button>
           {[...Array(totalPages).keys()].map((page) => (
             <button
               key={page}
@@ -160,19 +166,13 @@ function ProductList({ filteredProducts, bassketadd, toggleLike, navigate }) {
               {page + 1}
             </button>
           ))}
-          <button
-            className={`px-3 py-1 rounded-md ${currentPage === 1 ? "bg-gray-400 cursor-not-allowed" : "bg-[#333] text-white hover:bg-[#555]"}`}
-            onClick={() => setCurrentPage(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            ← Önceki
-          </button>
+          
           <button
             className={`px-3 py-1 rounded-md ${currentPage === totalPages ? "bg-gray-400 cursor-not-allowed" : "bg-[#333] text-white hover:bg-[#555]"}`}
             onClick={() => setCurrentPage(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
-            Sonraki →
+            →
           </button>
         </div>
       )}

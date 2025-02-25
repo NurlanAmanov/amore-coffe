@@ -44,16 +44,16 @@ function AccountInfo() {
     fetchUserProfile();
   }, [token]);
 
-  // 🔹 Şəkil dəyişdirmək
   const handleProfilePhotoChange = async () => {
     if (!newProfilePhoto) {
       setError("Lütfən, bir şəkil seçin.");
       return;
     }
-
+  
     const formData = new FormData();
-    formData.append("file", newProfilePhoto); // Yeni şəkil yükləmək
-
+    formData.append("File", newProfilePhoto); // Şəkil faylını əlavə et
+    formData.append("FolderName", "userphoto"); // Folder adı
+  
     try {
       // Şəkil yükləmək
       const response = await axios.post(
@@ -62,13 +62,14 @@ function AccountInfo() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data", // Düzgün content-type
           },
         }
       );
-
-      const imgUrl = response.data.url;
-
+  
+      const imgUrl = response.data.imgUrl; // Burada artıq "https://finalprojectt-001-site1.jtempurl.com" əlavə etməyə ehtiyac yoxdur
+      console.log("Yüklənmiş şəkil URL-si:", imgUrl);
+  
       // Profil şəkilini yeniləmək
       const updateResponse = await axios.post(
         "https://finalprojectt-001-site1.jtempurl.com/api/Auth/Update-Own-Photo-In-Cabinet",
@@ -83,19 +84,20 @@ function AccountInfo() {
           },
         }
       );
-
+  
       // Yeni şəkil URL-ni istifadəçinin profil məlumatlarına əlavə edirik
       setUserInfo((prevState) => ({
         ...prevState,
         imgUrl: imgUrl,
       }));
-
+  
       alert("Profil şəkiliniz uğurla yeniləndi!");
     } catch (error) {
       setError("Şəkil yüklənərkən xəta baş verdi.");
-      console.error("Error uploading profile photo:", error);
+      console.error("Error uploading profile photo:", error.response ? error.response.data : error.message);
     }
   };
+  
 
   return (
     <div className="w-full bg-white shadow-md rounded-lg p-4 mx-auto">
@@ -117,7 +119,7 @@ function AccountInfo() {
           </div>
 
           {/* 🔹 Yeni Profil Şəkli Yükləmə */}
-          <div className="flex justify-center mt-4">
+          <div className="flex flex-col justify-center mt-4">
             <input
               type="file"
               accept="image/*"
@@ -126,7 +128,7 @@ function AccountInfo() {
             />
             <button
               onClick={handleProfilePhotoChange}
-              className="bg-blue-500 text-white p-2 rounded-lg ml-4"
+              className="bg-blue-500 w-[40%]  my-3 text-white p-2 rounded-lg mx-auto"
             >
               Profil Şəkilini Yenilə
             </button>

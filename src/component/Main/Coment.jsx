@@ -7,8 +7,10 @@ function Coment({ productId }) {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(5);
   const [userName, setUserName] = useState("");
-  const [userInfo, setUserInfo] = useState(null);  // 🔥 Kullanıcı bilgilerini saklayacağız
+  const [userInfo, setUserInfo] = useState(null);  // Kullanıcı bilgilerini saklayacağız
   const [error, setError] = useState(null);
+  const [image, setImage] = useState(null); // Fotoğrafın saklanacağı state
+  const [imagePreview, setImagePreview] = useState(null); // Fotoğrafın önizlemesi
   const token = localStorage.getItem("token");
 
   // 🔹 İstifadəçi məlumatlarını `Auth/profile` API-dən çəkmək
@@ -97,96 +99,108 @@ function Coment({ productId }) {
     }
   };
 
+
   return (
     <div className="mt-10 border-t pt-6">
-    <h2 className="text-xl font-semibold">Rəylər</h2>
-  
-    {error && <p className="text-red-500">{error}</p>}
-  
-    {reviews.length > 0 ? (
-      reviews.map((review, index) => (
-        <div key={index} className="border-b pb-2 mt-2 flex items-start justify-start flex-col">
-          <div className="flex items-center justify-between w-full">
-            <p className="font-semibold">{review.userName}</p>
-            
-            {/* 🔥 Şəkili yuxarı sağ küncə yerləşdiririk */}
-            {review.imgUrl ? (
-              <img
-                src={`https://finalprojectt-001-site1.jtempurl.com${review.imgUrl}`}  // Şərh verən şəxsin şəkili
-                alt="Profile"
-                className="w-[50px] object-contain rounded-full"
-              />
-            ) : userInfo && userInfo.imgUrl ? (
-              <img
-                src={`https://finalprojectt-001-site1.jtempurl.com${userInfo.imgUrl}`}  // İstifadəçinin öz şəkili
-                alt="Profile"
-                className="w-[50px] object-contain rounded-full"
-              />
-            ) : (
-              <img
-                src="/default-profile.png"
-                alt="Default Profile"
-                className="w-12 h-12 rounded-full object-cover"
-              />
-            )}
-          </div>
-  
-          {/* ⭐⭐⭐⭐⭐ Ulduzlar */}
-          <div className="flex">
-            {[...Array(5)].map((_, i) => (
-              i < review.rating ? (
-                <IoStar key={i} className="text-yellow-500" />
-              ) : (
-                <IoStarOutline key={i} className="text-gray-400" />
-              )
-            ))}
-          </div>
-  
-          <p className="text-gray-700">{review.comment}</p>
-        </div>
-      ))
-    ) : (
-      <p className="text-gray-500">Bu məhsula hələ şərh yazılmayıb.</p>
-    )}
-  
-    {userName && (
-      <form className="mt-4" onSubmit={handleCommentSubmit}>
-        <h3 className="text-lg font-semibold">Şərh əlavə et</h3>
-        <div>
-          <label className="block text-gray-700 font-medium">Reytinq:</label>
-          <div className="flex">
-            {[...Array(5)].map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setRating(i + 1)}
-                className="focus:outline-none"
-              >
-                {i < rating ? (
-                  <IoStar className="text-yellow-500 text-2xl" />
-                ) : (
-                  <IoStarOutline className="text-gray-400 text-2xl" />
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-        <textarea
-          className="w-full border p-2 mt-2 rounded-lg"
-          placeholder="Rəy əlavə et"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
+  <h2 className="text-3xl font-light tracking-wider text-center font-playfair">Rəylər</h2>
+
+  {userName && (
+    <form className="mt-4 mb-12" onSubmit={handleCommentSubmit}>
+  <h3 className="text-lg font-light font-playfair">Şərh əlavə et</h3>
+
+  <textarea
+    className="w-full border p-2 mt-2 rounded-lg"
+    placeholder="Rəy əlavə et"
+    value={comment}
+    onChange={(e) => setComment(e.target.value)}
+  />
+  <div className="flex items-center mt-1">
+  <button
+        type="submit"
+        className="mt-2 border border-black text-black px-8 py-2 hover:bg-[#DB9457] hover:text-white transition-all duration-600 "
+      >
+        Göndər
+      </button>
+
+    {/* Yıldızları Gönder butonunun sağına ekliyoruz */}
+    <div className="flex ml-5 mt-3">
+      {[...Array(5)].map((_, i) => (
         <button
-          type="submit"
-          className="mt-2 bg-black text-white px-5 py-2 rounded-lg"
+          key={i}
+          type="button"
+          onClick={() => setRating(i + 1)}
+          className="focus:outline-none"
         >
-          Göndər
+          {i < rating ? (
+            <IoStar className="text-yellow-500 text-2xl" />
+          ) : (
+            <IoStarOutline className="text-gray-400 text-2xl" />
+          )}
         </button>
-      </form>
-    )}
+      ))}
+    </div>
   </div>
-  
+</form>
+
+  )}
+
+{error && <p className="text-red-500">{error}</p>}
+
+{reviews.length > 0 ? (
+  reviews.map((review, index) => (
+    <div
+      key={index}
+      className="border-b pb-2 mt-2 flex items-start justify-start flex-col sm:flex-row"
+    >
+      {/* Fotoğraf ve ismin hizalanması */}
+      <div className="flex flex-col items-center justify-start w-full sm:w-auto sm:mr-4">
+  {review.imgUrl ? (
+    <img
+      src={`https://finalprojectt-001-site1.jtempurl.com${review.imgUrl}`}
+      alt="Profile"
+      className="w-[70px] h-[70px] object-cover rounded-full"
+    />
+  ) : userInfo && userInfo.imgUrl ? (
+    <img
+      src={`https://finalprojectt-001-site1.jtempurl.com${userInfo.imgUrl}`}
+      alt="Profile"
+      className="w-[70px] h-[70px] object-cover rounded-full"
+    />
+  ) : (
+    <img
+      src="/default-profile.png"
+      alt="Default Profile"
+      className="w-[70px] h-[70px] object-cover rounded-full"
+    />
+  )}
+
+
+        {/* İsim kısmı fotoğrafın altına yerleştirildi */}
+        <p className="font-semibold mt-2 mr-3">{review.userName}</p>
+      </div>
+
+      {/* Yorum metni ve yıldızlar */}
+      <div className="flex flex-col w-full sm:w-[calc(100%-60px)]">
+        <div className="flex">
+          {[...Array(5)].map((_, i) => (
+            i < review.rating ? (
+              <IoStar key={i} className="text-yellow-500" />
+            ) : (
+              <IoStarOutline key={i} className="text-gray-400" />
+            )
+          ))}
+        </div>
+
+        <p className="text-gray-700 mt-1">{review.comment}</p>
+      </div>
+    </div>
+  ))
+) : (
+  <p className="text-gray-500">Bu məhsula hələ şərh yazılmayıb.</p>
+)}
+
+
+</div>
   );
 }
 

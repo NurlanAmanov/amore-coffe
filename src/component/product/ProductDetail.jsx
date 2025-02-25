@@ -1,122 +1,133 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { IoStarSharp } from "react-icons/io5";
+import { IoStarSharp, IoStarOutline } from "react-icons/io5"; // Ulduz ikonları
 import { CiHeart } from "react-icons/ci";
 import { BASKET } from "../../Context/BasketContext";
 import Coment from "../Main/Coment";
 
 const ProductDetail = () => {
-  const { id } = useParams(); // URL-dən məhsulun ID-sini alır
+  const { id } = useParams(); // Məhsulun ID-si
   const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState("Orta");
   const [quantity, setQuantity] = useState(1);
   const { bassketadd } = useContext(BASKET);
+  const [commentsCount, setCommentsCount] = useState(0); // Şərhlərin sayını saxlamaq üçün state
+  const [averageRating, setAverageRating] = useState(0);  // Orta reytinq
 
   useEffect(() => {
-    fetchProductById(id); // Komponent yükləndikdə məhsul məlumatlarını çəkir
+    const fetchData = async () => {
+      try {
+        // Məhsul məlumatlarını çəkir
+        const productResponse = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Product/${id}`);
+        setProduct(productResponse.data);
+        if (productResponse.data && productResponse.data.sizes && productResponse.data.sizes.length > 0) {
+          setSelectedSize(productResponse.data.sizes[0]);
+        }
+
+        // Şərhlərin sayını çəkir
+        const reviewCountResponse = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Review/${id}`);
+        setCommentsCount(reviewCountResponse.data.length);
+
+        // Orta reytinqi çəkir
+        const ratingResponse = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Review/${id}/average`);
+        setAverageRating(ratingResponse.data.averageRating); // Orta reytinqi alırıq
+      } catch (error) {
+        console.error("Data fetching error:", error);
+      }
+    };
+
+    fetchData();
   }, [id]);
 
-  // 🔹 ID əsasında serverdən məhsul məlumatını çəkən funksiya
-  const fetchProductById = async (productId) => {
-    try {
-      const response = await axios.get(
-        `https://finalprojectt-001-site1.jtempurl.com/api/Product/${productId}`
-      );
-      setProduct(response.data); // Məhsul məlumatını state-də saxla
-      if (response.data && response.data.sizes && response.data.sizes.length > 0) {
-        setSelectedSize(response.data.sizes[0]); // İlk ölçü seçimini et
-      }
-    } catch (error) {
-      console.error("Məhsul yüklənərkən xəta baş verdi:", error);
-    }
-  };
-  console.log(id);
+  // Reytinqi ulduzlarla göstərmək üçün funksiya
+  const renderStars = (rating) => {
+    let stars = [];
+    const fullStars = Math.floor(rating); // Tam ulduzları göstər
+    const halfStars = rating % 1 >= 0.5 ? 1 : 0; // Yarım ulduz varsa
+    const emptyStars = 5 - fullStars - halfStars; // Boş ulduzların sayı
 
-  // 🔹 Yükləmə effekti
+    // Dolu ulduzları göstər
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<IoStarSharp key={i} className="text-yellow-500" />);
+    }
+
+    // Yarım ulduz varsa göstər
+    if (halfStars === 1) {
+      stars.push(<IoStarSharp key="half" className="text-yellow-500" />);
+    }
+
+    // Boş ulduzları göstər
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(<IoStarOutline key={`empty-${i}`} className="text-gray-400" />);
+    }
+
+    return stars;
+  };
+
   if (!product) {
-    return (
-      <div className="flex flex-col m-8 rounded shadow-md w-60 sm:w-80 animate-pulse h-96">
-        <div className="h-48 rounded-t dark:bg-gray-300"></div>
-        <div className="flex-1 px-4 py-8 space-y-4 sm:p-8 dark:bg-gray-50">
-          <div className="w-full h-6 rounded dark:bg-gray-300"></div>
-          <div className="w-full h-6 rounded dark:bg-gray-300"></div>
-          <div className="w-3/4 h-6 rounded dark:bg-gray-300"></div>
-        </div>
-      </div>
-    );
+    return <div>Loading product...</div>;
   }
 
   return (
-    <div className="xl:max-w-5xl w-[95%] mx-auto py-4 xl:p-6 mt-36">
-      {/* Məhsul Məlumatları */}
+    <div className="xl:max-w-12xl w-[95%] mx-auto py-4 xl:p-6 mt-20">
       <div className="flex gap-10 xl:flex-row flex-col w-full justify-center items-center">
-        {/* Məhsul Şəkli */}
-        <div className="xl:w-1/3 w-[90%] mx-auto">
+        <div className="xl:w-1/3 w-[90%] mx-auto relative">
           <img
             src={`http://finalprojectt-001-site1.jtempurl.com${product.imgUrl}`}
             alt={product.title}
-            className="w-full rounded-lg"
+            className="w-[504px] h-[589px] object-cover rounded-lg"
           />
         </div>
-
-        {/* Məhsul Bilgiləri */}
         <div className="xl:w-2/3 w-[95%] mx-auto">
-          <h1 className="text-3xl font-semibold">{product.title}</h1>
-          <span className="text-gray-500 text-sm my-4 font-[500]">
-            Kateqoriya : {product.categoryName}
-          </span>
-
-          {/* Reytinq */}
-          <div className="flex items-center gap-1 mt-2">
-            <IoStarSharp className="text-yellow-500" />
-            <IoStarSharp className="text-yellow-500" />
-            <IoStarSharp className="text-yellow-500" />
-            <IoStarSharp className="text-yellow-500" />
-            <IoStarSharp className="text-yellow-500" />
-            <span className="text-gray-500 text-sm">2 rəylər</span>
+{product.discount > 0 ? (
+ <span className="bg-red-500 text-white text-[15px] font-playfair px-4 py-1">{product.discount} % </span>
+) : ''
+}
+          <h1 className="text-5xl font-light font-playfair mt-[10px]">{product.title}</h1>
+          <div className="flex items-center mt-6 mb-3">
+            {renderStars(averageRating)}  {/* Orta reytinqi ulduzlarla göstər */}
+            <span className="text-gray-500 text-[14px] ml-3 font-poppins font-light">
+              <u>{commentsCount}</u> reviews
+            </span>
           </div>
-          <span className="text-gray-500 text-sm my-4 font-[500]">
-            Taglar : {product.tags.map((tag, index) => (
-              <span key={index}>
-                {tag.tag.name}
-                {index < product.tags.length - 1 && ', '} {/* Əgər tag-lar çoxdursa, aralarına vergül qoyulur */}
-              </span>
-            ))}
-          </span>
-          {/* Qiymət */}
-          <div className="mt-4 text-lg font-semibold">
-            <span className="text-red-500">{product.finalPrice} ₼</span>
-            <span className="line-through text-gray-400 ml-2">{product.price}₼</span>
-          </div>
+          <hr />
+          <div className="mt-2 text-lg font-semibold">
+{
+  product.discount > 0 ? (
+<>
+    <span className="text-black text-3xl font-poppins font-normal">{product.finalPrice}₼</span>
+    <span className="line-through text-gray-400 ml-2 text-xl">{product.price}₼</span>
+</>
+  
+  ) :
+  (    <span className="text-black text-3xl font-poppins font-normal">{product.price}₼</span>)
 
-          {/* Variantlar / Seçimlər */}
-          <div className="mt-4">
-            <h3 className="text-lg font-medium">Ölçü Seçin:</h3>
-            <div className="flex gap-4 mt-2">
-              {product.productVariants.map((variant) => (
+}
+          </div>
+          <p className="text-gray-600 mt-6 mb-6 text-[16px] font-medium">{product.description}</p>
+          <hr />
+          <div className="mt-4 flex justify-between items-center w-[400px]">
+            <div className="text-lg font-medium">Size:</div>
+            <div className="flex mt-2">
+              {product.productVariants.map(variant => (
                 <button
                   key={variant.variantId}
-                  onClick={() => setSelectedSize(variant.variant.name)}  // Ölçü seçimi
-                  className={`px-4 py-2 border rounded-lg ${selectedSize === variant.variant.name ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                  onClick={() => setSelectedSize(variant.variant.name)}
+                  className={`p-3 px-10 py-2 border text-sm font-light text-[20px] font-poppins ${selectedSize === variant.variant.name ? 'bg-[#DB9457] text-white' : 'bg-white text-black border-gray-400'}`}
                 >
                   {variant.variant.name}
                 </button>
               ))}
             </div>
           </div>
-
-          {/* Açıklama */}
-          <p className="text-gray-600 mt-2">{product.description}</p>
-
-          {/* Səbətə Əlavə */}
           <div className="mt-4 flex items-center gap-4">
             <button
               onClick={() => {
                 const totalPrice = product.finalPrice * quantity;
                 bassketadd(
                   product.title,
-                  product.about,
+                  product.description,
                   product.id,
                   `https://finalprojectt-001-site1.jtempurl.com${product.imgUrl}`,
                   product.price,
@@ -126,19 +137,27 @@ const ProductDetail = () => {
                   quantity
                 );
               }}
-              className="bg-black text-white px-5 py-2 rounded-lg"
+              className="font-extralight tracking-wider bg-black text-white px-5 py-2 font-poppins hover:bg-[#DB9457] hover:text-white transition-all duration-600"
             >
-              Səbətə at
+           Səbətə at
             </button>
-
-            <button className="border p-2 rounded-lg">
+            <button className="text-3xl border py-1 px-2 hover:bg-[#DB9457] hover:text-white transition-all duration-600">
               <CiHeart className="text-black" />
             </button>
+          </div>
+          <div className="text-gray-500 text-sm mt-12 font-inter font-light text-[14px] tracking-wider">
+            Category: <span className="text-red-500">{product.categoryName}</span>
+          </div>
+          <div className="text-gray-500 text-sm font-inter font-light text-[14px] tracking-wider">
+            Tags: {product.tags.map((tag, index) => (
+              <span key={index} className="text-red-500">
+                {tag.tag.name}{index < product.tags.length - 1 && ', '}
+              </span>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* 🔹 Şərhlər və Yeni Şərh Formu */}
       <Coment productId={id} />
     </div>
   );
