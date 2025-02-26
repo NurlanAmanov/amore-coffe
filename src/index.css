@@ -41,3 +41,20 @@ header{
     }
   }
   
+/* Scrollbar genişliyini azaltmaq */
+.scrolbar::-webkit-scrollbar {
+  width: 0px; /* Şaquli scrollbar üçün genişlik */
+  height: 0px; /* Üfüqi scrollbar üçün hündürlük */
+}
+
+/* Scrollbar arxa fonu */
+.scrolbar::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Arxa fon rəngi */
+  border-radius: 10px; /* Künclərin radiusu */
+}
+
+
+/* Scrollbar sapı hover edildikdə */
+.scrolbar::-webkit-scrollbar-thumb:hover {
+  background: transparent; /* Hover zamanı sapın rəngi */
+}

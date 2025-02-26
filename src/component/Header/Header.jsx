@@ -58,7 +58,7 @@ function Header() {
                             <Link to="/lokasiya" className="text-black text-base font-medium transition">Lokasiyalar</Link>
                             <Link to="/about" className="text-black text-base font-medium transition">Haqqımızda</Link>
                             <Link to="/teklif" className="text-black text-base font-medium transition">Bizə təklif göndər</Link>
-                            <Link to="/music" className="text-black text-base font-medium transition">music</Link>
+                          
                         </nav>
 
                         {/* Orta hissədə logo */}
