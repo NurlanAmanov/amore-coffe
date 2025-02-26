@@ -11,7 +11,7 @@ const {slogan}=useContext(DATA)
 <p className='text-3xl font-[600] text-center'>Haqqımızda</p>
 <hr className='h-[50px] w-[3px] my-6 mx-auto bg-[#db9457]'/>
 <div className="content text-center">
-<p className="text-gray-700 text-lg leading-relaxed text-center w-[50%] mx-auto font-playfair font-light">
+<p className="text-gray-700 text-lg leading-relaxed text-center px-4 lg:px-0 xl:w-[50%] mx-auto font-playfair font-light">
        {slogan && slogan.map((item)=>{
         return(
             <span>{item.description}</span>

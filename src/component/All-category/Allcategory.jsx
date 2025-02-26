@@ -2,13 +2,13 @@ import React, { useContext } from 'react'
 import { DATA } from '../../Context/Datacontext';
 import { Link } from 'react-router-dom';
 function Allcategory() {
-    const { data } = useContext(DATA);
+    const { category } = useContext(DATA);
   return (
     <>
   <section className='py-[110px]'>
 <h3 className='text-xl font-semibold text-center text-black'>Bütün kateqoriyalar</h3>
   <div className="grid px-2 pt-[50px] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-screen-xl mx-auto">
-      {data.slice(0, 4).map((item, i) => (
+      {category.slice(0, 4).map((item, i) => (
         <Link
           key={i}
           to={`/Product?category=${encodeURIComponent(item.name)}`}

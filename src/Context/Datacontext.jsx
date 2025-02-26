@@ -1,10 +1,10 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { Getbanner, GetData, GetLogo, GetProduct, GetProductById, Getsilder, Getslogan, GetSocialMedia } from '../service/api';
+import { Getbanner, GetCategory, GetLogo, GetProduct, GetProductById, Getsilder, Getslogan, GetSocialMedia } from '../service/api';
 
 export const DATA = createContext([]);
 
 function Datacontext({ children }) {
-    const [data, setData] = useState([]);
+    const [category, setCategory] = useState([]);
     const [mehsul, setMehsul] = useState([]);
     const [mehsulid, setMehsulid] = useState(null); // ID ilə məhsulu saxlayan state
     const [banner, setbanner] = useState([]);
@@ -14,7 +14,7 @@ function Datacontext({ children }) {
     const [socailmedia, setMedia] = useState([]);
 
     useEffect(() => {
-        GetData().then(res => setData(res));
+        GetCategory().then(res => setCategory(res));
         GetProduct().then(res => setMehsul(res));
         Getbanner().then(res=>setbanner(res))
         Getslogan().then(res=>setSlogan(res))
@@ -34,7 +34,7 @@ function Datacontext({ children }) {
     };
 
     return (
-        <DATA.Provider value={{ data, mehsul,banner, mehsulid, fetchProductById,slogan,logo,socailmedia,silder }}>
+        <DATA.Provider value={{ category, mehsul,banner, mehsulid, fetchProductById,slogan,logo,socailmedia,silder }}>
             {children}
         </DATA.Provider>
     );

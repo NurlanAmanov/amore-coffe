@@ -14,7 +14,7 @@ function Silder() {
  <div className="w-[95%] mx-auto overflow-x-hidden grid grid-cols-1 lg:grid-cols-2 items-center md:py-14 lg:py-24 xl:py-14 lg:mt-3 xl:mt-5" data-aos="fade-right" data-aos-duration="800">
       
       {/* Yazı olan hissə */}
-      <div className="pr-2 py-18 md:py-0 text-center lg:text-left mr-20">
+      <div className="pr-2 py-18 md:py-0 text-center lg:text-left lg:mb-0 mb-12 xl:mr-20">
         <h1 className="text-3xl font-semibold text-black xl:text-3xl lg:text-2xl">
           <span className="block w-full font-playfair text-[55px] leading-none">Kofe seçiminiz ulduzlardan ilham alsın</span>
         </h1>

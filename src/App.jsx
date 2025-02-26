@@ -15,6 +15,7 @@ import Resetpasword from './login/Resetpasword'
 import Forgetpassword from './login/Forgetpassword'
 import Order from './component/checkout/Order'
 import Qrmenu from './qrcode/Qrmenu'
+import Qrmodal from './component/Main/Qrmodal'
 
 
 
@@ -29,6 +30,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
+        {/* <Route index element={<Qrmodal/>} /> */}
           <Route index element={<Homepage />} />
           <Route path="haqqimizda" element={<Haqqimizda />} />
           <Route path="teklif" element={<Teklif />} />
@@ -44,10 +46,12 @@ function App() {
           <Route path="reset-password" element={<Resetpasword />} />
           <Route path="Forgetpassword" element={<Forgetpassword />} />
           <Route path="order" element={<Order />} />
-          <Route path="Qrmenu" element={<Qrmenu />} />
+         
         </Route>
       </Routes>
-
+<Routes>
+<Route path="Qrmenu" element={<Qrmenu />} />
+</Routes>
     </>
   )
 }

@@ -32,7 +32,7 @@ function Homepage() {
 <Abouthome/>
 
 <section className='encoxsatilan bg-white' >
-<div className="max-w-5xl mx-auto py-16 px-36">
+<div className="max-w-5xl mx-auto lg:py-16 lg:px-36 overflow-hidden">
       <div className="grid grid-cols-3 ">
         
         {/* İlk 3 şəkil */}

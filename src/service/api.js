@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-async function GetData() {
+async function GetCategory() {
     const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Category");
     return res.data;
 }
@@ -56,4 +56,4 @@ async function GetAuth() {
 
 
 
-export { GetData, GetProduct, Getbanner,GetSocialMedia,GetLogo,Getslogan,Getsilder,GetLocation,GetProductById,GetAuth }
+export { GetCategory, GetProduct, Getbanner,GetSocialMedia,GetLogo,Getslogan,Getsilder,GetLocation,GetProductById,GetAuth }
