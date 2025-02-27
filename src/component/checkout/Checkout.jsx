@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BASKET } from '../../Context/BasketContext';
+import {GetCabinet} from "../../service/Cabinet.js";
 import axios from "axios";
 
 function Checkout() {
@@ -93,91 +94,56 @@ function Checkout() {
       console.log("✅ Məlumatlar uğurla göndərildi:", result);
       alert("Məlumatlar uğurla göndərildi!");
 
-      activatePayment();
+      // Ödənişi aktivləşdirmək
+      activatePayment(result.id);
     } catch (error) {
       console.error("❌ Məlumatları göndərmə xətası:", error);
       alert("Məlumatları göndərmək mümkün olmadı!");
     }
   };
 
-  const activatePayment = async () => {
+  const activatePayment = async (shippingInfoId) => {
+    // Bu addımda ödənişin aktivləşdirilməsini həyata keçiririk
+    // Əgər ödəniş üçün xüsusi bir endpoint varsa, buraya onu əlavə edirik
     console.log("Ödəniş aktivləşdirilir...");
 
+    // Yönləndirmə əməliyyatı
     const totalPrice = sebet.reduce((total, item) => total + item.quantity * (item.discount > 0 ? item.finalPrice : item.price), 0);
-    console.log('Total Price:', totalPrice);
-    console.log('Basket Contents:', sebet);
+    console.log(totalPrice, 'Total Price');
+    console.log(sebet, 'Basket');
     const token = localStorage.getItem('token');
+    const currentUser = await axios.get('https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.data).catch(err => console.error(err));
 
-    try {
-      const currentUserResponse = await axios.get('https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile', {
+    if(currentUser) {
+      const createOrderFormData = new FormData();
+        createOrderFormData.append("AppUserId", currentUser.id);
+        createOrderFormData.append("ProductIds", sebet.map(item => item.id));
+      const createdOrder = await axios.post('https://finalprojectt-001-site1.jtempurl.com/api/Order/create-delivery-order', createOrderFormData, {
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
         }
-      });
+      }).then(res => res.data).catch(err => console.error(err));
 
-      const currentUser = currentUserResponse.data;
-      console.log("User:", currentUser);
-
-      if (!currentUser) {
-        alert("İstifadəçi məlumatları tapılmadı!");
-        return;
-      }
-
-      const productIds = sebet.map(item => item.id); 
-      console.log("Product IDs:", productIds);
-
-      if (productIds.length === 0) {
-        alert("No products selected in the basket.");
-        return;
-      }
-
-      const createOrderData = {
-        AppUserId: currentUser.id, 
-        ProductIds: productIds 
-      };
-
-      console.log("Create Order Data:", createOrderData);
-
-      const createdOrderResponse = await axios.post('https://finalprojectt-001-site1.jtempurl.com/api/Order/create', createOrderData, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }
-      });
-
-      const createdOrder = createdOrderResponse.data;
-      console.log("Created Order:", createdOrder);
-
-      if (!createdOrder || !createdOrder.orderId) {
+      if(!createdOrder || !createdOrder.orderId) {
         alert('Sifariş yaradılmadı!');
         return;
       }
 
+      console.log(createdOrder, 'Created Order');
       navigate('/order?orderId=' + createdOrder.orderId);
-
-    } catch (error) {
-      if (error.response) {
-        console.error("Server Error:", error.response.data);
-        alert("Xəta baş verdi: " + error.response.data.message);
-      } else {
-        console.error("Error:", error.message);
-        alert("Sifariş yaradılarkən xəta baş verdi.");
-      }
     }
   };
 
   const proceedToOrder = () => {
-    if (selectedAddress || (formData.name && formData.surname && formData.email && formData.city && formData.streetAddress && formData.apartment)) {
-    
-      if (selectedAddress) {
-        saveFormData();
-      } else {
-     
-        activatePayment();
-      }
+    if (selectedAddress) {
+      saveFormData();
     } else {
-      alert("Zəhmət olmasa, ünvan seçin və ya məlumatları daxil edin!");
+      alert("Zəhmət olmasa, ünvan seçin!");
     }
   };
 
