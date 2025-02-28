@@ -7,7 +7,6 @@ function AccountInfo() {
   const [error, setError] = useState(null);
   const [newProfilePhoto, setNewProfilePhoto] = useState(null);
 
-  // 🔹 LocalStorage-dan token götürmək
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -68,7 +67,6 @@ function AccountInfo() {
       );
   
       const imgUrl = response.data.imgUrl; 
-      console.log("Yüklənmiş şəkil URL-si:", imgUrl);
   
       const updateResponse = await axios.post(
         "https://finalprojectt-001-site1.jtempurl.com/api/Auth/Update-Own-Photo-In-Cabinet",
@@ -84,7 +82,6 @@ function AccountInfo() {
         }
       );
   
-      // Yeni şəkil URL-ni istifadəçinin profil məlumatlarına əlavə edirik
       setUserInfo((prevState) => ({
         ...prevState,
         imgUrl: imgUrl,
@@ -96,13 +93,11 @@ function AccountInfo() {
       console.error("Error uploading profile photo:", error.response ? error.response.data : error.message);
     }
   };
-  
 
   return (
     <div className="w-full bg-white shadow-md rounded-lg p-4 mx-auto">
       <h2 className="text-xl font-semibold text-center mb-4">İstifadəçi Məlumatları</h2>
 
-      {/* 🔹 Yüklənmə və ya xəta mesajları */}
       {loading ? (
         <p className="text-gray-500 text-center">Məlumatlar yüklənir...</p>
       ) : error ? (
@@ -117,12 +112,11 @@ function AccountInfo() {
             />
           </div>
 
-          {/* 🔹 Yeni Profil Şəkli Yükləmə */}
           <div className="flex flex-col justify-center mt-4">
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => setNewProfilePhoto(e.target.files[0])} // Yeni şəkil seçərkən
+              onChange={(e) => setNewProfilePhoto(e.target.files[0])}
               className="border p-2 rounded-lg"
             />
             <button
@@ -157,6 +151,31 @@ function AccountInfo() {
               </tr>
             </tbody>
           </table>
+          
+          {userInfo.userPromocodes && userInfo.userPromocodes.length > 0 && (
+            <div className="mt-4 border-t pt-4">
+              <h3 className="text-lg font-semibold">Promokodlar</h3>
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-gray-200">
+                    <th className="p-2">Kod</th>
+                    <th className="p-2">Endirim Faizi</th>
+                    <th className="p-2">Bitmə Tarixi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {userInfo.userPromocodes.map((promo) => (
+                    <tr key={promo.id}>
+                      <td className="p-2">{promo.promocode.code}</td>
+                      <td className="p-2">{promo.promocode.discountPercentage}%</td>
+                      <td className="p-2">{new Date(promo.promocode.expirationDate).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
         </div>
       ) : (
         <p className="text-center text-gray-500">İstifadəçi məlumatları mövcud deyil.</p>
