@@ -21,24 +21,57 @@ function Checkout() {
   const [shippingInfo, setShippingInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saveAddress, setSaveAddress] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    async function fetchShippingInfo() {
+    // İstifadəçi məlumatını və ünvanlarını yüklə
+    async function fetchUserData() {
       try {
-        const response = await fetch("https://finalprojectt-001-site1.jtempurl.com/api/ShippingInfo");
-        const data = await response.json();
-        if (!response.ok) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.log("Token yoxdur, istifadəçi giriş etməyib");
+          setLoading(false);
+          return;
+        }
+
+        // İstifadəçi məlumatlarını əldə et
+        const userResponse = await axios.get('https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (userResponse.status === 200) {
+          setCurrentUser(userResponse.data);
+          console.log("İstifadəçi məlumatları:", userResponse.data);
+        }
+
+        // Ünvan məlumatlarını əldə et
+        const addressResponse = await fetch("https://finalprojectt-001-site1.jtempurl.com/api/ShippingInfo");
+        const addressData = await addressResponse.json();
+        
+        if (!addressResponse.ok) {
           throw new Error("Göndərmə məlumatları yüklənmədi.");
         }
-        setShippingInfo(data);
+        
+        // Əgər istifadəçi giriş edibsə, yalnız onun ünvanlarını filtrləyə bilərsiniz
+        if (userResponse.data && userResponse.data.id) {
+          const userAddresses = addressData.filter(address => 
+            address.appUserId === userResponse.data.id
+          );
+          setShippingInfo(userAddresses);
+        } else {
+          setShippingInfo(addressData);
+        }
       } catch (error) {
-        console.error("Göndərmə məlumatlarını yükləmə xətası:", error);
+        console.error("Məlumatları yükləmə xətası:", error);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchShippingInfo();
+    fetchUserData();
   }, []);
 
   const handleChange = (e) => {
@@ -73,18 +106,48 @@ function Checkout() {
 
   const saveFormData = async () => {
     try {
+      // İstifadəçi ID-si yoxdursa, əvvəlcə onu əldə et
+      if (!currentUser) {
+        const token = localStorage.getItem('token');
+        
+        const userResponse = await axios.get('https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (userResponse.status !== 200) {
+          alert('İstifadəçi məlumatları alına bilmədi!');
+          return false;
+        }
+        
+        setCurrentUser(userResponse.data);
+      }
+      
+      if (!currentUser || !currentUser.id) {
+        alert('İstifadəçi ID-si tapılmadı!');
+        return false;
+      }
+      
+      const token = localStorage.getItem('token');
       const form = new FormData();
+      
+      form.append("AppUserId", currentUser.id);
       form.append("Name", formData.name);
       form.append("Surname", formData.surname);
       form.append("Email", formData.email);
       form.append("City", formData.city);
-      form.append("StreetAdress", formData.streetAddress);
+      form.append("StreetAdress", formData.streetAddress); // Note the spelling "Adress" not "Address"
       form.append("Apartment", formData.apartment);
+
+      console.log("Göndərilən AppUserId:", currentUser.id);
 
       const response = await fetch("https://finalprojectt-001-site1.jtempurl.com/api/ShippingInfo", {
         method: "POST",
         headers: {
           "accept": "*/*",
+          "Authorization": `Bearer ${token}`
         },
         body: form,
       });
@@ -92,59 +155,90 @@ function Checkout() {
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || "Məlumatlar uğursuz oldu!");
 
-      console.log("✅ Məlumatlar uğurla göndərildi:", result);
+      console.log("✅ Ünvan məlumatları uğurla göndərildi:", result);
       
       // Ödənişi aktivləşdirmək
       return activatePayment(result.id);
     } catch (error) {
       console.error("❌ Məlumatları göndərmə xətası:", error);
-      alert("Məlumatları göndərmək mümkün olmadı!");
+      alert("Məlumatları göndərmək mümkün olmadı: " + error.message);
       return false;
     }
   };
 
-  const activatePayment = async (shippingInfoId) => {
+  const activatePayment = async (shippingInfoId = null) => {
     try {
-      // Bu addımda ödənişin aktivləşdirilməsini həyata keçiririk
       console.log("Ödəniş aktivləşdirilir...");
-
-      // Yönləndirmə əməliyyatı
+  
       const totalPrice = sebet.reduce((total, item) => total + item.quantity * (item.discount > 0 ? item.finalPrice : item.price), 0);
       console.log(totalPrice, 'Total Price');
       console.log(sebet, 'Basket');
       
-      const token = localStorage.getItem('token');
-      const currentUser = await axios.get('https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      }).then(res => res.data).catch(err => console.error(err));
-
-      if (currentUser) {
-        const createOrderFormData = new FormData();
-        createOrderFormData.append("AppUserId", currentUser.id);
-        createOrderFormData.append("ProductIds", sebet.map(item => item.id));
+      // İstifadəçi ID-si yoxdursa, əvvəlcə onu əldə et
+      if (!currentUser) {
+        const token = localStorage.getItem('token');
         
-        const createdOrder = await axios.post('https://finalprojectt-001-site1.jtempurl.com/api/Order/create-delivery-order', createOrderFormData, {
+        const userResponse = await axios.get('https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile', {
           headers: {
             'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           }
-        }).then(res => res.data).catch(err => console.error(err));
-
-        if (!createdOrder || !createdOrder.orderId) {
-          alert('Sifariş yaradılmadı!');
+        });
+        
+        if (userResponse.status !== 200) {
+          alert('İstifadəçi məlumatları alına bilmədi!');
           return false;
         }
-
-        console.log(createdOrder, 'Created Order');
-        navigate('/order?orderId=' + createdOrder.orderId);
-        return true;
+        
+        setCurrentUser(userResponse.data);
       }
-      return false;
+      
+      if (!currentUser || !currentUser.id) {
+        alert('İstifadəçi ID-si tapılmadı!');
+        return false;
+      }
+      
+      const token = localStorage.getItem('token');
+      const createOrderFormData = new FormData();
+      createOrderFormData.append("AppUserId", currentUser.id);
+      createOrderFormData.append("ProductIds", sebet.map(item => item.id));
+      
+      // Əgər shippingInfoId varsa, onu əlavə et
+      if (shippingInfoId) {
+        createOrderFormData.append("ShippingInfoId", shippingInfoId);
+      } else if (!saveAddress) {
+        // Əgər save address seçilməyibsə, amma ünvan məlumatları doldurulubsa,
+        // bu məlumatları birbaşa əlavə etmək lazımdır (API-nin dəstəkləməsi lazımdır)
+        createOrderFormData.append("Name", formData.name);
+        createOrderFormData.append("Surname", formData.surname);
+        createOrderFormData.append("Email", formData.email);
+        createOrderFormData.append("City", formData.city);
+        createOrderFormData.append("StreetAddress", formData.streetAddress);
+        createOrderFormData.append("Apartment", formData.apartment);
+      }
+      
+      console.log("Sifariş yaradılır, AppUserId:", currentUser.id);
+      
+      const createdOrder = await axios.post('https://finalprojectt-001-site1.jtempurl.com/api/Order/create-delivery-order', createOrderFormData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      }).then(res => res.data).catch(err => {
+        console.error("Sifariş yaradılma xətası:", err.response ? err.response.data : err);
+        throw err;
+      });
+  
+      if (!createdOrder || !createdOrder.orderId) {
+        alert('Sifariş yaradılmadı!');
+        return false;
+      }
+  
+      console.log(createdOrder, 'Created Order');
+      navigate('/order?orderId=' + createdOrder.orderId);
+      return true;
     } catch (error) {
       console.error("Ödəniş aktivləşdirmə xətası:", error);
-      alert("Ödəniş aktivləşdirmə xətası baş verdi.");
+      alert("Ödəniş aktivləşdirmə xətası baş verdi: " + (error.response ? error.response.data : error.message));
       return false;
     }
   };
