@@ -13,7 +13,7 @@ async function GetProduct() {
 async function GetProductById(id) {
 
         const res = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Product/${id}`);
-        return res.data; // ✅ ID-yə görə məhsulu qaytarır
+        return res.data; 
   
 }
 
