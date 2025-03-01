@@ -4,126 +4,127 @@ const CoffeeSuggestion = () => {
   const [zodiac, setZodiac] = useState("");
   const [gender, setGender] = useState("");
   const [suggestion, setSuggestion] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const coffeeSuggestions = {
     aries: {
       male: {
         text: "Qoç kişisi üçün Espresso - enerjili başlanğıc!",
-        image: "https://via.placeholder.com/150?text=Espresso",
+        image: "/api/placeholder/150/150?text=Espresso",
       },
       female: {
         text: "Qoç qadını üçün Macchiato - güclü və özünə güvənən.",
-        image: "https://via.placeholder.com/150?text=Macchiato",
+        image: "/api/placeholder/150/150?text=Macchiato",
       },
     },
     taurus: {
       male: {
         text: "Buğa kişisi üçün Cold Brew - təravətli və sərbəst.",
-        image: "https://via.placeholder.com/150?text=Cold+Brew",
+        image: "/api/placeholder/150/150?text=Cold+Brew",
       },
       female: {
         text: "Buğa qadını üçün Mocha - şirin və romantik.",
-        image: "https://via.placeholder.com/150?text=Mocha",
+        image: "/api/placeholder/150/150?text=Mocha",
       },
     },
     gemini: {
       male: {
         text: "Əkizlər kişisi üçün Americano - sadə və güclü.",
-        image: "https://via.placeholder.com/150?text=Americano",
+        image: "/api/placeholder/150/150?text=Americano",
       },
       female: {
         text: "Əkizlər qadını üçün Iced Latte - yüngül və sərin.",
-        image: "https://via.placeholder.com/150?text=Iced+Latte",
+        image: "/api/placeholder/150/150?text=Iced+Latte",
       },
     },
     cancer: {
       male: {
         text: "Xərçəng kişisi üçün Latte - isti və yumşaq.",
-        image: "https://via.placeholder.com/150?text=Latte",
+        image: "/api/placeholder/150/150?text=Latte",
       },
       female: {
         text: "Xərçəng qadını üçün Cappuccino - şirin və rahat.",
-        image: "https://via.placeholder.com/150?text=Cappuccino",
+        image: "/api/placeholder/150/150?text=Cappuccino",
       },
     },
     leo: {
       male: {
         text: "Şir kişisi üçün Black Coffee - sadə və güclü.",
-        image: "https://via.placeholder.com/150?text=Black+Coffee",
+        image: "/api/placeholder/150/150?text=Black+Coffee",
       },
       female: {
         text: "Şir qadını üçün Mocha - şirin və zərif.",
-        image: "https://via.placeholder.com/150?text=Mocha",
+        image: "/api/placeholder/150/150?text=Mocha",
       },
     },
     virgo: {
       male: {
         text: "Qız kişisi üçün Flat White - ciddi və balanslı.",
-        image: "https://via.placeholder.com/150?text=Flat+White",
+        image: "/api/placeholder/150/150?text=Flat+White",
       },
       female: {
         text: "Qız qadını üçün Cappuccino - zarif və balanslı.",
-        image: "https://via.placeholder.com/150?text=Cappuccino",
+        image: "/api/placeholder/150/150?text=Cappuccino",
       },
     },
     libra: {
       male: {
         text: "Tərəzi kişisi üçün Iced Coffee - sərin və yüngül.",
-        image: "https://via.placeholder.com/150?text=Iced+Coffee",
+        image: "/api/placeholder/150/150?text=Iced+Coffee",
       },
       female: {
         text: "Tərəzi qadını üçün Macchiato - mükəmməl harmoniya.",
-        image: "https://via.placeholder.com/150?text=Macchiato",
+        image: "/api/placeholder/150/150?text=Macchiato",
       },
     },
     scorpio: {
       male: {
         text: "Əqrəb kişisi üçün Turkish Coffee - dərin və sirli.",
-        image: "https://via.placeholder.com/150?text=Turkish+Coffee",
+        image: "/api/placeholder/150/150?text=Turkish+Coffee",
       },
       female: {
         text: "Əqrəb qadını üçün Caramel Latte - şirin və gizli.",
-        image: "https://via.placeholder.com/150?text=Caramel+Latte",
+        image: "/api/placeholder/150/150?text=Caramel+Latte",
       },
     },
     sagittarius: {
       male: {
         text: "Oxatan kişisi üçün Cold Brew - sərbəst və sərt.",
-        image: "https://via.placeholder.com/150?text=Cold+Brew",
+        image: "/api/placeholder/150/150?text=Cold+Brew",
       },
       female: {
         text: "Oxatan qadını üçün Flat White - rahat və təravətli.",
-        image: "https://via.placeholder.com/150?text=Flat+White",
+        image: "/api/placeholder/150/150?text=Flat+White",
       },
     },
     capricorn: {
       male: {
         text: "Oğlaq kişisi üçün Espresso - ciddi və güclü.",
-        image: "https://via.placeholder.com/150?text=Espresso",
+        image: "/api/placeholder/150/150?text=Espresso",
       },
       female: {
         text: "Oğlaq qadını üçün Black Coffee - balanslı və məqsədyönlü.",
-        image: "https://via.placeholder.com/150?text=Black+Coffee",
+        image: "/api/placeholder/150/150?text=Black+Coffee",
       },
     },
     aquarius: {
       male: {
         text: "Dolça kişisi üçün Iced Latte - fərqli və yüngül.",
-        image: "https://via.placeholder.com/150?text=Iced+Latte",
+        image: "/api/placeholder/150/150?text=Iced+Latte",
       },
       female: {
         text: "Dolça qadını üçün Latte Macchiato - yumşaq və stilist.",
-        image: "https://via.placeholder.com/150?text=Latte+Macchiato",
+        image: "/api/placeholder/150/150?text=Latte+Macchiato",
       },
     },
     pisces: {
       male: {
         text: "Balıqlar kişisi üçün Caramel Coffee - şirin və romantik.",
-        image: "https://via.placeholder.com/150?text=Caramel+Coffee",
+        image: "/api/placeholder/150/150?text=Caramel+Coffee",
       },
       female: {
         text: "Balıqlar qadını üçün Caramel Latte - şirin və xəyalpərəst.",
-        image: "https://via.placeholder.com/150?text=Caramel+Latte",
+        image: "/api/placeholder/150/150?text=Caramel+Latte",
       },
     },
   };
@@ -134,17 +135,17 @@ const CoffeeSuggestion = () => {
       return;
     }
   
-
     const selectedCoffee = coffeeSuggestions[zodiac][gender];
     setSuggestion(selectedCoffee);
-    SetShowModal(true);
+    setShowModal(true);
   };
-  const closeModal = () =>{
-    SetShowModal(false);
-  }
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   return (  
-    <section className="py-12  px-6 bg-[#f7f7f7] text-center shadow-2xl ">
+    <section className="py-12 px-6 bg-[#f7f7f7] text-center shadow-2xl">
       <h2 className="font-extrabold xl:text-4xl 2xl:text-4xl text-xl text-gray-800 mb-6 drop-shadow-lg">
         🌟 Burcunu Seç və Kofeni Tap! 🌟
       </h2>
@@ -191,20 +192,21 @@ const CoffeeSuggestion = () => {
 
       <button
         onClick={handleSuggestion}
-        className="bg-white text-pink-600 font-semibold py-3 px-2 rounded-full shadow-xl hover:bg-pink-600 hover:text-white transition-all transform hover:scale-110"
+        className="bg-white text-pink-600 font-semibold py-3 px-8 rounded-full shadow-xl hover:bg-pink-600 hover:text-white transition-all transform hover:scale-110"
       >
         ✨ Kofeni Tap ✨
       </button>
 
-      {suggestion && suggestion.text && (
+      {showModal && suggestion && suggestion.text && (
         <div className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
           <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
             <div className="flex items-center pb-3 border-b border-gray-300">
-              <h3 className="text-gray-800 text-xl font-bold flex-1"> ☕ {suggestion.text}</h3>
+              <h3 className="text-gray-800 text-xl font-bold flex-1">☕ {suggestion.text}</h3>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                className="w-6 h-6 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
                 viewBox="0 0 320.591 320.591"
+                onClick={closeModal}
               >
                 <path
                   d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
@@ -217,18 +219,29 @@ const CoffeeSuggestion = () => {
               </svg>
             </div>
 
-            <div className="my-6">
+            <div className="my-6 flex flex-col items-center">
+              <img 
+                src={suggestion.image} 
+                alt={suggestion.text.split('-')[0]} 
+                className="w-32 h-32 object-cover rounded-lg mb-4"
+              />
               <p className="text-gray-600 text-sm leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor arcu, at fermentum dui.
-                Maecenas.
+                Kofe təklifiniz hazırdır! Bu kofe növü sizin şəxsiyyətinizlə harmoniya yaradır.
               </p>
             </div>
 
             <div className="border-t border-gray-300 pt-6 flex justify-end gap-4">
-              <button type="button" className="px-4 py-2 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300 active:bg-gray-200">
+              <button 
+                type="button" 
+                className="px-4 py-2 rounded-lg text-gray-800 text-sm border-none outline-none tracking-wide bg-gray-200 hover:bg-gray-300 active:bg-gray-200"
+                onClick={closeModal}
+              >
                 Bağla
               </button>
-              <button type="button" className="px-4 py-2 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700 active:bg-blue-600">
+              <button 
+                type="button" 
+                className="px-4 py-2 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700 active:bg-blue-600"
+              >
                 Səbətə at
               </button>
             </div>

@@ -1,40 +1,93 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { DATA } from '../../Context/Datacontext';
 import { Link } from 'react-router-dom';
+import { FaArrowRight, FaCoffee } from 'react-icons/fa';
 
 function Category() {
   const { category } = useContext(DATA);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Animasiya üçün komponentin yüklənməsindən sonra visible statusu təyin edirik
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-<>
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-4 max-w-screen-xl">
+        {/* Section Başlıq */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center mb-3">
+            <span className="h-px w-6 bg-[#de9f69]"></span>
+            <span className="mx-3 text-[#de9f69] font-medium">KATEQORİYALAR</span>
+            <span className="h-px w-6 bg-[#de9f69]"></span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Sevimli Kofeleriniz</h2>
+          <p className="text-gray-600 max-w-xl mx-auto">Ən məşhur kofe növlərimizi kəşf edin. Sizin üçün xüsusi seçilmiş kofe kateqoriyalarımız.</p>
+        </div>
 
-<div className="grid px-2 pt-[50px] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-screen-xl mx-auto">
-      {category.slice(0, 4).map((item, i) => (
-        <Link
-          key={i}
-          to={`/Product?category=${encodeURIComponent(item.name)}`}
-          className="relative bg-gray-100 p-4 rounded-xl group overflow-hidden cursor-pointer transition-all duration-500 hover:shadow-xl hover:-translate-y-2 border border-gray-300"
+        {/* Kateqoriyalar Grid */}
+        <div 
+          className={`grid px-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}
         >
-          {/* 📌 Məhsul şəkli */}
-          <div className="w-full h-[250px] overflow-hidden rounded-lg">
-            <img
-              src={`https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
-              alt={item.name}
-              className="w-full h-[220px] object-contain transition-transform duration-500 group-hover:scale-105"
-            />
-          </div>
+          {category.slice(0, 4).map((item, i) => (
+            <Link
+              key={i}
+              to={`/Product?category=${encodeURIComponent(item.name)}`}
+              className="group"
+            >
+              <div className="relative bg-white rounded-xl overflow-hidden shadow-md transition-all duration-500 hover:shadow-xl hover:-translate-y-2 border border-gray-100">
+                {/* İkon overlay */}
+                <div className="absolute top-4 right-4 bg-white text-[#de9f69] w-10 h-10 rounded-full flex items-center justify-center opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-10">
+                  <FaCoffee className="text-lg" />
+                </div>
 
-          {/* 📌 Məhsulun adı (Şəkilin altına əlavə olunub) */}
-          <div className="bg-gray-700 text-white text-center py-2 ">
-            <h3 className="text-md font-semibold">{item.name}</h3>
-          </div>
-        </Link>
-      ))}
+                {/* Şəkil */}
+                <div className="w-full h-[240px] bg-gray-50 overflow-hidden">
+                  <img
+                    src={`https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
+                    alt={item.name}
+                    className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110"
+                  />
+                </div>
 
-    
-    </div>
-      <Link to={'Allcategory'}  className='border flex rounded-sm items-center hover:bg-[#de9f69] hover:text-white duration-300 justify-center w-[65%] xl:w-[20%] border-[#de9f69] text-center py-4 px-4 mt-12 mx-auto'>Bütün kateqoriyalara göz atın</Link>
-</>
+                {/* Kateqoriya adı və CTA */}
+                <div className="p-4 bg-white border-t border-gray-100">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">{item.name}</h3>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-500">{Math.floor(Math.random() * 20) + 5} məhsul</span>
+                    <span className="text-[#de9f69] text-sm font-medium inline-flex items-center group-hover:underline">
+                      Kəşf et
+                      <FaArrowRight className="ml-1 text-xs opacity-0 transform -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Rəngli overlay border effekti */}
+                <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#de9f69] rounded-xl transition-all duration-300 pointer-events-none"></div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Bütün kateqoriyalar düyməsi */}
+        <div className="flex justify-center mt-14">
+          <Link 
+            to="Allcategory" 
+            className="relative overflow-hidden inline-flex items-center justify-center px-8 py-4 border-2 border-[#de9f69] text-[#de9f69] font-medium rounded-md transition-all duration-300 hover:text-white group"
+          >
+            <span className="relative z-10">Bütün kateqoriyalara göz atın</span>
+            <span className="absolute inset-0 bg-[#de9f69] transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></span>
+            <FaArrowRight className="ml-2 relative z-10 transform group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }
 

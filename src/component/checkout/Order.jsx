@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { BASKET } from '../../Context/BasketContext';
 
-
 function Order() {
   // Hooks
   const navigate = useNavigate();
@@ -18,9 +17,12 @@ function Order() {
   // State
   const [userId, setUserId] = useState('');
   const [promocode, setPromocode] = useState('');  
+  const [promocodeInput, setPromocodeInput] = useState('');
   const [discount, setDiscount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [originalTotalPrice, setOriginalTotalPrice] = useState(0);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [order, setOrder] = useState(null);
   const [consolidatedProducts, setConsolidatedProducts] = useState([]);
   const [formData, setFormData] = useState({
@@ -45,8 +47,10 @@ function Order() {
     if (isError) {
       console.error(`❌ ${message}`);
       setError(message);
+      setSuccessMessage('');
     } else {
-      alert(message);
+      setSuccessMessage(message);
+      setError('');
     }
   };
 
@@ -146,12 +150,76 @@ function Order() {
         });
       });
       
+      setOriginalTotalPrice(total);
+      
       // Apply discount if available
       if (discountValue > 0) {
-        total = total - (total * discountValue / 100);
+        const discountAmount = total * discountValue / 100;
+        total = total - discountAmount;
       }
       
       setTotalPrice(total);
+    }
+  };
+
+  const applyPromocode = async () => {
+    if (!promocodeInput.trim()) {
+      showNotification("Zəhmət olmasa promokodu daxil edin", true);
+      return;
+    }
+  
+    if (!userId) {
+      showNotification("İstifadəçi ID tapılmadı!", true);
+      return;
+    }
+  
+    try {
+      // Try using a more robust approach with a JSON body instead of query parameters
+      const response = await axios.post(
+        `${API_BASE_URL}/api/Promocode/use-promocode`,
+        {
+          userId: userId,
+          promocodeCode: promocodeInput
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "Accept": "*/*"
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        // Add more detailed success handling
+        console.log("Promocode response:", response.data);
+        
+        // Fetch updated user data to get the applied discount
+        await fetchUserData();
+        
+        // Show success message
+        showNotification(`Promokod uğurla tətbiq edildi!`);
+      }
+    } catch (error) {
+      console.error("Error applying promocode:", error);
+      
+      // Better error handling with more details
+      let errorMessage = "Promokod tətbiq edilə bilmədi!";
+      
+      if (error.response) {
+        console.log("Error response:", error.response.data);
+        
+        // Try to extract a more specific error message if available
+        if (error.response.data?.message) {
+          errorMessage = error.response.data.message;
+        } else if (typeof error.response.data === 'string') {
+          errorMessage = error.response.data;
+        } else if (error.response.status === 400) {
+          errorMessage = "Promokod etibarsızdır və ya artıq istifadə edilib";
+        }
+      }
+      
+      showNotification(errorMessage, true);
     }
   };
 
@@ -171,7 +239,7 @@ function Order() {
         AppUserId: userId,
         OrderId: currentOrderId,
         TotalPrice: totalPrice,
-        Promocode: promocode || 'string'
+        Promocode: promocode || ''
       }).forEach(([key, value]) => {
         paymentFormData.append(key, value);
       });
@@ -201,6 +269,13 @@ function Order() {
       fetchUserData();
     }
   }, [token]);
+
+  // Need to recalculate total price when discount changes
+  useEffect(() => {
+    if (order && discount > 0) {
+      calculateTotalPrice(order, discount);
+    }
+  }, [discount]);
 
   // Render helpers
   const renderConsolidatedOrderItems = () => {
@@ -241,9 +316,52 @@ function Order() {
         <div className="bg-gray-50 p-6 rounded-lg mb-8">
           <h2 className="text-xl font-semibold mb-4">Ödəniş məlumatı</h2>
           <div className="space-y-2 border-b pb-4 mb-4">
-            <p><strong>Əsas Qiymət:</strong> {totalPrice.toFixed(2)} ₼</p>
-            {discount > 0 && <p><strong>Endirim:</strong> {discount}%</p>}
-            <p className="text-lg font-bold"><strong>Yekun Qiymət:</strong> {totalPrice.toFixed(2)} ₼</p>
+            <p><strong>Əsas Qiymət:</strong> {originalTotalPrice.toFixed(2)} ₼</p>
+            {discount > 0 && (
+              <p>
+                <strong>Endirim:</strong> {discount}% 
+                ({(originalTotalPrice * discount / 100).toFixed(2)} ₼)
+              </p>
+            )}
+            <p className="text-lg font-bold">
+              <strong>Yekun Qiymət:</strong> {totalPrice.toFixed(2)} ₼
+            </p>
+          </div>
+          
+          {/* Promocode input area */}
+          <div className="mt-6">
+            <h3 className="font-medium mb-2">Promokod</h3>
+            {successMessage && (
+              <div className="bg-green-100 text-green-700 p-3 rounded mb-4">
+                {successMessage}
+              </div>
+            )}
+            {error && (
+              <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
+                {error}
+              </div>
+            )}
+            <div className="flex gap-2">
+              <input 
+                type="text" 
+                value={promocodeInput}
+                onChange={(e) => setPromocodeInput(e.target.value)}
+                placeholder="Promokodu daxil edin"
+                className="flex-1 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button 
+                type="button"
+                onClick={applyPromocode}
+                className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Tətbiq et
+              </button>
+            </div>
+            {promocode && (
+              <p className="mt-2 text-green-600">
+                Aktiv promokod: <strong>{promocode}</strong> ({discount}% endirim)
+              </p>
+            )}
           </div>
         </div>
 
@@ -256,8 +374,6 @@ function Order() {
         {/* Payment form */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Ödəniş məlumatları</h2>
-          
-          {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>}
           
           <form onSubmit={handlePayment} className="space-y-4">
             <div>
