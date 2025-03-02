@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { DATA } from '../../Context/Datacontext'
+import { Link } from 'react-router-dom'
 
 function Abouthome() {
 const {slogan}=useContext(DATA)
@@ -18,7 +19,7 @@ const {slogan}=useContext(DATA)
         )
        })}
       </p>
-      <a href="#" className=' text-black rounded-lg hover:text-[#de9f69] duration-300 mx-auto w-[150px]  py-3 block mt-12'>Daha çox öyrən....</a>
+      <Link to="/about" className=' text-black rounded-lg hover:text-[#de9f69] duration-300 mx-auto w-[150px]  py-3 block mt-12'>Daha çox öyrən....</Link>
 </div>
 </section>
     </>

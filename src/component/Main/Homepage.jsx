@@ -19,14 +19,12 @@ function Homepage() {
   return (
 <>
 <div className='bg-[#f1ece9] '>
-<section className="silder pt-[30px]">
+<section className="silder">
 <Silder />
 </section>
 
 <section className='catefory py-[50px] bg-white '>
-  <p className='text-5xl font-medium text-center font-playfair'>Kateqoriyalar</p>
-  <hr className='h-[50px] w-[3px] my-6 mx-auto bg-[#db9457]'/>
-  <p className="text-2xl tracking-wider text-center font-montserrat font-light">Seçilmiş ləzzətlərlə hazırlanmış özəl menü</p>
+ 
 <Category/>
 </section>
 <Abouthome/>

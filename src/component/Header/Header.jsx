@@ -64,7 +64,7 @@ function Header() {
             ))}
             
             {/* Main Header */}
-            <header className={`w-full sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-white shadow-lg' : 'bg-[#f8f5f2]'}`}>
+            <header className={`w-full  sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-white shadow-lg' : 'bg-[#f8f5f2]'}`}>
                 <div className="container mx-auto max-w-screen-xl px-6">
                     <div className="flex items-center justify-between w-full mx-auto py-4">
                         {/* Desktop Navigation */}

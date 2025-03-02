@@ -16,7 +16,7 @@ function Product() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const categoryName = searchParams.get("category");
 
-  // Filter məhsulları bir useEffect-də idarə edirik
+  // Filter məhsulları
   useEffect(() => {
     const filtered = mehsul.filter((item) => {
       return (!categoryName || item.categoryName === categoryName) &&
@@ -29,7 +29,7 @@ function Product() {
 
   const handleFilter = useCallback(() => {
     console.log("Filter applied:", { minPrice, maxPrice });
-    // Filter düyməsi kliklənəndə daha sonra əlavə edə biləcəyiniz əməliyyatlar üçün
+    // Burada əlavə əməliyyatlar yer ala bilər
   }, [minPrice, maxPrice]);
 
   return (
@@ -89,12 +89,10 @@ function ProductList({ filteredProducts, bassketadd, toggleLike, navigate }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // Sıralama dəyişdikdə səhifəni sıfırla
   useEffect(() => {
     setCurrentPage(1);
   }, [sortOrder]);
 
-  // Məhsulları sırala
   const sortedProducts = React.useMemo(() => {
     return [...filteredProducts].sort((a, b) => {
       if (sortOrder === "low-to-high") {
@@ -120,7 +118,6 @@ function ProductList({ filteredProducts, bassketadd, toggleLike, navigate }) {
     setCurrentPage(page);
   }, []);
 
-  // Məhsul olmadığı halda mesaj göstər
   if (filteredProducts.length === 0) {
     return (
       <div className="xl:w-9/12 w-full p-4">
@@ -169,8 +166,10 @@ function ProductList({ filteredProducts, bassketadd, toggleLike, navigate }) {
   );
 }
 
-// Ayrı komponent olaraq məhsul kartı
 function ProductCard({ item, onProductClick, onToggleLike }) {
+  const { likedItems } = useContext(LIKESDATA);
+  const isLiked = likedItems.some(like => like.id === item.id);
+  
   const handleLikeClick = (e) => {
     e.stopPropagation(); // Kartın yönləndirməsini əngəlləyir
     const product = {
@@ -191,7 +190,6 @@ function ProductCard({ item, onProductClick, onToggleLike }) {
         className="relative w-full h-[330px] cursor-pointer" 
         onClick={() => onProductClick(item.id)}
       >
-        {/* Endirim qutusu */}
         {item.discount && (
           <div className="absolute top-0 left-0 bg-red-500 text-white text-[15px] font-[Playfair Display] px-2 py-1 rounded-br-lg z-10">
             %{item.discount}
@@ -203,10 +201,11 @@ function ProductCard({ item, onProductClick, onToggleLike }) {
           className="absolute top-0 left-0 w-full lg:w-[280px] lg:h-[330px] h-full object-cover"
           loading="lazy"
         />
-        {/* Ürək ikonu */}
         <button
           onClick={handleLikeClick}
-          className="absolute top-[10px] right-[10px] shadow-lg p-1 pr-3 pl-3 rounded-full border-2 border-white text-white bg-transparent hover:bg-[#DB9457] transition-all duration-300 z-10"
+          className={`absolute top-[10px] right-[10px] shadow-lg p-1 pr-3 pl-3 rounded-full border-2 border-white transition-all duration-300 z-10 ${
+            isLiked ? "bg-red-500 text-white" : "bg-transparent text-white hover:bg-[#DB9457]"
+          }`}
           style={{ fontSize: "20px" }}
           aria-label="Sevimlilərə əlavə et"
         >
@@ -228,7 +227,6 @@ function ProductCard({ item, onProductClick, onToggleLike }) {
   );
 }
 
-// Ayrı səhifələmə komponenti
 function Pagination({ currentPage, totalPages, onPageChange }) {
   return (
     <div className="flex justify-center mt-6 space-x-2">

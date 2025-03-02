@@ -68,7 +68,19 @@ const ProductDetail = () => {
   if (!product) {
     return <div>Loading product...</div>;
   }
-
+  const handleLikeClick = (e) => {
+    e.stopPropagation(); // Kartın yönləndirməsini əngəlləyir
+    // toggleLike funksiyasını çağıraraq məhsulu sevimlilərə əlavə / çıxar edirik
+    toggleLike({
+      id: product.id,
+      title: product.title,
+      about: product.about,
+      imgUrl: `https://finalprojectt-001-site1.jtempurl.com${product.imgUrl}`,
+      description: product.description,
+      price: product.price,
+      finalPrice: product.finalPrice,
+    });
+  };
   return (
     <div className="xl:max-w-12xl w-[95%] mx-auto py-4 xl:p-6 mt-20">
       <div className="flex gap-10 xl:flex-row flex-col w-full justify-center items-center">
@@ -141,7 +153,8 @@ const ProductDetail = () => {
             >
            Səbətə at
             </button>
-            <button className="text-3xl border py-1 px-2 hover:bg-[#DB9457] hover:text-white transition-all duration-600">
+            
+            <button    onClick={handleLikeClick} className="text-3xl border py-1 px-2 hover:bg-[#DB9457] hover:text-white transition-all duration-600">
               <CiHeart className="text-black" />
             </button>
           </div>
@@ -149,9 +162,9 @@ const ProductDetail = () => {
             Category: <span className="text-red-500">{product.categoryName}</span>
           </div>
           <div className="text-gray-500 text-sm font-inter font-light text-[14px] tracking-wider">
-            Tags: # {product.tags.map((tag, index) => (
+            Tags: {product.tags.map((tag, index) => (
               <span key={index} className="text-red-500">
-                {tag.tag.name}{index < product.tags.length - 1 && ', '}
+                # {tag.tag.name}{index < product.tags.length - 1 && ', '}
               </span>
             ))}
           </div>
