@@ -22,15 +22,30 @@ function LikeContext({ children }) {
     setLikedItems((prevLikes) => {
       let updatedLikes;
 
-      // **Əgər məhsul artıq varsa, onu çıxar**
       const existingProductIndex = prevLikes.findIndex((item) => item.id === product.id);
       if (existingProductIndex !== -1) {
-        updatedLikes = prevLikes.filter((item) => item.id !== product.id); // ❌ Məhsulu sil
+        updatedLikes = prevLikes.filter((item) => item.id !== product.id);
       } else {
-        updatedLikes = [...prevLikes, product]; // ✅ Yeni məhsulu əlavə et
+        updatedLikes = [...prevLikes, product];
+        // API-a məhsulun ID-ni göndər
+        fetch('https://finalprojectt-001-site1.jtempurl.com/api/FavoriteProduct/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+          },
+          body: JSON.stringify({ productId: product.id })
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Məhsul sevimlilərə əlavə edildi:', data);
+        })
+        .catch((error) => {
+          console.error('Xəta baş verdi:', error);
+        });
+        
       }
 
-      // **Yenilənmiş sevimliləri cookiedə saxla**
       cook.set("likes", updatedLikes, {
         path: "/",
         expires: new Date(Date.now() + 86400 * 1000),
@@ -38,7 +53,8 @@ function LikeContext({ children }) {
 
       return updatedLikes;
     });
-  }
+}
+
 
   // **Məhsulu sevimlilərdən çıxarma funksiyası**
   function likeRemove(id) {

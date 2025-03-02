@@ -67,38 +67,40 @@ function Coment({ productId }) {
   // 🔹 Yeni şərh əlavə etmək
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (!userName || !token) {
+    if (!userName || !token || !userInfo) {
       setError("Şərh yazmaq üçün daxil olun.");
       return;
     }
-
-    const newComment = {
-      productId: productId,
-      userName: userName, // 🔥 Profil API-dən gələn istifadəçi adı
-      rating: rating,
-      comment: comment,
-    };
-
+  
+    // API-nin gözlədiyi multipart/form-data formatında göndəririk
+    const formDataPayload = new FormData();
+    formDataPayload.append("ProductId", productId);
+    formDataPayload.append("UserId", userInfo.id); // Profildən alınan user id
+    formDataPayload.append("UserName", userName);
+    formDataPayload.append("Rating", rating);
+    formDataPayload.append("Comment", comment);
+  
     try {
       const response = await axios.post(
         "https://finalprojectt-001-site1.jtempurl.com/api/Review",
-        newComment,
+        formDataPayload,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-
+  
       setReviews([...reviews, response.data]);
       setComment("");
       setRating(5);
     } catch (error) {
+      console.error("Review post error:", error.response?.data || error.message);
       setError("Şərh əlavə edilərkən xəta baş verdi.");
     }
   };
-
+  
 
   return (
     <div className="mt-10 border-t pt-6">

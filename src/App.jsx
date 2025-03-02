@@ -16,6 +16,7 @@ import Forgetpassword from './login/Forgetpassword'
 import Order from './component/checkout/Order'
 import Qrmenu from './qrcode/Qrmenu'
 import Qrmodal from './component/Main/Qrmodal'
+import Tracing from './component/Main/Tracing'
 
 
 
@@ -46,6 +47,7 @@ function App() {
           <Route path="reset-password" element={<Resetpasword />} />
           <Route path="Forgetpassword" element={<Forgetpassword />} />
           <Route path="order" element={<Order />} />
+          <Route path="tracing" element={<Tracing />} />
          
         </Route>
       </Routes>

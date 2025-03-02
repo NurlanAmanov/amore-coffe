@@ -149,7 +149,7 @@ const ProductDetail = () => {
             Category: <span className="text-red-500">{product.categoryName}</span>
           </div>
           <div className="text-gray-500 text-sm font-inter font-light text-[14px] tracking-wider">
-            Tags: {product.tags.map((tag, index) => (
+            Tags: # {product.tags.map((tag, index) => (
               <span key={index} className="text-red-500">
                 {tag.tag.name}{index < product.tags.length - 1 && ', '}
               </span>

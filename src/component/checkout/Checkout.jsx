@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BASKET } from '../../Context/BasketContext';
-import { GetCabinet } from "../../service/Cabinet.js";
 import axios from "axios";
 
 function Checkout() {
@@ -45,24 +44,11 @@ function Checkout() {
         if (userResponse.status === 200) {
           setCurrentUser(userResponse.data);
           console.log("İstifadəçi məlumatları:", userResponse.data);
-        }
-
-        // Ünvan məlumatlarını əldə et
-        const addressResponse = await fetch("https://finalprojectt-001-site1.jtempurl.com/api/ShippingInfo");
-        const addressData = await addressResponse.json();
-        
-        if (!addressResponse.ok) {
-          throw new Error("Göndərmə məlumatları yüklənmədi.");
-        }
-        
-        // Əgər istifadəçi giriş edibsə, yalnız onun ünvanlarını filtrləyə bilərsiniz
-        if (userResponse.data && userResponse.data.id) {
-          const userAddresses = addressData.filter(address => 
-            address.appUserId === userResponse.data.id
-          );
-          setShippingInfo(userAddresses);
-        } else {
-          setShippingInfo(addressData);
+          
+          // Əgər istifadəçinin ünvanları varsa, onları əlavə et
+          if (userResponse.data.shippingInfos && userResponse.data.shippingInfos.length > 0) {
+            setShippingInfo(userResponse.data.shippingInfos);
+          }
         }
       } catch (error) {
         console.error("Məlumatları yükləmə xətası:", error);
@@ -89,10 +75,11 @@ function Checkout() {
         surname: selectedShipping.surname,
         email: selectedShipping.email,
         city: selectedShipping.city,
-        streetAddress: selectedShipping.streetAddress,
+        streetAddress: selectedShipping.streetAdress, // API-dən gələn property adını düzəldirik
         apartment: selectedShipping.apartment,
       });
     } else {
+      // Əgər "Yeni ünvan daxil edin" seçilirsə formu təmizlə
       setFormData({
         name: "",
         surname: "",
@@ -138,7 +125,7 @@ function Checkout() {
       form.append("Surname", formData.surname);
       form.append("Email", formData.email);
       form.append("City", formData.city);
-      form.append("StreetAdress", formData.streetAddress); // Note the spelling "Adress" not "Address"
+      form.append("StreetAdress", formData.streetAddress); // API-də "StreetAdress" yazılışı var
       form.append("Apartment", formData.apartment);
 
       console.log("Göndərilən AppUserId:", currentUser.id);
@@ -275,7 +262,7 @@ function Checkout() {
   // Calculate order summary
   const totalItems = sebet.reduce((total, item) => total + item.quantity, 0);
   const subtotal = sebet.reduce((total, item) => total + item.quantity * (item.discount > 0 ? item.finalPrice : item.price), 0);
-  const shipping = 5; // Example shipping cost
+  const shipping = 2; // Example shipping cost
   const total = subtotal + shipping;
 
   return (
@@ -308,7 +295,7 @@ function Checkout() {
                       <option value="">Yeni ünvan daxil edin</option>
                       {shippingInfo.map(address => (
                         <option key={address.id} value={address.id}>
-                          {address.name} {address.surname} - {address.city}, {address.streetAddress}
+                          {address.name} {address.surname} - {address.city}, {address.streetAdress}
                         </option>
                       ))}
                     </select>
