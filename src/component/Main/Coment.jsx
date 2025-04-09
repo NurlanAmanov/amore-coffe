@@ -18,7 +18,7 @@ function Coment({ productId }) {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          "https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile",
+          "https://amore.cavidhuseynov.me/swagger/index.html/api/Auth/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ function Coment({ productId }) {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(
-          `https://finalprojectt-001-site1.jtempurl.com/api/Review/${productId}`,
+          `https://amore.cavidhuseynov.me/swagger/index.html/api/Review/${productId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -81,7 +81,7 @@ function Coment({ productId }) {
 
     try {
       const response = await axios.post(
-        "https://finalprojectt-001-site1.jtempurl.com/api/Review",
+        "https://amore.cavidhuseynov.me/swagger/index.html/api/Review",
         newComment,
         {
           headers: {
@@ -156,13 +156,13 @@ function Coment({ productId }) {
       <div className="flex flex-col lg:items-center justify-start w-full sm:w-auto sm:mr-4">
   {review.imgUrl ? (
     <img
-      src={`https://finalprojectt-001-site1.jtempurl.com${review.imgUrl}`}
+      src={`https://amore.cavidhuseynov.me/swagger/index.html${review.imgUrl}`}
       alt="Profile"
       className="w-[70px] h-[70px] object-cover rounded-full"
     />
   ) : userInfo && userInfo.imgUrl ? (
     <img
-      src={`https://finalprojectt-001-site1.jtempurl.com${userInfo.imgUrl}`}
+      src={`https://amore.cavidhuseynov.me/swagger/index.html${userInfo.imgUrl}`}
       alt="Profile"
       className="w-[70px] h-[70px] object-cover rounded-full"
     />

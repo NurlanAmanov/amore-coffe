@@ -109,7 +109,7 @@ function ProductList({ filteredProducts, bassketadd, toggleLike, navigate }) {
                 %10
               </div>
               <img
-                src={`https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
+                src={`https://amore.cavidhuseynov.me/swagger/index.html${item.imgUrl}`}
                 alt={item.title}
                 className="absolute top-0 left-0 w-full lg:w-[280px] lg:h-[330px] h-full object-cover"
                 // style={{ width: "280px", height: "330px" }}
@@ -121,7 +121,7 @@ function ProductList({ filteredProducts, bassketadd, toggleLike, navigate }) {
                     id: item.id,
                     title: item.title,
                     about: item.about,
-                    imgUrl: `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`,
+                    imgUrl: `https://amore.cavidhuseynov.me/swagger/index.html${item.imgUrl}`,
                     description: item.description,
                     price: item.price,
                     finalPrice: item.finalPrice

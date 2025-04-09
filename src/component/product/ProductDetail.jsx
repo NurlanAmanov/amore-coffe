@@ -19,18 +19,18 @@ const ProductDetail = () => {
     const fetchData = async () => {
       try {
         // Məhsul məlumatlarını çəkir
-        const productResponse = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Product/${id}`);
+        const productResponse = await axios.get(`https://amore.cavidhuseynov.me/swagger/index.html/api/Product/${id}`);
         setProduct(productResponse.data);
         if (productResponse.data && productResponse.data.sizes && productResponse.data.sizes.length > 0) {
           setSelectedSize(productResponse.data.sizes[0]);
         }
 
         // Şərhlərin sayını çəkir
-        const reviewCountResponse = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Review/${id}`);
+        const reviewCountResponse = await axios.get(`https://amore.cavidhuseynov.me/swagger/index.html/api/Review/${id}`);
         setCommentsCount(reviewCountResponse.data.length);
 
         // Orta reytinqi çəkir
-        const ratingResponse = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Review/${id}/average`);
+        const ratingResponse = await axios.get(`https://amore.cavidhuseynov.me/swagger/index.html/api/Review/${id}/average`);
         setAverageRating(ratingResponse.data.averageRating); // Orta reytinqi alırıq
       } catch (error) {
         console.error("Data fetching error:", error);
@@ -129,7 +129,7 @@ const ProductDetail = () => {
                   product.title,
                   product.description,
                   product.id,
-                  `https://finalprojectt-001-site1.jtempurl.com${product.imgUrl}`,
+                  `https://amore.cavidhuseynov.me/swagger/index.html${product.imgUrl}`,
                   product.price,
                   product.discount,
                   totalPrice,

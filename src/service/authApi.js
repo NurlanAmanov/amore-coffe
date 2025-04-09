@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://finalprojectt-001-site1.jtempurl.com/api/Auth";
+const BASE_URL = "https://amore.cavidhuseynov.me/swagger/index.html/api/Auth";
 
 export const registerUser = async (formData) => {
     try {

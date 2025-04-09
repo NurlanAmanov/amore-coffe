@@ -13,7 +13,7 @@ function Sifaris() {
         // `orderId` ilə sifarişi çəkirik
         const fetchOrder = async () => {
             try {
-                const response = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Order/${currentOrderId}`, {
+                const response = await axios.get(`https://amore.cavidhuseynov.me/swagger/index.html/api/Order/${currentOrderId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
@@ -64,7 +64,7 @@ function Sifaris() {
                                         {orderItem.product && (
                                             <>
                                                 <img
-                                                    src={`https://finalprojectt-001-site1.jtempurl.com${orderItem.product.imgUrl}`}
+                                                    src={`https://amore.cavidhuseynov.me/swagger/index.html${orderItem.product.imgUrl}`}
                                                     alt={orderItem.product.title}
                                                     className="w-10 h-10 object-cover mr-2"
                                                 />

@@ -46,7 +46,7 @@ function Order() {
       paymentFormData.append('Promocode', promocode);  
       paymentFormData.append('Discount', discount);   
 
-      const paymentResponse = await axios.post('https://finalprojectt-001-site1.jtempurl.com/api/Checkout/process-payment', paymentFormData, {
+      const paymentResponse = await axios.post('https://amore.cavidhuseynov.me/swagger/index.html/api/Checkout/process-payment', paymentFormData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -66,7 +66,7 @@ function Order() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Auth/profile", {
+        const response = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Auth/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -107,7 +107,7 @@ function Order() {
       }
   
     
-      const response = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Order/${currentOrderId}`, {
+      const response = await axios.get(`https://amore.cavidhuseynov.me/swagger/index.html/api/Order/${currentOrderId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -120,7 +120,7 @@ function Order() {
   
        
         const productPromises = orderData.orderProducts.map((orderProduct) => {
-          return axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Product/${orderProduct.product.id}`, {
+          return axios.get(`https://amore.cavidhuseynov.me/swagger/index.html/api/Product/${orderProduct.product.id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
@@ -179,7 +179,7 @@ function Order() {
                 <li key={order.id} className="p-4 border rounded-md bg-gray-100">
                   <p><strong>Mehsul ID:</strong> {order.product.id}</p>
                   <p><strong>Məhsul adı:</strong> {order.product.title}</p>
-                  <img style={{borderRadius: "10px"}} src={`https://finalprojectt-001-site1.jtempurl.com${order.product.imgUrl}`} alt={order.product.title} className="w-24 h-24 object-cover"/>
+                  <img style={{borderRadius: "10px"}} src={`https://amore.cavidhuseynov.me/swagger/index.html${order.product.imgUrl}`} alt={order.product.title} className="w-24 h-24 object-cover"/>
                   <p><strong>Qiymət:</strong> {order.product.price} ₼</p>
                 </li>
               ))}

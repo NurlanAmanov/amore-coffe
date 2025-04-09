@@ -65,7 +65,7 @@ function Header() {
                         <Link to="/" className="flex items-center justify-center xl:translate-x-[-50px]">
                             {logo.map((item) => (
                                 <img
-                                    src={`https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
+                                    src={`https://amore.cavidhuseynov.me/swagger/index.html${item.imgUrl}`}
                                     alt="Logo"
                                     className="h-[60px] w-[90px] xl:w-[150px] object-cover"
                                 />

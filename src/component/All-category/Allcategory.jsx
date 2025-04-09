@@ -17,7 +17,7 @@ function Allcategory() {
           {/* 📌 Məhsul şəkli */}
           <div className="w-full h-[250px] overflow-hidden rounded-lg">
             <img
-              src={`https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`}
+              src={`https://amore.cavidhuseynov.me/swagger/index.html${item.imgUrl}`}
               alt={item.name}
               className="w-full h-[220px] object-contain transition-transform duration-500 group-hover:scale-105"
             />

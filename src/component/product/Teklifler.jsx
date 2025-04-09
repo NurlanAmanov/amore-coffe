@@ -62,7 +62,7 @@ function ProductCard({ item, bassketadd, navigate }) {
         <div className="flex space-x-2">
           <button
             onClick={() => bassketadd(item.title, item.about, item.id, 
-              `https://finalprojectt-001-site1.jtempurl.com${item.imgUrl}`, 
+              `https://amore.cavidhuseynov.me/swagger/index.html${item.imgUrl}`, 
               item.desciption, item.price, item.discount, item.finalPrice)}
             className="flex-1 bg-blue-500 text-white py-2 px-4 rounded-full font-semibold hover:bg-blue-600 transition-colors duration-200"
           >
