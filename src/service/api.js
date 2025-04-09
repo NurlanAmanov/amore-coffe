@@ -2,54 +2,54 @@ import axios from "axios";
 
 
 async function GetCategory() {
-    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Category");
+    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Category");
     return res.data;
 }
 
 async function GetProduct() {
-    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Product");
+    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Product");
     return res.data;
 }
 async function GetProductById(id) {
 
-        const res = await axios.get(`https://finalprojectt-001-site1.jtempurl.com/api/Product/${id}`);
+        const res = await axios.get(`https://amore.cavidhuseynov.me/swagger/index.html/api/Product/${id}`);
         return res.data; // ✅ ID-yə görə məhsulu qaytarır
   
 }
 
 async function Getbanner() {
-    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/HeadBanners")
+    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/HeadBanners")
     return res.data;
 
 }
 async function Getsilder() {
-    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Slider")
+    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Slider")
     return res.data;
 
 }
 async function Getslogan() {
-    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Slogan")
+    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Slogan")
     return res.data;
 
 }
 async function GetSocialMedia() {
-    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/SocialMedia")
+    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/SocialMedia")
     return res.data;
 
 }
 
 async function GetLogo() {
-    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Logo")
+    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Logo")
     return res.data;
 
 }
 async function GetLocation() {
-    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Location")
+    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Location")
     return res.data;
 
 }
 async function GetAuth() {
-    const res = await axios.get("https://finalprojectt-001-site1.jtempurl.com/api/Auth")
+    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Auth")
     return res.data;
 
 }
