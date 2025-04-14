@@ -45,7 +45,7 @@ function RegisterPage() {
             form.append("ImgUrl", formData.ImgUrl); // imgUrl əlavə edirik
 
             const response = await axios.post(
-                "https://amore.cavidhuseynov.me/swagger/index.html/api/Auth/Register",
+                "https://amore.cavidhuseynov.me/api/Auth/Register",
                 form,
                 {
                     headers: {

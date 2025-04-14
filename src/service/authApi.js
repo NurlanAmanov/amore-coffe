@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://amore.cavidhuseynov.me/swagger/index.html/api/Auth";
+const BASE_URL = "https://amore.cavidhuseynov.me/api/Auth";
 
 export const registerUser = async (formData) => {
     try {

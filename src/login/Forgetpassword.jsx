@@ -15,7 +15,7 @@ function Forgetpassword() {
         formData.append('Email', email);
     
         try {
-            const response = await fetch('https://amore.cavidhuseynov.me/swagger/index.html/api/Auth/ForgotPassword', {
+            const response = await fetch('https://amore.cavidhuseynov.me/api/Auth/ForgotPassword', {
                 method: 'POST',
                 body: formData
             });

@@ -2,54 +2,54 @@ import axios from "axios";
 
 
 async function GetCategory() {
-    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Category");
+    const res = await axios.get("https://amore.cavidhuseynov.me/api/Category");
     return res.data;
 }
 
 async function GetProduct() {
-    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Product");
+    const res = await axios.get("https://amore.cavidhuseynov.me/api/Product");
     return res.data;
 }
 async function GetProductById(id) {
 
-        const res = await axios.get(`https://amore.cavidhuseynov.me/swagger/index.html/api/Product/${id}`);
+        const res = await axios.get(`https://amore.cavidhuseynov.me/api/Product/${id}`);
         return res.data; // ✅ ID-yə görə məhsulu qaytarır
   
 }
 
 async function Getbanner() {
-    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/HeadBanners")
+    const res = await axios.get("https://amore.cavidhuseynov.me/api/HeadBanners")
     return res.data;
 
 }
 async function Getsilder() {
-    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Slider")
+    const res = await axios.get("https://amore.cavidhuseynov.me/api/Slider")
     return res.data;
 
 }
 async function Getslogan() {
-    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Slogan")
+    const res = await axios.get("https://amore.cavidhuseynov.me/api/Slogan")
     return res.data;
 
 }
 async function GetSocialMedia() {
-    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/SocialMedia")
+    const res = await axios.get("https://amore.cavidhuseynov.me/api/SocialMedia")
     return res.data;
 
 }
 
 async function GetLogo() {
-    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Logo")
+    const res = await axios.get("https://amore.cavidhuseynov.me/api/Logo")
     return res.data;
 
 }
 async function GetLocation() {
-    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Location")
+    const res = await axios.get("https://amore.cavidhuseynov.me/api/Location")
     return res.data;
 
 }
 async function GetAuth() {
-    const res = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Auth")
+    const res = await axios.get("https://amore.cavidhuseynov.me/api/Auth")
     return res.data;
 
 }

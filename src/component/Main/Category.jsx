@@ -18,7 +18,7 @@ function Category() {
           {/* 📌 Məhsul şəkli */}
           <div className="w-full h-[250px] overflow-hidden rounded-lg">
             <img
-              src={`https://amore.cavidhuseynov.me/swagger/index.html${item.imgUrl}`}
+              src={`https://amore.cavidhuseynov.me${item.imgUrl}`}
               alt={item.name}
               className="w-full h-[220px] object-contain transition-transform duration-500 group-hover:scale-105"
             />

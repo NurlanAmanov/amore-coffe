@@ -45,7 +45,7 @@ function ResetPassword() {
 
         try {
             // ✅ `fetch` vasitəsilə API çağırışı
-            const response = await fetch('https://amore.cavidhuseynov.me/swagger/index.html/api/Auth/ResetPassword', {
+            const response = await fetch('https://amore.cavidhuseynov.me/api/Auth/ResetPassword', {
                 method: 'POST',
                 headers: {
                     'accept': '*/*',

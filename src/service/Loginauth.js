@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://amore.cavidhuseynov.me/swagger/index.html/api";
+const BASE_URL = "https://amore.cavidhuseynov.me/api";
 
 // Axios instance yaradılır (Bearer Token əlavə edir)
 const apiClient = axios.create({

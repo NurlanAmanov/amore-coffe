@@ -43,7 +43,7 @@ function ProductPage() {
           {/* Məhsul şəkli */}
           <div className="w-full lg:sticky top-0">
             <div className="bg-white shadow p-2">
-              <img src={`https://amore.cavidhuseynov.me/swagger/index.html${mehsulid.imgUrl}`}
+              <img src={`https://amore.cavidhuseynov.me${mehsulid.imgUrl}`}
                 alt={mehsulid.title} className="w-full object-cover" />
             </div>
           </div>
@@ -110,7 +110,7 @@ function ProductPage() {
                     mehsulid.title,
                     mehsulid.about,
                     mehsulid.id,
-                    `https://amore.cavidhuseynov.me/swagger/index.html${mehsulid.imgUrl}`,
+                    `https://amore.cavidhuseynov.me${mehsulid.imgUrl}`,
                     mehsulid.description,
                     mehsulid.price,
                     mehsulid.discount,

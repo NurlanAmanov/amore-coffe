@@ -23,7 +23,7 @@ function Checkout() {
   useEffect(() => {
     async function fetchShippingInfo() {
       try {
-        const response = await fetch("https://amore.cavidhuseynov.me/swagger/index.html/api/ShippingInfo");
+        const response = await fetch("https://amore.cavidhuseynov.me/api/ShippingInfo");
         const data = await response.json();
         if (!response.ok) {
           throw new Error("Göndərmə məlumatları yüklənmədi.");
@@ -79,7 +79,7 @@ function Checkout() {
       form.append("StreetAdress", formData.streetAddress);
       form.append("Apartment", formData.apartment);
 
-      const response = await fetch("https://amore.cavidhuseynov.me/swagger/index.html/api/ShippingInfo", {
+      const response = await fetch("https://amore.cavidhuseynov.me/api/ShippingInfo", {
         method: "POST",
         headers: {
           "accept": "*/*",
@@ -109,7 +109,7 @@ function Checkout() {
     const token = localStorage.getItem('token');
 
     try {
-      const currentUserResponse = await axios.get('https://amore.cavidhuseynov.me/swagger/index.html/api/Auth/profile', {
+      const currentUserResponse = await axios.get('https://amore.cavidhuseynov.me/api/Auth/profile', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -139,7 +139,7 @@ function Checkout() {
 
       console.log("Create Order Data:", createOrderData);
 
-      const createdOrderResponse = await axios.post('https://amore.cavidhuseynov.me/swagger/index.html/api/Order/create', createOrderData, {
+      const createdOrderResponse = await axios.post('https://amore.cavidhuseynov.me/api/Order/create', createOrderData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',

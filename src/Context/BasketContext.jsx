@@ -17,7 +17,7 @@ function BasketContext({ children }) {
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const response = await axios.get("https://amore.cavidhuseynov.me/swagger/index.html/api/Auth/profile", {
+        const response = await axios.get("https://amore.cavidhuseynov.me/api/Auth/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -70,7 +70,7 @@ function BasketContext({ children }) {
 
     try {
       const response = await axios.post(
-        "https://amore.cavidhuseynov.me/swagger/index.html/api/Order/create",
+        "https://amore.cavidhuseynov.me/api/Order/create",
         orderData,
         {
           headers: {

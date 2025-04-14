@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://amore.cavidhuseynov.me/swagger/index.html/api/Contact";
+const BASE_URL = "https://amore.cavidhuseynov.me/api/Contact";
 
 export const sendContactMessage = async (formData) => {
     const formDataToSend = new FormData();

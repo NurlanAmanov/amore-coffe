@@ -69,7 +69,7 @@ function Qrmenu() {
                 </div>
                 <div className="img w-[40%]">
                   <img
-                    src={`https://amore.cavidhuseynov.me/swagger/index.html${item.imgUrl}`}
+                    src={`https://amore.cavidhuseynov.me${item.imgUrl}`}
                     alt={item.title}
                     className="w-[100%] h-[100px] object-cover rounded-md"
                   />
@@ -94,7 +94,7 @@ function Qrmenu() {
             </button>
             <h3 className="text-[25px] font-bold uppercase">{selectedProduct.title}</h3>
             <img
-              src={`https://amore.cavidhuseynov.me/swagger/index.html${selectedProduct.imgUrl}`}
+              src={`https://amore.cavidhuseynov.me${selectedProduct.imgUrl}`}
               alt={selectedProduct.title}
               className="w-full h-[200px] object-cover rounded-md my-4"
             />

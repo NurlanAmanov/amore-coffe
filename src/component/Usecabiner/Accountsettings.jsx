@@ -20,7 +20,7 @@ function AccountInfo() {
       setLoading(true);
       try {
         const response = await axios.get(
-          "https://amore.cavidhuseynov.me/swagger/index.html/api/Auth/profile",
+          "https://amore.cavidhuseynov.me/api/Auth/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -57,7 +57,7 @@ function AccountInfo() {
     try {
       
       const response = await axios.post(
-        "https://amore.cavidhuseynov.me/swagger/index.html/api/UploadFile/upload",
+        "https://amore.cavidhuseynov.me/api/UploadFile/upload",
         formData,
         {
           headers: {
@@ -71,7 +71,7 @@ function AccountInfo() {
       console.log("Yüklənmiş şəkil URL-si:", imgUrl);
   
       const updateResponse = await axios.post(
-        "https://amore.cavidhuseynov.me/swagger/index.html/api/Auth/Update-Own-Photo-In-Cabinet",
+        "https://amore.cavidhuseynov.me/api/Auth/Update-Own-Photo-In-Cabinet",
         {
           id: userInfo.id, 
           imgUrl: imgUrl, 
@@ -111,7 +111,7 @@ function AccountInfo() {
         <div className="border border-gray-300 rounded-lg p-4">
           <div className="flex items-center justify-center w-full p-4">
             <img
-              src={`https://amore.cavidhuseynov.me/swagger/index.html${userInfo.imgUrl}`}
+              src={`https://amore.cavidhuseynov.me${userInfo.imgUrl}`}
               alt="Profile"
               className="w-[120px] object-contain mx-auto rounded-full"
             />
